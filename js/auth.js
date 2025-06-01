@@ -1,18 +1,85 @@
-// Authentication system
+// Authentication system with localStorage support
 let currentUser = null;
 let currentUserSession = null;
 
-// In-memory storage (since localStorage isn't available in Claude.ai)
-let usersDatabase = {
-    'demo_student': {
-        username: 'demo_student',
-        password: 'password123',
-        fullName: 'Demo Student',
-        track: 'electrical',
-        grades: {},
-        selectedTrack: 'electrical'
+// Initialize with localStorage data or fallback to in-memory
+let usersDatabase = {};
+
+// Load existing users from localStorage
+function loadUsersFromStorage() {
+    try {
+        const storedUsers = localStorage.getItem('ece_users_database');
+        if (storedUsers) {
+            usersDatabase = JSON.parse(storedUsers);
+        } else {
+            // Set up demo account if no users exist
+            usersDatabase = {
+                'demo_student': {
+                    username: 'demo_student',
+                    password: 'password123',
+                    fullName: 'Demo Student',
+                    track: 'electrical',
+                    grades: {},
+                    selectedTrack: 'electrical'
+                }
+            };
+            saveUsersToStorage();
+        }
+    } catch (e) {
+        // Fallback to demo account if localStorage fails
+        usersDatabase = {
+            'demo_student': {
+                username: 'demo_student',
+                password: 'password123',
+                fullName: 'Demo Student',
+                track: 'electrical',
+                grades: {},
+                selectedTrack: 'electrical'
+            }
+        };
     }
-};
+}
+
+// Save users to localStorage
+function saveUsersToStorage() {
+    try {
+        localStorage.setItem('ece_users_database', JSON.stringify(usersDatabase));
+    } catch (e) {
+        console.warn('Unable to save to localStorage');
+    }
+}
+
+// Check for existing session
+function checkExistingSession() {
+    try {
+        const savedSession = localStorage.getItem('ece_current_session');
+        if (savedSession) {
+            const sessionData = JSON.parse(savedSession);
+            if (usersDatabase[sessionData.username]) {
+                currentUser = usersDatabase[sessionData.username];
+                currentUserSession = sessionData.username;
+                return true;
+            }
+        }
+    } catch (e) {
+        console.warn('Unable to restore session');
+    }
+    return false;
+}
+
+// Save current session
+function saveCurrentSession() {
+    try {
+        if (currentUserSession) {
+            localStorage.setItem('ece_current_session', JSON.stringify({
+                username: currentUserSession,
+                timestamp: new Date().toISOString()
+            }));
+        }
+    } catch (e) {
+        console.warn('Unable to save session');
+    }
+}
 
 function login() {
     const username = document.getElementById('username').value;
@@ -26,6 +93,7 @@ function login() {
     if (usersDatabase[username] && usersDatabase[username].password === password) {
         currentUser = usersDatabase[username];
         currentUserSession = username;
+        saveCurrentSession();
         showMainApp();
         loadUserData();
     } else {
@@ -59,15 +127,27 @@ function register() {
         selectedTrack: track
     };
     
+    // Save to storage
+    saveUsersToStorage();
+    
     // Auto-login
     currentUser = usersDatabase[username];
     currentUserSession = username;
+    saveCurrentSession();
     showMainApp();
     loadUserData();
 }
 
 function logout() {
     saveUserData();
+    
+    // Clear session
+    try {
+        localStorage.removeItem('ece_current_session');
+    } catch (e) {
+        console.warn('Unable to clear session');
+    }
+    
     currentUser = null;
     currentUserSession = null;
     selectedTrack = null;
@@ -97,7 +177,7 @@ function logout() {
 
 function showMainApp() {
     document.getElementById('login-modal').style.display = 'none';
-    document.getElementById('main-content').style.display = 'none'; // Hide track selector
+    document.getElementById('main-content').style.display = 'none';
     document.getElementById('user-info').style.display = 'flex';
     
     // Update user display
@@ -143,7 +223,10 @@ function saveUserData() {
     
     usersDatabase[currentUserSession].grades = grades;
     usersDatabase[currentUserSession].selectedTrack = selectedTrack;
-    usersDatabase[currentUserSession].track = currentUser.track; // Preserve original track selection
+    usersDatabase[currentUserSession].track = currentUser.track;
+    
+    // Save to localStorage
+    saveUsersToStorage();
 }
 
 function loadUserData() {
