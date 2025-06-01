@@ -34,7 +34,7 @@ const courses = {
                     weight: 16,
                     items: [
                         { name: 'Lab 0', dueDate: '2025-05-23' },
-                        { name: 'Lab 1', dueDate: '2025-06-30' },
+                        { name: 'Lab 1', dueDate: '2025-05-30' },
                         { name: 'Lab 2', dueDate: '2025-06-06' },
                         { name: 'Lab 3', dueDate: '2025-06-13' },
                         { name: 'Lab 4', dueDate: '2025-06-20' },
@@ -239,7 +239,7 @@ const courses = {
                     weight: 16,
                     items: [
                         { name: 'Lab 0', dueDate: '2025-05-23' },
-                        { name: 'Lab 1', dueDate: '2025-06-30' },
+                        { name: 'Lab 1', dueDate: '2025-05-30' },
                         { name: 'Lab 2', dueDate: '2025-06-06' },
                         { name: 'Lab 3', dueDate: '2025-06-13' },
                         { name: 'Lab 4', dueDate: '2025-06-20' },
