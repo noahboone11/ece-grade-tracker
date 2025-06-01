@@ -33,14 +33,14 @@ const courses = {
                 'Labs': {
                     weight: 16,
                     items: [
-                        { name: 'Lab 0', dueDate: '2025-05-30' },
-                        { name: 'Lab 1', dueDate: '2025-06-06' },
-                        { name: 'Lab 2', dueDate: '2025-06-13' },
-                        { name: 'Lab 3', dueDate: '2025-06-20' },
-                        { name: 'Lab 4', dueDate: '2025-06-27' },
-                        { name: 'Lab 5', dueDate: '2025-07-04' },
-                        { name: 'Lab 6', dueDate: '2025-07-11' },
-                        { name: 'Lab 7', dueDate: '2025-07-18' }
+                        { name: 'Lab 0', dueDate: '2025-05-23' },
+                        { name: 'Lab 1', dueDate: '2025-06-30' },
+                        { name: 'Lab 2', dueDate: '2025-06-06' },
+                        { name: 'Lab 3', dueDate: '2025-06-13' },
+                        { name: 'Lab 4', dueDate: '2025-06-20' },
+                        { name: 'Lab 5', dueDate: '2025-06-27' },
+                        { name: 'Lab 6', dueDate: '2025-07-04' },
+                        { name: 'Lab 7', dueDate: '2025-07-11' }
                     ]
                 },
                 'Quizzes': {
@@ -238,14 +238,14 @@ const courses = {
                 'Labs': {
                     weight: 16,
                     items: [
-                        { name: 'Lab 0', dueDate: '2025-05-30' },
-                        { name: 'Lab 1', dueDate: '2025-06-06' },
-                        { name: 'Lab 2', dueDate: '2025-06-13' },
-                        { name: 'Lab 3', dueDate: '2025-06-20' },
-                        { name: 'Lab 4', dueDate: '2025-06-27' },
-                        { name: 'Lab 5', dueDate: '2025-07-04' },
-                        { name: 'Lab 6', dueDate: '2025-07-11' },
-                        { name: 'Lab 7', dueDate: '2025-07-18' }
+                        { name: 'Lab 1', dueDate: '2025-05-28' },
+                        { name: 'Lab 2', dueDate: '2025-06-04' },
+                        { name: 'Lab 3', dueDate: '2025-06-11' },
+                        { name: 'Lab 4', dueDate: '2025-06-18' },
+                        { name: 'Lab 5', dueDate: '2025-07-02' },
+                        { name: 'Lab 6', dueDate: '2025-07-16' },
+                        { name: 'Lab 7', dueDate: '2025-07-23' },
+                        { name: 'Lab 8', dueDate: '2025-07-30' }
                     ]
                 },
                 'Quizzes': {
