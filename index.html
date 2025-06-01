@@ -103,10 +103,20 @@
             </div>
 
             <!-- Upcoming Assessments Section -->
-            <div class="upcoming-assessments">
-                <h2>⏰ Upcoming Assessments</h2>
-                <div id="electrical-upcoming-assessments">
-                    <!-- Upcoming assessments will be populated by JavaScript -->
+            <div class="upcoming-assessments" id="electrical-upcoming-container">
+                <div class="upcoming-header" onclick="toggleUpcomingAssessments('electrical')">
+                    <div class="upcoming-header-content">
+                        <h2>⏰ Upcoming Assessments</h2>
+                        <div class="upcoming-summary">
+                            <span class="upcoming-count">Loading...</span>
+                        </div>
+                    </div>
+                    <span class="expand-indicator">▼</span>
+                </div>
+                <div class="upcoming-content">
+                    <div id="electrical-upcoming-assessments">
+                        <!-- Upcoming assessments will be populated by JavaScript -->
+                    </div>
                 </div>
             </div>
 
@@ -137,10 +147,20 @@
             </div>
 
             <!-- Upcoming Assessments Section -->
-            <div class="upcoming-assessments">
-                <h2>⏰ Upcoming Assessments</h2>
-                <div id="computer-upcoming-assessments">
-                    <!-- Upcoming assessments will be populated by JavaScript -->
+            <div class="upcoming-assessments" id="computer-upcoming-container">
+                <div class="upcoming-header" onclick="toggleUpcomingAssessments('computer')">
+                    <div class="upcoming-header-content">
+                        <h2>⏰ Upcoming Assessments</h2>
+                        <div class="upcoming-summary">
+                            <span class="upcoming-count">Loading...</span>
+                        </div>
+                    </div>
+                    <span class="expand-indicator">▼</span>
+                </div>
+                <div class="upcoming-content">
+                    <div id="computer-upcoming-assessments">
+                        <!-- Upcoming assessments will be populated by JavaScript -->
+                    </div>
                 </div>
             </div>
 

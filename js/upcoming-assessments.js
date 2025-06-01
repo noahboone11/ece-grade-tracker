@@ -1,8 +1,11 @@
 // Upcoming assessments functionality
 function getUpcomingAssessments(track, daysAhead = 14) {
     const now = new Date();
-    const futureDate = new Date();
-    futureDate.setDate(now.getDate() + daysAhead);
+    // Use local date without time for consistent comparison
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    
+    const futureDate = new Date(today);
+    futureDate.setDate(today.getDate() + daysAhead);
     
     const upcoming = [];
     
@@ -13,8 +16,11 @@ function getUpcomingAssessments(track, daysAhead = 14) {
                 const effectiveDueDate = getEffectiveDueDate(courseCode, category, itemName, track);
                 
                 if (effectiveDueDate) {
-                    const dueDateObj = new Date(effectiveDueDate);
-                    if (dueDateObj >= now && dueDateObj <= futureDate) {
+                    // Create date object from date string (local date, no time)
+                    const dueDateObj = new Date(effectiveDueDate + 'T00:00:00');
+                    
+                    // Include items that are due today or in the future, within the time window
+                    if (dueDateObj >= today && dueDateObj <= futureDate) {
                         // Check if already completed
                         const isCompleted = grades[track] && 
                                           grades[track][courseCode] && 
@@ -47,9 +53,14 @@ function getUpcomingAssessments(track, daysAhead = 14) {
 }
 
 function getDaysUntilDue(dateString) {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = date - now;
+    // Use local dates for consistent calculation
+    const today = new Date();
+    const todayLocal = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    
+    const dueDate = new Date(dateString + 'T00:00:00');
+    const dueDateLocal = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate());
+    
+    const diffTime = dueDateLocal - todayLocal;
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }
 
@@ -59,6 +70,10 @@ function renderUpcomingAssessments(track) {
     
     if (!container) return;
     
+    // Check if section was previously collapsed
+    const upcomingContainer = document.getElementById(`${track}-upcoming-container`);
+    const wasCollapsed = upcomingContainer && upcomingContainer.classList.contains('collapsed');
+    
     if (upcoming.length === 0) {
         container.innerHTML = `
             <div class="upcoming-empty">
@@ -67,6 +82,14 @@ function renderUpcomingAssessments(track) {
                 <small>You're all caught up!</small>
             </div>
         `;
+        
+        // Update header summary
+        if (upcomingContainer) {
+            const summaryElement = upcomingContainer.querySelector('.upcoming-summary');
+            if (summaryElement) {
+                summaryElement.innerHTML = '<span class="upcoming-count">All caught up! 🎉</span>';
+            }
+        }
         return;
     }
     
@@ -76,25 +99,45 @@ function renderUpcomingAssessments(track) {
     const thisWeek = upcoming.filter(item => item.urgency > 0 && item.urgency <= 7);
     const later = upcoming.filter(item => item.urgency > 7);
     
-    let html = '';
+    let sectionsHtml = '';
     
     if (overdue.length > 0) {
-        html += createUpcomingSection('⚠️ Overdue', overdue, 'overdue');
+        sectionsHtml += createUpcomingSection('⚠️ Overdue', overdue, 'overdue');
     }
     
     if (today.length > 0) {
-        html += createUpcomingSection('🔥 Due Today', today, 'due-today');
+        sectionsHtml += createUpcomingSection('🔥 Due Today', today, 'due-today');
     }
     
     if (thisWeek.length > 0) {
-        html += createUpcomingSection('📋 This Week', thisWeek, 'due-this-week');
+        sectionsHtml += createUpcomingSection('📋 This Week', thisWeek, 'due-this-week');
     }
     
     if (later.length > 0) {
-        html += createUpcomingSection('📆 Coming Up', later, 'due-later');
+        sectionsHtml += createUpcomingSection('📆 Coming Up', later, 'due-later');
     }
     
-    container.innerHTML = html;
+    // Update the content
+    container.innerHTML = sectionsHtml;
+    
+    // Update header summary
+    if (upcomingContainer) {
+        const totalUpcoming = upcoming.filter(item => !item.isCompleted).length;
+        const completedCount = upcoming.filter(item => item.isCompleted).length;
+        
+        const summaryElement = upcomingContainer.querySelector('.upcoming-summary');
+        if (summaryElement) {
+            summaryElement.innerHTML = `
+                <span class="upcoming-count">${totalUpcoming} pending</span>
+                ${completedCount > 0 ? `<span class="completed-count">${completedCount} completed</span>` : ''}
+            `;
+        }
+        
+        // Restore collapsed state if it was previously collapsed
+        if (wasCollapsed) {
+            upcomingContainer.classList.add('collapsed');
+        }
+    }
 }
 
 function createUpcomingSection(title, items, className) {
@@ -135,13 +178,26 @@ function createUpcomingItem(item) {
 
 function getUrgencyText(days) {
     if (days < 0) {
-        return `${Math.abs(days)} days ago`;
+        return `${Math.abs(days)} day${Math.abs(days) === 1 ? '' : 's'} ago`;
     } else if (days === 0) {
         return 'Today';
     } else if (days === 1) {
         return 'Tomorrow';
     } else {
         return `${days} days`;
+    }
+}
+
+function toggleUpcomingAssessments(track) {
+    const container = document.getElementById(`${track}-upcoming-container`);
+    if (container) {
+        container.classList.toggle('collapsed');
+        
+        // Update expand indicator
+        const indicator = container.querySelector('.expand-indicator');
+        if (indicator) {
+            indicator.style.transform = container.classList.contains('collapsed') ? 'rotate(-90deg)' : 'rotate(0deg)';
+        }
     }
 }
 

@@ -436,7 +436,7 @@ function getEffectiveDueDate(courseCode, category, itemName, track) {
     return typeof item === 'object' ? item.dueDate : null;
 }
 
-// Update due date
+// Update due date with immediate UI refresh
 function updateDueDate(courseCode, category, itemName, newDate, track) {
     if (!currentUser.customDueDates) {
         currentUser.customDueDates = {};
@@ -456,9 +456,29 @@ function updateDueDate(courseCode, category, itemName, newDate, track) {
     // Save user data
     saveUserData();
     
-    // Update upcoming assessments
+    // Update upcoming assessments immediately
     if (typeof renderUpcomingAssessments === 'function') {
         renderUpcomingAssessments(track);
+    }
+    
+    // Also update the due date display in the course card
+    updateDueDateDisplay(courseCode, category, itemName, newDate, track);
+}
+
+// New function to update just the due date display in the course card
+function updateDueDateDisplay(courseCode, category, itemName, newDate, track) {
+    const inputId = `${courseCode}-${category}-${itemName}`;
+    const gradeInput = document.getElementById(inputId);
+    
+    if (gradeInput) {
+        // Find the due date display element (the small text above the input)
+        const inputGroup = gradeInput.parentElement;
+        const dueDateElement = inputGroup.querySelector('.due-date');
+        
+        if (dueDateElement) {
+            dueDateElement.textContent = `Due: ${formatDueDate(newDate)}`;
+            dueDateElement.className = `due-date ${getDueDateClass(newDate)}`;
+        }
     }
 }
 
@@ -512,6 +532,7 @@ function createCourseCard(courseCode, courseData, track) {
     return card;
 }
 
+// Enhanced createAssessmentSection to use onchange with immediate updates
 function createAssessmentSection(courseCode, category, data, track) {
     const courseGrades = grades[track] && grades[track][courseCode] && grades[track][courseCode][category] || {};
     
@@ -532,7 +553,7 @@ function createAssessmentSection(courseCode, category, data, track) {
                          <input type="date" 
                                 value="${effectiveDueDate}" 
                                 class="due-date-input"
-                                onchange="updateDueDate('${courseCode}', '${category}', '${itemName}', this.value, '${track}')"
+                                onchange="updateDueDate('${courseCode}', '${category}', '${itemName}', this.value, '${track}'); event.stopPropagation();"
                                 onclick="event.stopPropagation()"
                          />` : '';
                     
