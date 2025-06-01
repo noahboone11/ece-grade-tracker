@@ -21,7 +21,8 @@ function loadUsersFromStorage() {
                     track: 'electrical',
                     grades: {},
                     selectedTrack: 'electrical',
-                    customDueDates: {}
+                    customDueDates: {},
+                    dismissedAssessments: {}
                 }
             };
             saveUsersToStorage();
@@ -36,15 +37,19 @@ function loadUsersFromStorage() {
                 track: 'electrical',
                 grades: {},
                 selectedTrack: 'electrical',
-                customDueDates: {}
+                customDueDates: {},
+                dismissedAssessments: {}
             }
         };
     }
     
-    // Ensure all existing users have customDueDates property
+    // Ensure all existing users have required properties
     Object.keys(usersDatabase).forEach(username => {
         if (!usersDatabase[username].customDueDates) {
             usersDatabase[username].customDueDates = {};
+        }
+        if (!usersDatabase[username].dismissedAssessments) {
+            usersDatabase[username].dismissedAssessments = {};
         }
     });
 }
@@ -68,9 +73,12 @@ function checkExistingSession() {
                 currentUser = usersDatabase[sessionData.username];
                 currentUserSession = sessionData.username;
                 
-                // Ensure customDueDates exists
+                // Ensure required properties exist
                 if (!currentUser.customDueDates) {
                     currentUser.customDueDates = {};
+                }
+                if (!currentUser.dismissedAssessments) {
+                    currentUser.dismissedAssessments = {};
                 }
                 
                 return true;
@@ -109,9 +117,12 @@ function login() {
         currentUser = usersDatabase[username];
         currentUserSession = username;
         
-        // Ensure customDueDates exists
+        // Ensure required properties exist
         if (!currentUser.customDueDates) {
             currentUser.customDueDates = {};
+        }
+        if (!currentUser.dismissedAssessments) {
+            currentUser.dismissedAssessments = {};
         }
         
         saveCurrentSession();
@@ -146,7 +157,8 @@ function register() {
         track: track,
         grades: {},
         selectedTrack: track,
-        customDueDates: {}
+        customDueDates: {},
+        dismissedAssessments: {}
     };
     
     // Save to storage
@@ -253,6 +265,12 @@ function saveUserData() {
     }
     usersDatabase[currentUserSession].customDueDates = currentUser.customDueDates || {};
     
+    // Save dismissed assessments
+    if (!usersDatabase[currentUserSession].dismissedAssessments) {
+        usersDatabase[currentUserSession].dismissedAssessments = {};
+    }
+    usersDatabase[currentUserSession].dismissedAssessments = currentUser.dismissedAssessments || {};
+    
     // Save to localStorage
     saveUsersToStorage();
 }
@@ -266,6 +284,11 @@ function loadUserData() {
     // Load custom due dates
     if (!currentUser.customDueDates) {
         currentUser.customDueDates = {};
+    }
+    
+    // Load dismissed assessments
+    if (!currentUser.dismissedAssessments) {
+        currentUser.dismissedAssessments = {};
     }
     
     if (selectedTrack) {

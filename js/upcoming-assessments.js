@@ -1,5 +1,56 @@
-// Upcoming assessments functionality
-function getUpcomingAssessments(track, daysAhead = 14) {
+// Upcoming assessments functionality with dismiss feature
+
+// Dismiss/undismiss assessment functions
+function dismissAssessment(courseCode, category, itemName, track) {
+    if (!currentUser.dismissedAssessments) {
+        currentUser.dismissedAssessments = {};
+    }
+    if (!currentUser.dismissedAssessments[track]) {
+        currentUser.dismissedAssessments[track] = {};
+    }
+    if (!currentUser.dismissedAssessments[track][courseCode]) {
+        currentUser.dismissedAssessments[track][courseCode] = {};
+    }
+    if (!currentUser.dismissedAssessments[track][courseCode][category]) {
+        currentUser.dismissedAssessments[track][courseCode][category] = [];
+    }
+    
+    // Add to dismissed list if not already there
+    if (!currentUser.dismissedAssessments[track][courseCode][category].includes(itemName)) {
+        currentUser.dismissedAssessments[track][courseCode][category].push(itemName);
+    }
+    
+    // Save and refresh
+    saveUserData();
+    renderUpcomingAssessments(track);
+}
+
+function undismissAssessment(courseCode, category, itemName, track) {
+    if (currentUser.dismissedAssessments && 
+        currentUser.dismissedAssessments[track] && 
+        currentUser.dismissedAssessments[track][courseCode] && 
+        currentUser.dismissedAssessments[track][courseCode][category]) {
+        
+        const index = currentUser.dismissedAssessments[track][courseCode][category].indexOf(itemName);
+        if (index > -1) {
+            currentUser.dismissedAssessments[track][courseCode][category].splice(index, 1);
+        }
+    }
+    
+    // Save and refresh
+    saveUserData();
+    renderUpcomingAssessments(track);
+}
+
+function isAssessmentDismissed(courseCode, category, itemName, track) {
+    return currentUser.dismissedAssessments && 
+           currentUser.dismissedAssessments[track] && 
+           currentUser.dismissedAssessments[track][courseCode] && 
+           currentUser.dismissedAssessments[track][courseCode][category] && 
+           currentUser.dismissedAssessments[track][courseCode][category].includes(itemName);
+}
+
+function getUpcomingAssessments(track, daysAhead = 14, includeDismissed = false) {
     const now = new Date();
     // Use local date without time for consistent comparison
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -29,17 +80,24 @@ function getUpcomingAssessments(track, daysAhead = 14) {
                                           grades[track][courseCode][category][itemName] !== undefined &&
                                           grades[track][courseCode][category][itemName] !== '';
                         
-                        upcoming.push({
-                            courseCode,
-                            courseTitle: courseData.title,
-                            category,
-                            itemName,
-                            dueDate: dueDateObj,
-                            dueDateString: effectiveDueDate,
-                            weight: data.weight,
-                            isCompleted,
-                            urgency: getDaysUntilDue(effectiveDueDate)
-                        });
+                        // Check if dismissed
+                        const isDismissed = isAssessmentDismissed(courseCode, category, itemName, track);
+                        
+                        // Only include if not dismissed, or if we want to include dismissed items
+                        if (!isDismissed || includeDismissed) {
+                            upcoming.push({
+                                courseCode,
+                                courseTitle: courseData.title,
+                                category,
+                                itemName,
+                                dueDate: dueDateObj,
+                                dueDateString: effectiveDueDate,
+                                weight: data.weight,
+                                isCompleted,
+                                isDismissed,
+                                urgency: getDaysUntilDue(effectiveDueDate)
+                            });
+                        }
                     }
                 }
             });
@@ -64,17 +122,29 @@ function getDaysUntilDue(dateString) {
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }
 
+function toggleShowDismissed(track) {
+    const container = document.getElementById(`${track}-upcoming-container`);
+    const isShowingDismissed = container.dataset.showDismissed === 'true';
+    container.dataset.showDismissed = !isShowingDismissed;
+    renderUpcomingAssessments(track);
+}
+
 function renderUpcomingAssessments(track) {
-    const upcoming = getUpcomingAssessments(track);
     const container = document.getElementById(`${track}-upcoming-assessments`);
+    const upcomingContainer = document.getElementById(`${track}-upcoming-container`);
     
     if (!container) return;
     
     // Check if section was previously collapsed
-    const upcomingContainer = document.getElementById(`${track}-upcoming-container`);
     const wasCollapsed = upcomingContainer && upcomingContainer.classList.contains('collapsed');
     
-    if (upcoming.length === 0) {
+    // Check if showing dismissed items
+    const showDismissed = upcomingContainer && upcomingContainer.dataset.showDismissed === 'true';
+    
+    const upcoming = getUpcomingAssessments(track, 14, false); // Active items
+    const dismissed = getUpcomingAssessments(track, 14, true).filter(item => item.isDismissed); // Dismissed items
+    
+    if (upcoming.length === 0 && dismissed.length === 0) {
         container.innerHTML = `
             <div class="upcoming-empty">
                 <div class="upcoming-empty-icon">📅</div>
@@ -93,34 +163,42 @@ function renderUpcomingAssessments(track) {
         return;
     }
     
-    // Group by urgency
-    const overdue = upcoming.filter(item => item.urgency < 0);
-    const today = upcoming.filter(item => item.urgency === 0);
-    const thisWeek = upcoming.filter(item => item.urgency > 0 && item.urgency <= 7);
-    const later = upcoming.filter(item => item.urgency > 7);
-    
     let sectionsHtml = '';
     
-    if (overdue.length > 0) {
-        sectionsHtml += createUpcomingSection('⚠️ Overdue', overdue, 'overdue');
+    // Show active assessments
+    if (upcoming.length > 0) {
+        // Group by urgency
+        const overdue = upcoming.filter(item => item.urgency < 0);
+        const today = upcoming.filter(item => item.urgency === 0);
+        const thisWeek = upcoming.filter(item => item.urgency > 0 && item.urgency <= 7);
+        const later = upcoming.filter(item => item.urgency > 7);
+        
+        if (overdue.length > 0) {
+            sectionsHtml += createUpcomingSection('⚠️ Overdue', overdue, 'overdue');
+        }
+        
+        if (today.length > 0) {
+            sectionsHtml += createUpcomingSection('🔥 Due Today', today, 'due-today');
+        }
+        
+        if (thisWeek.length > 0) {
+            sectionsHtml += createUpcomingSection('📋 This Week', thisWeek, 'due-this-week');
+        }
+        
+        if (later.length > 0) {
+            sectionsHtml += createUpcomingSection('📆 Coming Up', later, 'due-later');
+        }
     }
     
-    if (today.length > 0) {
-        sectionsHtml += createUpcomingSection('🔥 Due Today', today, 'due-today');
-    }
-    
-    if (thisWeek.length > 0) {
-        sectionsHtml += createUpcomingSection('📋 This Week', thisWeek, 'due-this-week');
-    }
-    
-    if (later.length > 0) {
-        sectionsHtml += createUpcomingSection('📆 Coming Up', later, 'due-later');
+    // Show dismissed assessments if requested
+    if (showDismissed && dismissed.length > 0) {
+        sectionsHtml += createUpcomingSection('👻 Dismissed', dismissed, 'dismissed');
     }
     
     // Update the content
     container.innerHTML = sectionsHtml;
     
-    // Update header summary
+    // Update header summary with toggle for dismissed items
     if (upcomingContainer) {
         const totalUpcoming = upcoming.filter(item => !item.isCompleted).length;
         const completedCount = upcoming.filter(item => item.isCompleted).length;
@@ -130,6 +208,12 @@ function renderUpcomingAssessments(track) {
             summaryElement.innerHTML = `
                 <span class="upcoming-count">${totalUpcoming} pending</span>
                 ${completedCount > 0 ? `<span class="completed-count">${completedCount} completed</span>` : ''}
+                ${dismissed.length > 0 ? `
+                    <button class="toggle-dismissed-btn ${showDismissed ? 'active' : ''}" 
+                            onclick="toggleShowDismissed('${track}'); event.stopPropagation();">
+                        ${showDismissed ? 'Hide' : 'Show'} ${dismissed.length} dismissed
+                    </button>
+                ` : ''}
             `;
         }
         
@@ -154,18 +238,31 @@ function createUpcomingSection(title, items, className) {
 function createUpcomingItem(item) {
     const urgencyText = getUrgencyText(item.urgency);
     const completedClass = item.isCompleted ? 'completed' : '';
+    const dismissedClass = item.isDismissed ? 'dismissed' : '';
     const completedIcon = item.isCompleted ? '✅' : '';
     
     // Get course color for the border and background
     const courseCodeClean = item.courseCode.replace(/\s/g, '');
     
+    // Dismiss/undismiss button
+    const dismissButton = item.isDismissed ? 
+        `<button class="undismiss-btn" onclick="undismissAssessment('${item.courseCode}', '${item.category}', '${item.itemName}', '${selectedTrack}'); event.stopPropagation();" title="Show this assessment again">
+            ↩️
+        </button>` :
+        `<button class="dismiss-btn" onclick="dismissAssessment('${item.courseCode}', '${item.category}', '${item.itemName}', '${selectedTrack}'); event.stopPropagation();" title="Dismiss this assessment">
+            ✕
+        </button>`;
+    
     return `
-        <div class="upcoming-item ${completedClass}" 
+        <div class="upcoming-item ${completedClass} ${dismissedClass}" 
              data-course="${courseCodeClean}"
              onclick="jumpToAssessment('${item.courseCode}', '${item.category}', '${item.itemName}', '${selectedTrack}')">
             <div class="upcoming-item-header">
                 <div class="upcoming-item-course">${item.courseCode}</div>
-                <div class="upcoming-item-urgency">${urgencyText} ${completedIcon}</div>
+                <div class="upcoming-item-actions">
+                    <div class="upcoming-item-urgency">${urgencyText} ${completedIcon}</div>
+                    ${dismissButton}
+                </div>
             </div>
             <div class="upcoming-item-title">${item.itemName}</div>
             <div class="upcoming-item-details">
