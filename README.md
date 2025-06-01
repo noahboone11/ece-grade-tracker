@@ -5,7 +5,7 @@ Track your MUN ECE Term 4 grades with automatic GPA calculation and beautiful UI
 ## 🚀 Quick Start
 
 ### **Just Bookmark This Link!**
-👉 **[ece-grade-tracker.netlify.app](https://your-url-here.com)** *(Update with your actual URL)*
+👉 https://noahboone11.github.io/ece-grade-tracker
 
 **That's it!** No downloads, no setup - just bookmark and use anytime.
 
