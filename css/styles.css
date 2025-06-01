@@ -22,12 +22,12 @@ body {
     color: white;
     margin-bottom: 30px;
     position: relative;
-    padding-top: 60px;
+    padding-top: 80px; /* Increased from 60px to accommodate repositioned user-info */
 }
 
 .user-info {
     position: absolute;
-    top: -30px;
+    top: 10px; /* Moved down from -30px to 10px */
     right: 0;
     display: flex;
     align-items: center;
@@ -39,6 +39,9 @@ body {
     border: 1px solid rgba(255,255,255,0.2);
     font-size: 0.85rem;
     white-space: nowrap;
+    /* Enhanced horizontal flexibility */
+    min-width: fit-content;
+    max-width: 90%; /* Allows expansion but prevents overflow */
 }
 
 .user-avatar {
@@ -67,6 +70,7 @@ body {
     font-size: 0.8rem;
     white-space: nowrap;
     flex-shrink: 0;
+    min-width: fit-content; /* Ensure button doesn't get squeezed */
 }
 
 .logout-btn:hover {
@@ -80,16 +84,17 @@ body {
     font-weight: 500;
     font-size: 0.85rem;
     opacity: 0.95;
-    max-width: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    /* Removed max-width constraint to allow full name display */
+    overflow: visible;
+    text-overflow: unset;
+    flex-shrink: 0; /* Prevent text from shrinking */
 }
 
 .header h1 {
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 10px;
-    margin-top: 80px;
+    margin-top: 20px; /* Reduced from 80px since user-info is now positioned better */
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
@@ -331,14 +336,15 @@ body {
     margin-left: 10px;
 }
 
+/* Fixed: Arrow now points up/down consistently with course cards */
 .upcoming-assessments.collapsed .expand-indicator {
-    transform: rotate(-90deg);
+    transform: rotate(180deg);
 }
 
 .upcoming-content {
     padding: 0 25px 25px 25px;
     max-height: 2500px; /* Increased from 1000px */
-    overflow: visible; /* Changed from hidden to visible */
+    overflow: hidden; /* Reverted back to hidden for proper collapse animation */
     transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease;
     opacity: 1;
 }
@@ -347,7 +353,7 @@ body {
     max-height: 0;
     padding: 0 25px;
     opacity: 0;
-    overflow: hidden; /* Only hide overflow when collapsed */
+    overflow: hidden;
 }
 
 .upcoming-empty {
@@ -602,7 +608,9 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 30px;
+    /* Added back isolation and containment for better card separation */
     isolation: isolate;
+    contain: layout style;
 }
 
 .course-card {
@@ -612,14 +620,33 @@ body {
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
     position: relative;
+    /* Enhanced isolation and containment */
     z-index: 1;
     border-left: 6px solid var(--course-color, #e0e6ed);
+    /* Better containment to prevent layout interference */
+    contain: layout style;
+    isolation: isolate;
+    /* Prevent shrinking when content expands */
+    min-height: 0;
+    align-self: start;
 }
 
 .course-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 35px rgba(0,0,0,0.15);
-    z-index: 2;
+    /* Controlled z-index elevation */
+    z-index: 10;
+}
+
+/* Ensure expanded cards stay properly isolated */
+.course-card.expanded {
+    z-index: 5;
+    /* Prevent layout shift by maintaining consistent positioning */
+    position: relative;
+}
+
+.course-card.expanded:hover {
+    z-index: 15;
 }
 
 .course-header {
@@ -629,6 +656,12 @@ body {
     margin-bottom: 15px;
     cursor: pointer;
     user-select: none;
+    /* Enhanced click containment and positioning */
+    position: relative;
+    z-index: 2;
+    /* Prevent click events from leaking to adjacent elements */
+    pointer-events: auto;
+    isolation: isolate;
 }
 
 .course-header:hover {
@@ -948,6 +981,16 @@ body {
     
     .courses-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+        /* Enhanced mobile containment */
+        contain: layout;
+    }
+    
+    .course-card {
+        /* Better mobile spacing and isolation */
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
     }
     
     .track-buttons {
@@ -961,10 +1004,12 @@ body {
         top: 0;
         right: 0;
         justify-content: center;
+        max-width: 95%; /* Allow more space on mobile */
+        padding: 10px 16px; /* Slightly adjusted padding for mobile */
     }
     
     .header {
-        padding-top: 20px;
+        padding-top: 30px; /* Adjusted for mobile with repositioned user-info */
     }
     
     .upcoming-items {
