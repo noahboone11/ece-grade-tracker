@@ -50,6 +50,20 @@ function isAssessmentDismissed(courseCode, category, itemName, track) {
            currentUser.dismissedAssessments[track][courseCode][category].includes(itemName);
 }
 
+function toggleShowDismissed(track) {
+    const container = document.getElementById(`${track}-upcoming-container`);
+    if (!container) return;
+    
+    // Get current state
+    const currentState = container.getAttribute('data-show-dismissed') === 'true';
+    
+    // Toggle state
+    container.setAttribute('data-show-dismissed', !currentState);
+    
+    // Re-render
+    renderUpcomingAssessments(track);
+}
+
 function getUpcomingAssessments(track, daysAhead = 14, includeDismissed = false) {
     const now = new Date();
     // Use local date without time for consistent comparison
@@ -122,13 +136,6 @@ function getDaysUntilDue(dateString) {
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }
 
-function toggleShowDismissed(track) {
-    const container = document.getElementById(`${track}-upcoming-container`);
-    const isShowingDismissed = container.dataset.showDismissed === 'true';
-    container.dataset.showDismissed = !isShowingDismissed;
-    renderUpcomingAssessments(track);
-}
-
 function renderUpcomingAssessments(track) {
     const container = document.getElementById(`${track}-upcoming-assessments`);
     const upcomingContainer = document.getElementById(`${track}-upcoming-container`);
@@ -139,7 +146,7 @@ function renderUpcomingAssessments(track) {
     const wasCollapsed = upcomingContainer && upcomingContainer.classList.contains('collapsed');
     
     // Check if showing dismissed items
-    const showDismissed = upcomingContainer && upcomingContainer.dataset.showDismissed === 'true';
+    const showDismissed = upcomingContainer && upcomingContainer.getAttribute('data-show-dismissed') === 'true';
     
     const upcoming = getUpcomingAssessments(track, 14, false); // Active items
     const dismissed = getUpcomingAssessments(track, 14, true).filter(item => item.isDismissed); // Dismissed items
@@ -290,10 +297,11 @@ function toggleUpcomingAssessments(track) {
     if (container) {
         container.classList.toggle('collapsed');
         
-        // Update expand indicator
+        // Update expand indicator - Fixed to match course card behavior
         const indicator = container.querySelector('.expand-indicator');
         if (indicator) {
-            indicator.style.transform = container.classList.contains('collapsed') ? 'rotate(-90deg)' : 'rotate(0deg)';
+            // Now matches course card rotation: 180deg when collapsed, 0deg when expanded
+            indicator.style.transform = container.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0deg)';
         }
     }
 }
@@ -331,6 +339,12 @@ function jumpToAssessment(courseCode, category, itemName, track) {
 
 // Update the main selectTrack function to include upcoming assessments
 function updateDashboardWithUpcoming(track) {
+    // Initialize dismissed state
+    const container = document.getElementById(`${track}-upcoming-container`);
+    if (container && !container.hasAttribute('data-show-dismissed')) {
+        container.setAttribute('data-show-dismissed', 'false');
+    }
+    
     // Render upcoming assessments
     renderUpcomingAssessments(track);
     

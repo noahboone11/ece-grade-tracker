@@ -315,6 +315,7 @@ body {
 .toggle-dismissed-btn:hover {
     background: #e1bee7;
     border-color: #ab47bc;
+    transform: translateY(-1px);
 }
 
 .toggle-dismissed-btn.active {
@@ -336,9 +337,9 @@ body {
 
 .upcoming-content {
     padding: 0 25px 25px 25px;
-    max-height: 1000px;
-    overflow: hidden;
-    transition: max-height 0.4s ease, opacity 0.3s ease;
+    max-height: 2500px; /* Increased from 1000px */
+    overflow: visible; /* Changed from hidden to visible */
+    transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease;
     opacity: 1;
 }
 
@@ -346,6 +347,7 @@ body {
     max-height: 0;
     padding: 0 25px;
     opacity: 0;
+    overflow: hidden; /* Only hide overflow when collapsed */
 }
 
 .upcoming-empty {
@@ -445,65 +447,65 @@ body {
     filter: grayscale(30%);
 }
 
-.overdue .upcoming-item {
+.overdue .upcoming-item:not(.dismissed) {
     border-left-color: #dc3545;
     background: #f8d7da;
 }
 
-.overdue .upcoming-item:hover {
+.overdue .upcoming-item:not(.dismissed):hover {
     background: #f5c6cb;
 }
 
-.due-today .upcoming-item {
+.due-today .upcoming-item:not(.dismissed) {
     border-left-color: #fd7e14;
     background: #fff3cd;
 }
 
-.due-today .upcoming-item:hover {
+.due-today .upcoming-item:not(.dismissed):hover {
     background: #ffeaa7;
 }
 
-.due-this-week .upcoming-item {
+.due-this-week .upcoming-item:not(.dismissed) {
     border-left-color: #ffc107;
     background: #fff3cd;
 }
 
-.due-this-week .upcoming-item:hover {
+.due-this-week .upcoming-item:not(.dismissed):hover {
     background: #ffeaa7;
 }
 
-/* Course-specific colors for upcoming items */
-.upcoming-item[data-course="ECE4500"] {
+/* Course-specific colors for upcoming items (only when not dismissed) */
+.upcoming-item[data-course="ECE4500"]:not(.dismissed) {
     border-left-color: #e74c3c !important;
     background: #fadbd8;
 }
 
-.upcoming-item[data-course="ECE4300"] {
+.upcoming-item[data-course="ECE4300"]:not(.dismissed) {
     border-left-color: #3498db !important;
     background: #d6eaf8;
 }
 
-.upcoming-item[data-course="ECE4600"] {
+.upcoming-item[data-course="ECE4600"]:not(.dismissed) {
     border-left-color: #f39c12 !important;
     background: #fdeaa7;
 }
 
-.upcoming-item[data-course="ENGI4430"] {
+.upcoming-item[data-course="ENGI4430"]:not(.dismissed) {
     border-left-color: #9b59b6 !important;
     background: #e8daef;
 }
 
-.upcoming-item[data-course="ECE4800"] {
+.upcoming-item[data-course="ECE4800"]:not(.dismissed) {
     border-left-color: #27ae60 !important;
     background: #d5f4e6;
 }
 
-.upcoming-item[data-course="ECE4110"] {
+.upcoming-item[data-course="ECE4110"]:not(.dismissed) {
     border-left-color: #e67e22 !important;
     background: #fbeee6;
 }
 
-.upcoming-item[data-course="ECE4400"] {
+.upcoming-item[data-course="ECE4400"]:not(.dismissed) {
     border-left-color: #1abc9c !important;
     background: #d0ece7;
 }
@@ -550,6 +552,7 @@ body {
     font-size: 0.8rem;
     transition: all 0.3s ease;
     opacity: 0.6;
+    flex-shrink: 0;
 }
 
 .dismiss-btn:hover {

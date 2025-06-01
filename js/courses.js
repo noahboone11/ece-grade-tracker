@@ -580,12 +580,34 @@ function createAssessmentSection(courseCode, category, data, track) {
     `;
 }
 
+// Enhanced toggle function with better event handling and isolation
 function toggleCourseExpansion(event, courseCode, track) {
     // Prevent event bubbling to avoid triggering other cards
     event.stopPropagation();
+    event.preventDefault();
     
-    const card = document.getElementById(`course-${courseCode.replace(/\s/g, '-')}-${track}`);
+    const cardId = `course-${courseCode.replace(/\s/g, '-')}-${track}`;
+    const card = document.getElementById(cardId);
+    
+    if (!card) return;
+    
+    // Enhanced click validation - ensure we're clicking on the right card
+    if (!event.target.closest(`#${cardId}`)) {
+        return;
+    }
+    
+    // Only toggle this specific card
     card.classList.toggle('expanded');
+    
+    // Ensure other cards remain unaffected by adding small delay
+    requestAnimationFrame(() => {
+        // Double-check no other cards were accidentally affected
+        const allCards = document.querySelectorAll(`.course-card:not(#${cardId})`);
+        allCards.forEach(otherCard => {
+            // Ensure other cards maintain their current state
+            otherCard.style.isolation = 'isolate';
+        });
+    });
 }
 
 // Due date utility functions
