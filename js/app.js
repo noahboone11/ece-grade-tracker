@@ -33,17 +33,30 @@ function selectTrack(track) {
     updateOverallStats(track);
 }
 
-// Auto-save data every 10 seconds
+// Auto-save data every 30 seconds
 setInterval(() => {
     if (currentUser) {
         saveUserData();
     }
-}, 10000);
+}, 30000);
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
-    // Show login modal
-    document.getElementById('login-modal').style.display = 'flex';
+    // Load users and check for existing session
+    loadUsersFromStorage();
+    
+    if (checkExistingSession()) {
+        // User has an active session
+        showMainApp();
+        loadUserData();
+    } else {
+        // Show login modal
+        document.getElementById('login-modal').style.display = 'flex';
+        
+        // Pre-fill demo credentials for easy testing
+        document.getElementById('username').value = 'demo_student';
+        document.getElementById('password').value = 'password123';
+    }
     
     // Add enter key support for login
     document.getElementById('password').addEventListener('keypress', function(e) {
@@ -63,8 +76,4 @@ document.addEventListener('DOMContentLoaded', function() {
             register();
         }
     });
-    
-    // Pre-fill demo credentials for easy testing
-    document.getElementById('username').value = 'demo_student';
-    document.getElementById('password').value = 'password123';
 });
