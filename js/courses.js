@@ -90,74 +90,6 @@ const courses = {
                 }
             }
         },
-        'ECE 4110': {
-            title: 'Discrete Mathematics for Computer Engineering',
-            credits: 3,
-            assessments: {
-                'Quizzes': {
-                    weight: 25,
-                    items: [
-                        { name: 'Quiz 1', dueDate: '2025-05-22' },
-                        { name: 'Quiz 2', dueDate: '2025-06-05' },
-                        { name: 'Quiz 3', dueDate: '2025-06-19' },
-                        { name: 'Quiz 4', dueDate: '2025-07-03' },
-                        { name: 'Quiz 5', dueDate: '2025-07-17' }
-                    ],
-                    dropLowest: 1
-                },
-                'Midterm': {
-                    weight: 25,
-                    items: [
-                        { name: 'Midterm Test', dueDate: '2025-06-12' }
-                    ]
-                },
-                'Final': {
-                    weight: 50,
-                    items: [
-                        { name: 'Final Exam', dueDate: '2025-08-16' }
-                    ]
-                }
-            }
-        },
-        'ECE 4400': {
-            title: 'Data Structures',
-            credits: 3,
-            assessments: {
-                'Assignments': {
-                    weight: 20,
-                    items: [
-                        { name: 'Assignment 1', dueDate: '2025-05-25' },
-                        { name: 'Assignment 2', dueDate: '2025-06-08' },
-                        { name: 'Assignment 3', dueDate: '2025-06-22' },
-                        { name: 'Assignment 4', dueDate: '2025-07-06' },
-                        { name: 'Assignment 5', dueDate: '2025-07-27' }
-                    ]
-                },
-                'Midterm': {
-                    weight: 25,
-                    items: [
-                        { name: 'Midterm Test', dueDate: '2025-06-10' }
-                    ]
-                },
-                'Coding Assessment': {
-                    weight: 20,
-                    items: [
-                        { name: 'Assessment 1', dueDate: '2025-05-16' },
-                        { name: 'Assessment 2', dueDate: '2025-05-30' },
-                        { name: 'Assessment 3', dueDate: '2025-06-27' },
-                        { name: 'Assessment 4', dueDate: '2025-07-11' },
-                        { name: 'Assessment 5', dueDate: '2025-07-18' }
-                    ],
-                    dropLowest: 1
-                },
-                'Final': {
-                    weight: 35,
-                    items: [
-                        { name: 'Final Exam', dueDate: '2025-08-17' }
-                    ]
-                }
-            }
-        },
         'ECE 4600': {
             title: 'Introduction to Systems and Signals',
             credits: 3,
@@ -271,10 +203,206 @@ const courses = {
                 }
             }
         }
+    },
+    computer: {
+        'ECE 4500': {
+            title: 'Microprocessors',
+            credits: 3,
+            assessments: {
+                'Assignments': {
+                    weight: 10,
+                    items: [
+                        { name: 'Assignment 1', dueDate: '2025-06-02' },
+                        { name: 'Assignment 2', dueDate: '2025-06-13' },
+                        { name: 'Assignment 3', dueDate: '2025-06-27' },
+                        { name: 'Assignment 4', dueDate: '2025-07-11' },
+                        { name: 'Assignment 5', dueDate: '2025-07-25' }
+                    ]
+                },
+                'Labs': {
+                    weight: 16,
+                    items: [
+                        { name: 'Lab 0', dueDate: '2025-05-23' },
+                        { name: 'Lab 1', dueDate: '2025-05-30' },
+                        { name: 'Lab 2', dueDate: '2025-06-06' },
+                        { name: 'Lab 3', dueDate: '2025-06-13' },
+                        { name: 'Lab 4', dueDate: '2025-06-20' },
+                        { name: 'Lab 5', dueDate: '2025-06-27' },
+                        { name: 'Lab 6', dueDate: '2025-07-04' },
+                        { name: 'Lab 7', dueDate: '2025-07-11' }
+                    ]
+                },
+                'Quizzes': {
+                    weight: 8,
+                    items: [
+                        { name: 'Quiz 1', dueDate: '2025-05-12' },
+                        { name: 'Quiz 2', dueDate: '2025-05-26' },
+                        { name: 'Quiz 3', dueDate: '2025-06-16' },
+                        { name: 'Quiz 4', dueDate: '2025-06-30' }
+                    ]
+                },
+                'Midterm': {
+                    weight: 16,
+                    items: [
+                        { name: 'Midterm Test', dueDate: '2025-06-09' }
+                    ]
+                },
+                'Final': {
+                    weight: 50,
+                    items: [
+                        { name: 'Final Exam', dueDate: '2025-08-12' }
+                    ]
+                }
+            }
+        },
+        'ECE 4110': {
+            title: 'Discrete Mathematics for Computer Engineering',
+            credits: 3,
+            assessments: {
+                'Quizzes': {
+                    weight: 25,
+                    items: [
+                        { name: 'Quiz 1', dueDate: '2025-05-22' },
+                        { name: 'Quiz 2', dueDate: '2025-06-05' },
+                        { name: 'Quiz 3', dueDate: '2025-06-19' },
+                        { name: 'Quiz 4', dueDate: '2025-07-03' },
+                        { name: 'Quiz 5', dueDate: '2025-07-17' }
+                    ],
+                    dropLowest: 1
+                },
+                'Midterm': {
+                    weight: 25,
+                    items: [
+                        { name: 'Midterm Test', dueDate: '2025-06-12' }
+                    ]
+                },
+                'Final': {
+                    weight: 50,
+                    items: [
+                        { name: 'Final Exam', dueDate: '2025-08-16' }
+                    ]
+                }
+            }
+        },
+        'ECE 4300': {
+            title: 'Electronic Circuits I',
+            credits: 3,
+            assessments: {
+                'Quizzes': {
+                    weight: 10,
+                    items: [
+                        { name: 'Quiz 1', dueDate: '2025-05-26' },
+                        { name: 'Quiz 2', dueDate: '2025-06-06' },
+                        { name: 'Quiz 3', dueDate: '2025-07-07' }
+                    ]
+                },
+                'Laboratory': {
+                    weight: 15,
+                    items: [
+                        { name: 'Lab 1', dueDate: '2025-05-21' },
+                        { name: 'Lab 2', dueDate: '2025-05-28' },
+                        { name: 'Lab 3', dueDate: '2025-06-04' },
+                        { name: 'Lab 4', dueDate: '2025-06-11' },
+                        { name: 'Lab 5', dueDate: '2025-06-25' },
+                        { name: 'Lab 6', dueDate: '2025-07-09' },
+                        { name: 'Lab 7', dueDate: '2025-07-16' },
+                        { name: 'Lab 8', dueDate: '2025-07-23' }
+                    ]
+                },
+                'Term Tests': {
+                    weight: 25,
+                    items: [
+                        { name: 'Term Test 1', dueDate: '2025-06-13' },
+                        { name: 'Term Test 2', dueDate: '2025-07-16' }
+                    ]
+                },
+                'Final': {
+                    weight: 50,
+                    items: [
+                        { name: 'Final Exam', dueDate: '2025-08-14' }
+                    ]
+                }
+            }
+        },
+        'ECE 4400': {
+            title: 'Data Structures',
+            credits: 3,
+            assessments: {
+                'Assignments': {
+                    weight: 20,
+                    items: [
+                        { name: 'Assignment 1', dueDate: '2025-05-25' },
+                        { name: 'Assignment 2', dueDate: '2025-06-08' },
+                        { name: 'Assignment 3', dueDate: '2025-06-22' },
+                        { name: 'Assignment 4', dueDate: '2025-07-06' },
+                        { name: 'Assignment 5', dueDate: '2025-07-27' }
+                    ]
+                },
+                'Midterm': {
+                    weight: 25,
+                    items: [
+                        { name: 'Midterm Test', dueDate: '2025-06-10' }
+                    ]
+                },
+                'Coding Assessment': {
+                    weight: 20,
+                    items: [
+                        { name: 'Assessment 1', dueDate: '2025-05-16' },
+                        { name: 'Assessment 2', dueDate: '2025-05-30' },
+                        { name: 'Assessment 3', dueDate: '2025-06-27' },
+                        { name: 'Assessment 4', dueDate: '2025-07-11' },
+                        { name: 'Assessment 5', dueDate: '2025-07-18' }
+                    ],
+                    dropLowest: 1
+                },
+                'Final': {
+                    weight: 35,
+                    items: [
+                        { name: 'Final Exam', dueDate: '2025-08-17' }
+                    ]
+                }
+            }
+        },
+        'ECE 4600': {
+            title: 'Introduction to Systems and Signals',
+            credits: 3,
+            assessments: {
+                'Assignments': {
+                    weight: 12,
+                    items: [
+                        { name: 'Assignment 1', dueDate: '2025-05-22' },
+                        { name: 'Assignment 2', dueDate: '2025-06-05' },
+                        { name: 'Assignment 3', dueDate: '2025-06-19' },
+                        { name: 'Assignment 4', dueDate: '2025-07-03' },
+                        { name: 'Assignment 5', dueDate: '2025-07-17' },
+                        { name: 'Assignment 6', dueDate: '2025-07-25' }
+                    ]
+                },
+                'Quizzes': {
+                    weight: 15,
+                    items: [
+                        { name: 'Quiz 1', dueDate: '2025-05-27' },
+                        { name: 'Quiz 2', dueDate: '2025-07-15' }
+                    ]
+                },
+                'Midterm': {
+                    weight: 23,
+                    items: [
+                        { name: 'Midterm Test', dueDate: '2025-06-24' }
+                    ]
+                },
+                'Final': {
+                    weight: 50,
+                    items: [
+                        { name: 'Final Exam', dueDate: '2025-08-11' }
+                    ]
+                }
+            }
+        }
     }
 };
 
-// Course management functions
+// Course management functions (rest of the file is the same)
 function renderCourses(track) {
     const coursesGrid = document.getElementById(`${track}-courses-grid`);
     coursesGrid.innerHTML = '';
