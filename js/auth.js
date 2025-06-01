@@ -20,7 +20,8 @@ function loadUsersFromStorage() {
                     fullName: 'Demo Student',
                     track: 'electrical',
                     grades: {},
-                    selectedTrack: 'electrical'
+                    selectedTrack: 'electrical',
+                    customDueDates: {}
                 }
             };
             saveUsersToStorage();
@@ -34,10 +35,18 @@ function loadUsersFromStorage() {
                 fullName: 'Demo Student',
                 track: 'electrical',
                 grades: {},
-                selectedTrack: 'electrical'
+                selectedTrack: 'electrical',
+                customDueDates: {}
             }
         };
     }
+    
+    // Ensure all existing users have customDueDates property
+    Object.keys(usersDatabase).forEach(username => {
+        if (!usersDatabase[username].customDueDates) {
+            usersDatabase[username].customDueDates = {};
+        }
+    });
 }
 
 // Save users to localStorage
@@ -58,6 +67,12 @@ function checkExistingSession() {
             if (usersDatabase[sessionData.username]) {
                 currentUser = usersDatabase[sessionData.username];
                 currentUserSession = sessionData.username;
+                
+                // Ensure customDueDates exists
+                if (!currentUser.customDueDates) {
+                    currentUser.customDueDates = {};
+                }
+                
                 return true;
             }
         }
@@ -93,6 +108,12 @@ function login() {
     if (usersDatabase[username] && usersDatabase[username].password === password) {
         currentUser = usersDatabase[username];
         currentUserSession = username;
+        
+        // Ensure customDueDates exists
+        if (!currentUser.customDueDates) {
+            currentUser.customDueDates = {};
+        }
+        
         saveCurrentSession();
         showMainApp();
         loadUserData();
@@ -124,7 +145,8 @@ function register() {
         fullName: fullName,
         track: track,
         grades: {},
-        selectedTrack: track
+        selectedTrack: track,
+        customDueDates: {}
     };
     
     // Save to storage
@@ -225,6 +247,12 @@ function saveUserData() {
     usersDatabase[currentUserSession].selectedTrack = selectedTrack;
     usersDatabase[currentUserSession].track = currentUser.track;
     
+    // Save custom due dates
+    if (!usersDatabase[currentUserSession].customDueDates) {
+        usersDatabase[currentUserSession].customDueDates = {};
+    }
+    usersDatabase[currentUserSession].customDueDates = currentUser.customDueDates || {};
+    
     // Save to localStorage
     saveUsersToStorage();
 }
@@ -234,6 +262,11 @@ function loadUserData() {
     
     grades = currentUser.grades || {};
     selectedTrack = currentUser.selectedTrack;
+    
+    // Load custom due dates
+    if (!currentUser.customDueDates) {
+        currentUser.customDueDates = {};
+    }
     
     if (selectedTrack) {
         selectTrack(selectedTrack);

@@ -1,3 +1,19 @@
+// Course color mapping
+const courseColors = {
+    'ECE 4500': { color: '#e74c3c', light: '#fadbd8', dark: '#c0392b' },
+    'ECE 4300': { color: '#3498db', light: '#d6eaf8', dark: '#2980b9' },
+    'ECE 4600': { color: '#f39c12', light: '#fdeaa7', dark: '#d68910' },
+    'ENGI 4430': { color: '#9b59b6', light: '#e8daef', dark: '#7d3c98' },
+    'ECE 4800': { color: '#27ae60', light: '#d5f4e6', dark: '#229954' },
+    'ECE 4110': { color: '#e67e22', light: '#fbeee6', dark: '#ca6f1e' },
+    'ECE 4400': { color: '#1abc9c', light: '#d0ece7', dark: '#17a085' }
+};
+
+// Get course color class name
+function getCourseColorClass(courseCode) {
+    return `course-${courseCode.toLowerCase().replace(/\s/g, '')}`;
+}
+
 const courses = {
     electrical: {
         'ECE 4500': {
@@ -402,7 +418,51 @@ const courses = {
     }
 };
 
-// Course management functions (rest of the file is the same)
+// Get the effective due date (custom or default)
+function getEffectiveDueDate(courseCode, category, itemName, track) {
+    // Check if user has custom due date
+    if (currentUser && currentUser.customDueDates && 
+        currentUser.customDueDates[track] && 
+        currentUser.customDueDates[track][courseCode] &&
+        currentUser.customDueDates[track][courseCode][category] &&
+        currentUser.customDueDates[track][courseCode][category][itemName]) {
+        return currentUser.customDueDates[track][courseCode][category][itemName];
+    }
+    
+    // Fall back to default due date
+    const courseData = courses[track][courseCode];
+    const items = courseData.assessments[category].items;
+    const item = items.find(i => (typeof i === 'object' ? i.name : i) === itemName);
+    return typeof item === 'object' ? item.dueDate : null;
+}
+
+// Update due date
+function updateDueDate(courseCode, category, itemName, newDate, track) {
+    if (!currentUser.customDueDates) {
+        currentUser.customDueDates = {};
+    }
+    if (!currentUser.customDueDates[track]) {
+        currentUser.customDueDates[track] = {};
+    }
+    if (!currentUser.customDueDates[track][courseCode]) {
+        currentUser.customDueDates[track][courseCode] = {};
+    }
+    if (!currentUser.customDueDates[track][courseCode][category]) {
+        currentUser.customDueDates[track][courseCode][category] = {};
+    }
+    
+    currentUser.customDueDates[track][courseCode][category][itemName] = newDate;
+    
+    // Save user data
+    saveUserData();
+    
+    // Update upcoming assessments
+    if (typeof renderUpcomingAssessments === 'function') {
+        renderUpcomingAssessments(track);
+    }
+}
+
+// Course management functions
 function renderCourses(track) {
     const coursesGrid = document.getElementById(`${track}-courses-grid`);
     coursesGrid.innerHTML = '';
@@ -415,7 +475,7 @@ function renderCourses(track) {
 
 function createCourseCard(courseCode, courseData, track) {
     const card = document.createElement('div');
-    card.className = 'course-card';
+    card.className = `course-card ${getCourseColorClass(courseCode)}`;
     card.id = `course-${courseCode.replace(/\s/g, '-')}-${track}`;
     
     const currentGrade = calculateCourseGrade(courseCode, track);
@@ -464,11 +524,17 @@ function createAssessmentSection(courseCode, category, data, track) {
             <div class="assessment-inputs">
                 ${data.items.map(item => {
                     const itemName = typeof item === 'object' ? item.name : item;
-                    const dueDate = typeof item === 'object' ? item.dueDate : null;
+                    const effectiveDueDate = getEffectiveDueDate(courseCode, category, itemName, track);
                     const currentValue = courseGrades[itemName] || '';
                     
-                    const dueDateDisplay = dueDate ? 
-                        `<small class="due-date ${getDueDateClass(dueDate)}">Due: ${formatDueDate(dueDate)}</small>` : '';
+                    const dueDateDisplay = effectiveDueDate ? 
+                        `<small class="due-date ${getDueDateClass(effectiveDueDate)}">Due: ${formatDueDate(effectiveDueDate)}</small>
+                         <input type="date" 
+                                value="${effectiveDueDate}" 
+                                class="due-date-input"
+                                onchange="updateDueDate('${courseCode}', '${category}', '${itemName}', this.value, '${track}')"
+                                onclick="event.stopPropagation()"
+                         />` : '';
                     
                     return `
                         <div class="input-group">
@@ -483,6 +549,7 @@ function createAssessmentSection(courseCode, category, data, track) {
                                 placeholder="0-100"
                                 value="${currentValue}"
                                 onchange="updateGrade('${courseCode}', '${category}', '${itemName}', this.value, '${track}')"
+                                onclick="event.stopPropagation()"
                             />
                         </div>
                     `;

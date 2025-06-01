@@ -10,10 +10,10 @@ function getUpcomingAssessments(track, daysAhead = 14) {
         Object.entries(courseData.assessments).forEach(([category, data]) => {
             data.items.forEach(item => {
                 const itemName = typeof item === 'object' ? item.name : item;
-                const dueDate = typeof item === 'object' ? item.dueDate : null;
+                const effectiveDueDate = getEffectiveDueDate(courseCode, category, itemName, track);
                 
-                if (dueDate) {
-                    const dueDateObj = new Date(dueDate);
+                if (effectiveDueDate) {
+                    const dueDateObj = new Date(effectiveDueDate);
                     if (dueDateObj >= now && dueDateObj <= futureDate) {
                         // Check if already completed
                         const isCompleted = grades[track] && 
@@ -29,10 +29,10 @@ function getUpcomingAssessments(track, daysAhead = 14) {
                             category,
                             itemName,
                             dueDate: dueDateObj,
-                            dueDateString: dueDate,
+                            dueDateString: effectiveDueDate,
                             weight: data.weight,
                             isCompleted,
-                            urgency: getDaysUntilDue(dueDate)
+                            urgency: getDaysUntilDue(effectiveDueDate)
                         });
                     }
                 }
@@ -113,8 +113,13 @@ function createUpcomingItem(item) {
     const completedClass = item.isCompleted ? 'completed' : '';
     const completedIcon = item.isCompleted ? '✅' : '';
     
+    // Get course color for the border and background
+    const courseCodeClean = item.courseCode.replace(/\s/g, '');
+    
     return `
-        <div class="upcoming-item ${completedClass}" onclick="jumpToAssessment('${item.courseCode}', '${item.category}', '${item.itemName}', '${selectedTrack}')">
+        <div class="upcoming-item ${completedClass}" 
+             data-course="${courseCodeClean}"
+             onclick="jumpToAssessment('${item.courseCode}', '${item.category}', '${item.itemName}', '${selectedTrack}')">
             <div class="upcoming-item-header">
                 <div class="upcoming-item-course">${item.courseCode}</div>
                 <div class="upcoming-item-urgency">${urgencyText} ${completedIcon}</div>

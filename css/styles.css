@@ -193,6 +193,49 @@ body {
     color: #27ae60;
 }
 
+/* Course Color Schemes */
+.course-ece4500 {
+    --course-color: #e74c3c;
+    --course-light: #fadbd8;
+    --course-dark: #c0392b;
+}
+
+.course-ece4300 {
+    --course-color: #3498db;
+    --course-light: #d6eaf8;
+    --course-dark: #2980b9;
+}
+
+.course-ece4600 {
+    --course-color: #f39c12;
+    --course-light: #fdeaa7;
+    --course-dark: #d68910;
+}
+
+.course-engi4430 {
+    --course-color: #9b59b6;
+    --course-light: #e8daef;
+    --course-dark: #7d3c98;
+}
+
+.course-ece4800 {
+    --course-color: #27ae60;
+    --course-light: #d5f4e6;
+    --course-dark: #229954;
+}
+
+.course-ece4110 {
+    --course-color: #e67e22;
+    --course-light: #fbeee6;
+    --course-dark: #ca6f1e;
+}
+
+.course-ece4400 {
+    --course-color: #1abc9c;
+    --course-light: #d0ece7;
+    --course-dark: #17a085;
+}
+
 /* Upcoming Assessments Styles */
 .upcoming-assessments {
     background: white;
@@ -271,6 +314,7 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     border-left: 4px solid #e9ecef;
+    position: relative;
 }
 
 .upcoming-item:hover {
@@ -314,6 +358,42 @@ body {
 
 .due-this-week .upcoming-item:hover {
     background: #ffeaa7;
+}
+
+/* Course-specific colors for upcoming items */
+.upcoming-item[data-course="ECE4500"] {
+    border-left-color: #e74c3c !important;
+    background: #fadbd8;
+}
+
+.upcoming-item[data-course="ECE4300"] {
+    border-left-color: #3498db !important;
+    background: #d6eaf8;
+}
+
+.upcoming-item[data-course="ECE4600"] {
+    border-left-color: #f39c12 !important;
+    background: #fdeaa7;
+}
+
+.upcoming-item[data-course="ENGI4430"] {
+    border-left-color: #9b59b6 !important;
+    background: #e8daef;
+}
+
+.upcoming-item[data-course="ECE4800"] {
+    border-left-color: #27ae60 !important;
+    background: #d5f4e6;
+}
+
+.upcoming-item[data-course="ECE4110"] {
+    border-left-color: #e67e22 !important;
+    background: #fbeee6;
+}
+
+.upcoming-item[data-course="ECE4400"] {
+    border-left-color: #1abc9c !important;
+    background: #d0ece7;
 }
 
 .upcoming-item-header {
@@ -378,6 +458,7 @@ body {
     transition: all 0.3s ease;
     position: relative;
     z-index: 1;
+    border-left: 6px solid var(--course-color, #e0e6ed);
 }
 
 .course-card:hover {
@@ -409,7 +490,7 @@ body {
 .course-info h3 {
     margin: 0;
     font-size: 1.2rem;
-    color: #2c3e50;
+    color: var(--course-color, #2c3e50);
 }
 
 .course-info p {
@@ -425,13 +506,13 @@ body {
 .course-grade-display {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #27ae60;
+    color: var(--course-color, #27ae60);
     margin: 0;
 }
 
 .expand-indicator {
     font-size: 1.2rem;
-    color: #666;
+    color: var(--course-color, #666);
     transition: transform 0.3s ease;
     margin-left: 10px;
 }
@@ -452,7 +533,7 @@ body {
 
 .course-details-content {
     padding-top: 20px;
-    border-top: 2px solid #f0f0f0;
+    border-top: 2px solid var(--course-light, #f0f0f0);
 }
 
 /* Prevent click events from bubbling on input fields */
@@ -467,8 +548,13 @@ body {
 
 .input-group input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: var(--course-color, #667eea);
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.course-card input:focus {
+    border-color: var(--course-color, #667eea);
+    box-shadow: 0 0 0 3px var(--course-light, rgba(102, 126, 234, 0.1));
 }
 
 /* Stop propagation on assessment sections */
@@ -494,13 +580,13 @@ body {
 
 .assessment-title {
     font-weight: 600;
-    color: #555;
+    color: var(--course-dark, #555);
 }
 
 .assessment-weight {
     font-size: 0.9rem;
     color: #888;
-    background: #f8f9fa;
+    background: var(--course-light, #f8f9fa);
     padding: 4px 8px;
     border-radius: 20px;
 }
@@ -534,6 +620,19 @@ body {
     outline: none;
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Due date input styling */
+.due-date-input {
+    font-size: 0.8rem;
+    padding: 6px 8px !important;
+    margin-top: 4px;
+    border-color: var(--course-color, #e0e6ed) !important;
+}
+
+.due-date-input:focus {
+    border-color: var(--course-color, #667eea) !important;
+    box-shadow: 0 0 0 2px var(--course-light, rgba(102, 126, 234, 0.1)) !important;
 }
 
 /* Due date styles */
@@ -578,7 +677,7 @@ body {
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #667eea, #764ba2);
+    background: linear-gradient(90deg, var(--course-color, #667eea), var(--course-dark, #764ba2));
     border-radius: 4px;
     transition: width 0.5s ease;
 }
@@ -589,6 +688,8 @@ body {
     border-radius: 20px;
     font-weight: 700;
     margin-top: 10px;
+    color: var(--course-dark, #155724);
+    background: var(--course-light, #d4edda);
 }
 
 .grade-a { background: #d4edda; color: #155724; }
