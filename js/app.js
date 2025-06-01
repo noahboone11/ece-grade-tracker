@@ -31,6 +31,11 @@ function selectTrack(track) {
     // Render courses
     renderCourses(track);
     updateOverallStats(track);
+    
+    // Render upcoming assessments
+    if (typeof updateDashboardWithUpcoming === 'function') {
+        updateDashboardWithUpcoming(track);
+    }
 }
 
 // Auto-save data every 30 seconds
@@ -77,3 +82,42 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Override the showMainApp function from auth.js to include upcoming assessments
+function showMainApp() {
+    document.getElementById('login-modal').style.display = 'none';
+    document.getElementById('main-content').style.display = 'none';
+    document.getElementById('user-info').style.display = 'flex';
+    
+    // Update user display
+    document.getElementById('welcome-text').textContent = `Welcome, ${currentUser.fullName}`;
+    document.getElementById('user-avatar').textContent = currentUser.fullName.charAt(0).toUpperCase();
+    
+    // Auto-select user's track and show dashboard
+    if (currentUser.track) {
+        selectedTrack = currentUser.track;
+        
+        // Show appropriate dashboard directly
+        document.querySelectorAll('.dashboard').forEach(dashboard => {
+            dashboard.classList.remove('active');
+        });
+        document.getElementById(`${currentUser.track}-dashboard`).classList.add('active');
+        
+        // Initialize grades for this track
+        if (!grades[currentUser.track]) {
+            grades[currentUser.track] = {};
+            Object.keys(courses[currentUser.track]).forEach(courseCode => {
+                grades[currentUser.track][courseCode] = {};
+            });
+        }
+        
+        // Render courses
+        renderCourses(currentUser.track);
+        updateOverallStats(currentUser.track);
+        
+        // Initialize upcoming assessments
+        if (typeof updateDashboardWithUpcoming === 'function') {
+            updateDashboardWithUpcoming(currentUser.track);
+        }
+    }
+}

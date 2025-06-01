@@ -7,7 +7,12 @@ function calculateCourseGrade(courseCode, track) {
     
     Object.entries(courseData.assessments).forEach(([category, data]) => {
         const categoryGrades = courseGrades[category] || {};
-        const scores = data.items.map(item => categoryGrades[item]).filter(score => score !== null && score !== undefined);
+        
+        // Handle both old string format and new object format for items
+        const scores = data.items.map(item => {
+            const itemName = typeof item === 'object' ? item.name : item;
+            return categoryGrades[itemName];
+        }).filter(score => score !== null && score !== undefined && score !== '');
         
         if (scores.length > 0) {
             let categoryAverage;
@@ -92,4 +97,9 @@ function updateGrade(courseCode, category, item, value, track) {
     
     // Update overall stats
     updateOverallStats(track);
+    
+    // Update upcoming assessments when a grade is entered
+    if (typeof onGradeUpdate === 'function') {
+        onGradeUpdate(track);
+    }
 }
