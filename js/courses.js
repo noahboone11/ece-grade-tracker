@@ -1,144 +1,128 @@
-// Course color mapping
-const courseColors = {
-    'ECE 4500': { color: '#e74c3c', light: '#fadbd8', dark: '#c0392b' },
-    'ECE 4300': { color: '#3498db', light: '#d6eaf8', dark: '#2980b9' },
-    'ECE 4600': { color: '#f39c12', light: '#fdeaa7', dark: '#d68910' },
-    'ENGI 4430': { color: '#9b59b6', light: '#e8daef', dark: '#7d3c98' },
-    'ECE 4800': { color: '#27ae60', light: '#d5f4e6', dark: '#229954' },
-    'ECE 4110': { color: '#e67e22', light: '#fbeee6', dark: '#ca6f1e' },
-    'ECE 4400': { color: '#1abc9c', light: '#d0ece7', dark: '#17a085' }
-};
-
 // Get course color class name
 function getCourseColorClass(courseCode) {
     return `course-${courseCode.toLowerCase().replace(/\s/g, '')}`;
 }
 
-const courses = {
+// Shared courses that appear in both tracks
+const sharedCourses = {
+    'ECE 4500': {
+        title: 'Microprocessors',
+        assessments: {
+            'Assignments': {
+                weight: 10,
+                items: [
+                    { name: 'Assignment 1', dueDate: '2025-06-02' },
+                    { name: 'Assignment 2', dueDate: '2025-06-13' },
+                    { name: 'Assignment 3', dueDate: '2025-06-27' },
+                    { name: 'Assignment 4', dueDate: '2025-07-11' },
+                    { name: 'Assignment 5', dueDate: '2025-07-25' }
+                ]
+            },
+            'Labs': {
+                weight: 16,
+                items: [
+                    { name: 'Lab 0', dueDate: '2025-05-23' },
+                    { name: 'Lab 1', dueDate: '2025-05-30' },
+                    { name: 'Lab 2', dueDate: '2025-06-13' },
+                    { name: 'Lab 3', dueDate: '2025-06-20' },
+                    { name: 'Lab 4', dueDate: '2025-06-27' },
+                    { name: 'Lab 5', dueDate: '2025-07-04' },
+                    { name: 'Lab 6', dueDate: '2025-07-11' },
+                    { name: 'Lab 7', dueDate: '2025-07-18' }
+                ]
+            },
+            'Quizzes': {
+                weight: 8,
+                items: [
+                    { name: 'Quiz 1', dueDate: '2025-05-12' },
+                    { name: 'Quiz 2', dueDate: '2025-05-26' },
+                    { name: 'Quiz 3', dueDate: '2025-06-16' },
+                    { name: 'Quiz 4', dueDate: '2025-06-30' }
+                ]
+            },
+            'Midterm': {
+                weight: 16,
+                items: [{ name: 'Midterm Test', dueDate: '2025-06-09' }]
+            },
+            'Final': {
+                weight: 50,
+                items: [{ name: 'Final Exam', dueDate: '2025-08-12' }]
+            }
+        }
+    },
+    'ECE 4300': {
+        title: 'Electronic Circuits I',
+        assessments: {
+            'Quizzes': {
+                weight: 10,
+                items: [
+                    { name: 'Quiz 1', dueDate: '2025-05-26' },
+                    { name: 'Quiz 2', dueDate: '2025-06-06' },
+                    { name: 'Quiz 3', dueDate: '2025-07-07' }
+                ]
+            },
+            'Laboratory': {
+                weight: 15,
+                items: [
+                    { name: 'Lab 1', dueDate: '2025-05-28' },
+                    { name: 'Lab 2', dueDate: '2025-06-04' },
+                    { name: 'Lab 3', dueDate: '2025-06-11' },
+                    { name: 'Lab 4', dueDate: '2025-06-18' },
+                    { name: 'Lab 5', dueDate: '2025-07-02' },
+                    { name: 'Lab 6', dueDate: '2025-07-16' },
+                    { name: 'Lab 7', dueDate: '2025-07-23' },
+                    { name: 'Lab 8', dueDate: '2025-07-30' }
+                ]
+            },
+            'Term Tests': {
+                weight: 25,
+                items: [
+                    { name: 'Term Test 1', dueDate: '2025-06-13' },
+                    { name: 'Term Test 2', dueDate: '2025-07-16' }
+                ]
+            },
+            'Final': {
+                weight: 50,
+                items: [{ name: 'Final Exam', dueDate: '2025-08-14' }]
+            }
+        }
+    },
+    'ECE 4600': {
+        title: 'Introduction to Systems and Signals',
+        assessments: {
+            'Assignments': {
+                weight: 12,
+                items: [
+                    { name: 'Assignment 1', dueDate: '2025-05-22' },
+                    { name: 'Assignment 2', dueDate: '2025-06-05' },
+                    { name: 'Assignment 3', dueDate: '2025-06-19' },
+                    { name: 'Assignment 4', dueDate: '2025-07-03' },
+                    { name: 'Assignment 5', dueDate: '2025-07-17' },
+                    { name: 'Assignment 6', dueDate: '2025-07-25' }
+                ]
+            },
+            'Quizzes': {
+                weight: 15,
+                items: [
+                    { name: 'Quiz 1', dueDate: '2025-05-27' },
+                    { name: 'Quiz 2', dueDate: '2025-07-15' }
+                ]
+            },
+            'Midterm': {
+                weight: 23,
+                items: [{ name: 'Midterm Test', dueDate: '2025-06-24' }]
+            },
+            'Final': {
+                weight: 50,
+                items: [{ name: 'Final Exam', dueDate: '2025-08-11' }]
+            }
+        }
+    }
+};
+
+// Track-specific courses
+const trackSpecificCourses = {
     electrical: {
-        'ECE 4500': {
-            title: 'Microprocessors',
-            assessments: {
-                'Assignments': {
-                    weight: 10,
-                    items: [
-                        { name: 'Assignment 1', dueDate: '2025-06-02' },
-                        { name: 'Assignment 2', dueDate: '2025-06-13' },
-                        { name: 'Assignment 3', dueDate: '2025-06-27' },
-                        { name: 'Assignment 4', dueDate: '2025-07-11' },
-                        { name: 'Assignment 5', dueDate: '2025-07-25' }
-                    ]
-                },
-                'Labs': {
-                    weight: 16,
-                    items: [
-                        { name: 'Lab 0', dueDate: '2025-05-23' },
-                        { name: 'Lab 1', dueDate: '2025-05-30' },
-                        { name: 'Lab 2', dueDate: '2025-06-13' },
-                        { name: 'Lab 3', dueDate: '2025-06-20' },
-                        { name: 'Lab 4', dueDate: '2025-06-27' },
-                        { name: 'Lab 5', dueDate: '2025-07-04' },
-                        { name: 'Lab 6', dueDate: '2025-07-11' },
-                        { name: 'Lab 7', dueDate: '2025-07-18' }
-                    ]
-                },
-                'Quizzes': {
-                    weight: 8,
-                    items: [
-                        { name: 'Quiz 1', dueDate: '2025-05-12' },
-                        { name: 'Quiz 2', dueDate: '2025-05-26' },
-                        { name: 'Quiz 3', dueDate: '2025-06-16' },
-                        { name: 'Quiz 4', dueDate: '2025-06-30' }
-                    ]
-                },
-                'Midterm': {
-                    weight: 16,
-                    items: [
-                        { name: 'Midterm Test', dueDate: '2025-06-09' }
-                    ]
-                },
-                'Final': {
-                    weight: 50,
-                    items: [
-                        { name: 'Final Exam', dueDate: '2025-08-12' }
-                    ]
-                }
-            }
-        },
-        'ECE 4300': {
-            title: 'Electronic Circuits I',
-            assessments: {
-                'Quizzes': {
-                    weight: 10,
-                    items: [
-                        { name: 'Quiz 1', dueDate: '2025-05-26' },
-                        { name: 'Quiz 2', dueDate: '2025-06-06' },
-                        { name: 'Quiz 3', dueDate: '2025-07-07' }
-                    ]
-                },
-                'Laboratory': {
-                    weight: 15,
-                    items: [
-                        { name: 'Lab 1', dueDate: '2025-05-28' },
-                        { name: 'Lab 2', dueDate: '2025-06-04' },
-                        { name: 'Lab 3', dueDate: '2025-06-11' },
-                        { name: 'Lab 4', dueDate: '2025-06-18' },
-                        { name: 'Lab 5', dueDate: '2025-07-02' },
-                        { name: 'Lab 6', dueDate: '2025-07-16' },
-                        { name: 'Lab 7', dueDate: '2025-07-23' },
-                        { name: 'Lab 8', dueDate: '2025-07-30' }
-                    ]
-                },
-                'Term Tests': {
-                    weight: 25,
-                    items: [
-                        { name: 'Term Test 1', dueDate: '2025-06-13' },
-                        { name: 'Term Test 2', dueDate: '2025-07-16' }
-                    ]
-                },
-                'Final': {
-                    weight: 50,
-                    items: [
-                        { name: 'Final Exam', dueDate: '2025-08-14' }
-                    ]
-                }
-            }
-        },
-        'ECE 4600': {
-            title: 'Introduction to Systems and Signals',
-            assessments: {
-                'Assignments': {
-                    weight: 12,
-                    items: [
-                        { name: 'Assignment 1', dueDate: '2025-05-22' },
-                        { name: 'Assignment 2', dueDate: '2025-06-05' },
-                        { name: 'Assignment 3', dueDate: '2025-06-19' },
-                        { name: 'Assignment 4', dueDate: '2025-07-03' },
-                        { name: 'Assignment 5', dueDate: '2025-07-17' },
-                        { name: 'Assignment 6', dueDate: '2025-07-25' }
-                    ]
-                },
-                'Quizzes': {
-                    weight: 15,
-                    items: [
-                        { name: 'Quiz 1', dueDate: '2025-05-27' },
-                        { name: 'Quiz 2', dueDate: '2025-07-15' }
-                    ]
-                },
-                'Midterm': {
-                    weight: 23,
-                    items: [
-                        { name: 'Midterm Test', dueDate: '2025-06-24' }
-                    ]
-                },
-                'Final': {
-                    weight: 50,
-                    items: [
-                        { name: 'Final Exam', dueDate: '2025-08-11' }
-                    ]
-                }
-            }
-        },
         'ENGI 4430': {
             title: 'Advanced Calculus for Engineering',
             assessments: {
@@ -155,15 +139,11 @@ const courses = {
                 },
                 'Midterm': {
                     weight: 25,
-                    items: [
-                        { name: 'Midterm Test', dueDate: '2025-06-11' }
-                    ]
+                    items: [{ name: 'Midterm Test', dueDate: '2025-06-11' }]
                 },
                 'Final': {
                     weight: 50,
-                    items: [
-                        { name: 'Final Exam', dueDate: '2025-08-13' }
-                    ]
+                    items: [{ name: 'Final Exam', dueDate: '2025-08-13' }]
                 }
             }
         },
@@ -191,9 +171,7 @@ const courses = {
                 },
                 'Midterm': {
                     weight: 20,
-                    items: [
-                        { name: 'Midterm Test', dueDate: '2025-06-23' }
-                    ]
+                    items: [{ name: 'Midterm Test', dueDate: '2025-06-23' }]
                 },
                 'Lab Work': {
                     weight: 15,
@@ -208,63 +186,12 @@ const courses = {
                 },
                 'Final': {
                     weight: 45,
-                    items: [
-                        { name: 'Final Exam', dueDate: '2025-08-15' }
-                    ]
+                    items: [{ name: 'Final Exam', dueDate: '2025-08-15' }]
                 }
             }
         }
     },
     computer: {
-        'ECE 4500': {
-            title: 'Microprocessors',
-            assessments: {
-                'Assignments': {
-                    weight: 10,
-                    items: [
-                        { name: 'Assignment 1', dueDate: '2025-06-02' },
-                        { name: 'Assignment 2', dueDate: '2025-06-13' },
-                        { name: 'Assignment 3', dueDate: '2025-06-27' },
-                        { name: 'Assignment 4', dueDate: '2025-07-11' },
-                        { name: 'Assignment 5', dueDate: '2025-07-25' }
-                    ]
-                },
-                'Labs': {
-                    weight: 16,
-                    items: [
-                        { name: 'Lab 0', dueDate: '2025-05-23' },
-                        { name: 'Lab 1', dueDate: '2025-05-30' },
-                        { name: 'Lab 2', dueDate: '2025-06-13' },
-                        { name: 'Lab 3', dueDate: '2025-06-20' },
-                        { name: 'Lab 4', dueDate: '2025-06-27' },
-                        { name: 'Lab 5', dueDate: '2025-07-04' },
-                        { name: 'Lab 6', dueDate: '2025-07-11' },
-                        { name: 'Lab 7', dueDate: '2025-07-18' }
-                    ]
-                },
-                'Quizzes': {
-                    weight: 8,
-                    items: [
-                        { name: 'Quiz 1', dueDate: '2025-05-12' },
-                        { name: 'Quiz 2', dueDate: '2025-05-26' },
-                        { name: 'Quiz 3', dueDate: '2025-06-16' },
-                        { name: 'Quiz 4', dueDate: '2025-06-30' }
-                    ]
-                },
-                'Midterm': {
-                    weight: 16,
-                    items: [
-                        { name: 'Midterm Test', dueDate: '2025-06-09' }
-                    ]
-                },
-                'Final': {
-                    weight: 50,
-                    items: [
-                        { name: 'Final Exam', dueDate: '2025-08-12' }
-                    ]
-                }
-            }
-        },
         'ECE 4110': {
             title: 'Discrete Mathematics for Computer Engineering',
             assessments: {
@@ -281,54 +208,11 @@ const courses = {
                 },
                 'Midterm': {
                     weight: 25,
-                    items: [
-                        { name: 'Midterm Test', dueDate: '2025-06-12' }
-                    ]
+                    items: [{ name: 'Midterm Test', dueDate: '2025-06-12' }]
                 },
                 'Final': {
                     weight: 50,
-                    items: [
-                        { name: 'Final Exam', dueDate: '2025-08-16' }
-                    ]
-                }
-            }
-        },
-        'ECE 4300': {
-            title: 'Electronic Circuits I',
-            assessments: {
-                'Quizzes': {
-                    weight: 10,
-                    items: [
-                        { name: 'Quiz 1', dueDate: '2025-05-26' },
-                        { name: 'Quiz 2', dueDate: '2025-06-06' },
-                        { name: 'Quiz 3', dueDate: '2025-07-07' }
-                    ]
-                },
-                'Laboratory': {
-                    weight: 15,
-                    items: [
-                        { name: 'Lab 1', dueDate: '2025-05-28' },
-                        { name: 'Lab 2', dueDate: '2025-06-04' },
-                        { name: 'Lab 3', dueDate: '2025-06-11' },
-                        { name: 'Lab 4', dueDate: '2025-06-18' },
-                        { name: 'Lab 5', dueDate: '2025-07-02' },
-                        { name: 'Lab 6', dueDate: '2025-07-16' },
-                        { name: 'Lab 7', dueDate: '2025-07-23' },
-                        { name: 'Lab 8', dueDate: '2025-07-30' }
-                    ]
-                },
-                'Term Tests': {
-                    weight: 25,
-                    items: [
-                        { name: 'Term Test 1', dueDate: '2025-06-13' },
-                        { name: 'Term Test 2', dueDate: '2025-07-16' }
-                    ]
-                },
-                'Final': {
-                    weight: 50,
-                    items: [
-                        { name: 'Final Exam', dueDate: '2025-08-14' }
-                    ]
+                    items: [{ name: 'Final Exam', dueDate: '2025-08-16' }]
                 }
             }
         },
@@ -347,9 +231,7 @@ const courses = {
                 },
                 'Midterm': {
                     weight: 25,
-                    items: [
-                        { name: 'Midterm Test', dueDate: '2025-06-10' }
-                    ]
+                    items: [{ name: 'Midterm Test', dueDate: '2025-06-10' }]
                 },
                 'Coding Assessment': {
                     weight: 20,
@@ -364,104 +246,55 @@ const courses = {
                 },
                 'Final': {
                     weight: 35,
-                    items: [
-                        { name: 'Final Exam', dueDate: '2025-08-17' }
-                    ]
-                }
-            }
-        },
-        'ECE 4600': {
-            title: 'Introduction to Systems and Signals',
-            assessments: {
-                'Assignments': {
-                    weight: 12,
-                    items: [
-                        { name: 'Assignment 1', dueDate: '2025-05-22' },
-                        { name: 'Assignment 2', dueDate: '2025-06-05' },
-                        { name: 'Assignment 3', dueDate: '2025-06-19' },
-                        { name: 'Assignment 4', dueDate: '2025-07-03' },
-                        { name: 'Assignment 5', dueDate: '2025-07-17' },
-                        { name: 'Assignment 6', dueDate: '2025-07-25' }
-                    ]
-                },
-                'Quizzes': {
-                    weight: 15,
-                    items: [
-                        { name: 'Quiz 1', dueDate: '2025-05-27' },
-                        { name: 'Quiz 2', dueDate: '2025-07-15' }
-                    ]
-                },
-                'Midterm': {
-                    weight: 23,
-                    items: [
-                        { name: 'Midterm Test', dueDate: '2025-06-24' }
-                    ]
-                },
-                'Final': {
-                    weight: 50,
-                    items: [
-                        { name: 'Final Exam', dueDate: '2025-08-11' }
-                    ]
+                    items: [{ name: 'Final Exam', dueDate: '2025-08-17' }]
                 }
             }
         }
     }
 };
 
-// Get the effective due date (custom or default)
+// Build complete courses object by combining shared and track-specific courses
+const courses = {
+    electrical: { ...sharedCourses, ...trackSpecificCourses.electrical },
+    computer: { ...sharedCourses, ...trackSpecificCourses.computer }
+};
+
+// Utility functions
 function getEffectiveDueDate(courseCode, category, itemName, track) {
-    // Check if user has custom due date
-    if (currentUser && currentUser.customDueDates && 
-        currentUser.customDueDates[track] && 
-        currentUser.customDueDates[track][courseCode] &&
-        currentUser.customDueDates[track][courseCode][category] &&
-        currentUser.customDueDates[track][courseCode][category][itemName]) {
+    if (currentUser?.customDueDates?.[track]?.[courseCode]?.[category]?.[itemName]) {
         return currentUser.customDueDates[track][courseCode][category][itemName];
     }
     
-    // Fall back to default due date
     const courseData = courses[track][courseCode];
-    const items = courseData.assessments[category].items;
-    const item = items.find(i => (typeof i === 'object' ? i.name : i) === itemName);
+    const item = courseData.assessments[category].items.find(i => 
+        (typeof i === 'object' ? i.name : i) === itemName
+    );
     return typeof item === 'object' ? item.dueDate : null;
 }
 
-// Update due date with immediate UI refresh
 function updateDueDate(courseCode, category, itemName, newDate, track) {
-    if (!currentUser.customDueDates) {
-        currentUser.customDueDates = {};
-    }
-    if (!currentUser.customDueDates[track]) {
-        currentUser.customDueDates[track] = {};
-    }
-    if (!currentUser.customDueDates[track][courseCode]) {
-        currentUser.customDueDates[track][courseCode] = {};
-    }
-    if (!currentUser.customDueDates[track][courseCode][category]) {
-        currentUser.customDueDates[track][courseCode][category] = {};
-    }
+    // Initialize nested objects if they don't exist
+    if (!currentUser.customDueDates) currentUser.customDueDates = {};
+    if (!currentUser.customDueDates[track]) currentUser.customDueDates[track] = {};
+    if (!currentUser.customDueDates[track][courseCode]) currentUser.customDueDates[track][courseCode] = {};
+    if (!currentUser.customDueDates[track][courseCode][category]) currentUser.customDueDates[track][courseCode][category] = {};
     
     currentUser.customDueDates[track][courseCode][category][itemName] = newDate;
     
-    // Save user data
     saveUserData();
     
-    // Update upcoming assessments immediately
     if (typeof renderUpcomingAssessments === 'function') {
         renderUpcomingAssessments(track);
     }
     
-    // Also update the due date display in the course card
     updateDueDateDisplay(courseCode, category, itemName, newDate, track);
 }
 
-// New function to update just the due date display in the course card
 function updateDueDateDisplay(courseCode, category, itemName, newDate, track) {
     const inputId = `${courseCode}-${category}-${itemName}`;
     const gradeInput = document.getElementById(inputId);
     
     if (gradeInput) {
-        // Find the due date display element (the small text above the input)
         const inputGroup = gradeInput.parentElement;
         const dueDateElement = inputGroup.querySelector('.due-date');
         
@@ -474,7 +307,7 @@ function updateDueDateDisplay(courseCode, category, itemName, newDate, track) {
 
 // Course management functions
 function renderCourses(track) {
-    const coursesGrid = document.getElementById(`${track}-courses-grid`);
+    const coursesGrid = document.getElementById('courses-grid');
     coursesGrid.innerHTML = '';
     
     Object.entries(courses[track]).forEach(([courseCode, courseData]) => {
@@ -520,9 +353,8 @@ function createCourseCard(courseCode, courseData, track) {
     return card;
 }
 
-// Enhanced createAssessmentSection to use onchange with immediate updates
 function createAssessmentSection(courseCode, category, data, track) {
-    const courseGrades = grades[track] && grades[track][courseCode] && grades[track][courseCode][category] || {};
+    const courseGrades = grades[track]?.[courseCode]?.[category] || {};
     
     return `
         <div class="assessment-group">
@@ -568,34 +400,16 @@ function createAssessmentSection(courseCode, category, data, track) {
     `;
 }
 
-// Enhanced toggle function with better event handling and isolation
 function toggleCourseExpansion(event, courseCode, track) {
-    // Prevent event bubbling to avoid triggering other cards
     event.stopPropagation();
     event.preventDefault();
     
     const cardId = `course-${courseCode.replace(/\s/g, '-')}-${track}`;
     const card = document.getElementById(cardId);
     
-    if (!card) return;
+    if (!card || !event.target.closest(`#${cardId}`)) return;
     
-    // Enhanced click validation - ensure we're clicking on the right card
-    if (!event.target.closest(`#${cardId}`)) {
-        return;
-    }
-    
-    // Only toggle this specific card
     card.classList.toggle('expanded');
-    
-    // Ensure other cards remain unaffected by adding small delay
-    requestAnimationFrame(() => {
-        // Double-check no other cards were accidentally affected
-        const allCards = document.querySelectorAll(`.course-card:not(#${cardId})`);
-        allCards.forEach(otherCard => {
-            // Ensure other cards maintain their current state
-            otherCard.style.isolation = 'isolate';
-        });
-    });
 }
 
 // Due date utility functions
@@ -605,17 +419,11 @@ function formatDueDate(dateString) {
     const diffTime = date - now;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     
-    if (diffDays < 0) {
-        return `${Math.abs(diffDays)} days ago`;
-    } else if (diffDays === 0) {
-        return 'Today';
-    } else if (diffDays === 1) {
-        return 'Tomorrow';
-    } else if (diffDays <= 7) {
-        return `${diffDays} days`;
-    } else {
-        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    }
+    if (diffDays < 0) return `${Math.abs(diffDays)} days ago`;
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Tomorrow';
+    if (diffDays <= 7) return `${diffDays} days`;
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
 function getDueDateClass(dateString) {

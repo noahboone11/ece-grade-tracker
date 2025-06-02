@@ -1,60 +1,52 @@
 // Authentication system with localStorage support
 let currentUser = null;
 let currentUserSession = null;
-
-// Initialize with localStorage data or fallback to in-memory
 let usersDatabase = {};
 
-// Load existing users from localStorage
+// Default user structure
+const createDefaultUser = (username, password, fullName, track) => ({
+    username,
+    password,
+    fullName,
+    track,
+    grades: {},
+    selectedTrack: track,
+    customDueDates: {},
+    dismissedAssessments: {}
+});
+
+// Ensure user has all required properties
+function validateUserData(user) {
+    if (!user.customDueDates) user.customDueDates = {};
+    if (!user.dismissedAssessments) user.dismissedAssessments = {};
+    if (!user.grades) user.grades = {};
+    return user;
+}
+
 function loadUsersFromStorage() {
     try {
         const storedUsers = localStorage.getItem('ece_users_database');
         if (storedUsers) {
             usersDatabase = JSON.parse(storedUsers);
         } else {
-            // Set up demo account if no users exist
             usersDatabase = {
-                'demo_student': {
-                    username: 'demo_student',
-                    password: 'password123',
-                    fullName: 'Demo Student',
-                    track: 'electrical',
-                    grades: {},
-                    selectedTrack: 'electrical',
-                    customDueDates: {},
-                    dismissedAssessments: {}
-                }
+                'demo_student': createDefaultUser('demo_student', 'password123', 'Demo Student', 'electrical')
             };
             saveUsersToStorage();
         }
     } catch (e) {
-        // Fallback to demo account if localStorage fails
+        console.warn('localStorage error, using demo account');
         usersDatabase = {
-            'demo_student': {
-                username: 'demo_student',
-                password: 'password123',
-                fullName: 'Demo Student',
-                track: 'electrical',
-                grades: {},
-                selectedTrack: 'electrical',
-                customDueDates: {},
-                dismissedAssessments: {}
-            }
+            'demo_student': createDefaultUser('demo_student', 'password123', 'Demo Student', 'electrical')
         };
     }
     
-    // Ensure all existing users have required properties
+    // Validate all existing users
     Object.keys(usersDatabase).forEach(username => {
-        if (!usersDatabase[username].customDueDates) {
-            usersDatabase[username].customDueDates = {};
-        }
-        if (!usersDatabase[username].dismissedAssessments) {
-            usersDatabase[username].dismissedAssessments = {};
-        }
+        usersDatabase[username] = validateUserData(usersDatabase[username]);
     });
 }
 
-// Save users to localStorage
 function saveUsersToStorage() {
     try {
         localStorage.setItem('ece_users_database', JSON.stringify(usersDatabase));
@@ -63,24 +55,14 @@ function saveUsersToStorage() {
     }
 }
 
-// Check for existing session
 function checkExistingSession() {
     try {
         const savedSession = localStorage.getItem('ece_current_session');
         if (savedSession) {
             const sessionData = JSON.parse(savedSession);
             if (usersDatabase[sessionData.username]) {
-                currentUser = usersDatabase[sessionData.username];
+                currentUser = validateUserData(usersDatabase[sessionData.username]);
                 currentUserSession = sessionData.username;
-                
-                // Ensure required properties exist
-                if (!currentUser.customDueDates) {
-                    currentUser.customDueDates = {};
-                }
-                if (!currentUser.dismissedAssessments) {
-                    currentUser.dismissedAssessments = {};
-                }
-                
                 return true;
             }
         }
@@ -90,7 +72,6 @@ function checkExistingSession() {
     return false;
 }
 
-// Save current session
 function saveCurrentSession() {
     try {
         if (currentUserSession) {
@@ -114,16 +95,8 @@ function login() {
     }
     
     if (usersDatabase[username] && usersDatabase[username].password === password) {
-        currentUser = usersDatabase[username];
+        currentUser = validateUserData(usersDatabase[username]);
         currentUserSession = username;
-        
-        // Ensure required properties exist
-        if (!currentUser.customDueDates) {
-            currentUser.customDueDates = {};
-        }
-        if (!currentUser.dismissedAssessments) {
-            currentUser.dismissedAssessments = {};
-        }
         
         saveCurrentSession();
         showMainApp();
@@ -150,18 +123,7 @@ function register() {
     }
     
     // Create new user
-    usersDatabase[username] = {
-        username: username,
-        password: password,
-        fullName: fullName,
-        track: track,
-        grades: {},
-        selectedTrack: track,
-        customDueDates: {},
-        dismissedAssessments: {}
-    };
-    
-    // Save to storage
+    usersDatabase[username] = createDefaultUser(username, password, fullName, track);
     saveUsersToStorage();
     
     // Auto-login
@@ -182,31 +144,27 @@ function logout() {
         console.warn('Unable to clear session');
     }
     
+    // Reset state
     currentUser = null;
     currentUserSession = null;
     selectedTrack = null;
     grades = {};
     
-    // Hide main content and dashboards
+    // Reset UI
     document.getElementById('main-content').style.display = 'none';
     document.getElementById('user-info').style.display = 'none';
-    document.querySelectorAll('.dashboard').forEach(d => d.classList.remove('active'));
-    
-    // Show login modal
+    document.getElementById('dashboard').classList.remove('active');
     document.getElementById('login-modal').style.display = 'flex';
     
-    // Reset track buttons
-    document.querySelectorAll('.track-btn').forEach(btn => {
-        btn.classList.remove('active');
+    // Clear forms
+    ['username', 'password', 'reg-username', 'reg-password', 'full-name'].forEach(id => {
+        const element = document.getElementById(id);
+        if (element) element.value = '';
     });
-    
-    // Clear form fields
-    document.getElementById('username').value = '';
-    document.getElementById('password').value = '';
-    document.getElementById('reg-username').value = '';
-    document.getElementById('reg-password').value = '';
-    document.getElementById('full-name').value = '';
     document.getElementById('track-selection').value = '';
+    
+    // Reset track buttons
+    document.querySelectorAll('.track-btn').forEach(btn => btn.classList.remove('active'));
 }
 
 function showMainApp() {
@@ -218,27 +176,9 @@ function showMainApp() {
     document.getElementById('welcome-text').textContent = `Welcome, ${currentUser.fullName}`;
     document.getElementById('user-avatar').textContent = currentUser.fullName.charAt(0).toUpperCase();
     
-    // Auto-select user's track and show dashboard
+    // Auto-select user's track if they have one
     if (currentUser.track) {
-        selectedTrack = currentUser.track;
-        
-        // Show appropriate dashboard directly
-        document.querySelectorAll('.dashboard').forEach(dashboard => {
-            dashboard.classList.remove('active');
-        });
-        document.getElementById(`${currentUser.track}-dashboard`).classList.add('active');
-        
-        // Initialize grades for this track
-        if (!grades[currentUser.track]) {
-            grades[currentUser.track] = {};
-            Object.keys(courses[currentUser.track]).forEach(courseCode => {
-                grades[currentUser.track][courseCode] = {};
-            });
-        }
-        
-        // Render courses
-        renderCourses(currentUser.track);
-        updateOverallStats(currentUser.track);
+        selectTrack(currentUser.track);
     }
 }
 
@@ -255,23 +195,15 @@ function showLogin() {
 function saveUserData() {
     if (!currentUser || !currentUserSession) return;
     
-    usersDatabase[currentUserSession].grades = grades;
-    usersDatabase[currentUserSession].selectedTrack = selectedTrack;
-    usersDatabase[currentUserSession].track = currentUser.track;
+    // Update user data
+    Object.assign(usersDatabase[currentUserSession], {
+        grades,
+        selectedTrack,
+        track: currentUser.track,
+        customDueDates: currentUser.customDueDates || {},
+        dismissedAssessments: currentUser.dismissedAssessments || {}
+    });
     
-    // Save custom due dates
-    if (!usersDatabase[currentUserSession].customDueDates) {
-        usersDatabase[currentUserSession].customDueDates = {};
-    }
-    usersDatabase[currentUserSession].customDueDates = currentUser.customDueDates || {};
-    
-    // Save dismissed assessments
-    if (!usersDatabase[currentUserSession].dismissedAssessments) {
-        usersDatabase[currentUserSession].dismissedAssessments = {};
-    }
-    usersDatabase[currentUserSession].dismissedAssessments = currentUser.dismissedAssessments || {};
-    
-    // Save to localStorage
     saveUsersToStorage();
 }
 
@@ -281,15 +213,7 @@ function loadUserData() {
     grades = currentUser.grades || {};
     selectedTrack = currentUser.selectedTrack;
     
-    // Load custom due dates
-    if (!currentUser.customDueDates) {
-        currentUser.customDueDates = {};
-    }
-    
-    // Load dismissed assessments
-    if (!currentUser.dismissedAssessments) {
-        currentUser.dismissedAssessments = {};
-    }
+    validateUserData(currentUser);
     
     if (selectedTrack) {
         selectTrack(selectedTrack);

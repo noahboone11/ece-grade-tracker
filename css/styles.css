@@ -17,17 +17,18 @@ body {
     padding: 20px;
 }
 
+/* Header Styles */
 .header {
     text-align: center;
     color: white;
     margin-bottom: 30px;
     position: relative;
-    padding-top: 80px; /* Increased from 60px to accommodate repositioned user-info */
+    padding-top: 80px;
 }
 
 .user-info {
     position: absolute;
-    top: 10px; /* Moved down from -30px to 10px */
+    top: 10px;
     right: 0;
     display: flex;
     align-items: center;
@@ -39,9 +40,8 @@ body {
     border: 1px solid rgba(255,255,255,0.2);
     font-size: 0.85rem;
     white-space: nowrap;
-    /* Enhanced horizontal flexibility */
     min-width: fit-content;
-    max-width: 90%; /* Allows expansion but prevents overflow */
+    max-width: 90%;
 }
 
 .user-avatar {
@@ -70,7 +70,7 @@ body {
     font-size: 0.8rem;
     white-space: nowrap;
     flex-shrink: 0;
-    min-width: fit-content; /* Ensure button doesn't get squeezed */
+    min-width: fit-content;
 }
 
 .logout-btn:hover {
@@ -84,17 +84,16 @@ body {
     font-weight: 500;
     font-size: 0.85rem;
     opacity: 0.95;
-    /* Removed max-width constraint to allow full name display */
     overflow: visible;
     text-overflow: unset;
-    flex-shrink: 0; /* Prevent text from shrinking */
+    flex-shrink: 0;
 }
 
 .header h1 {
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 10px;
-    margin-top: 20px; /* Reduced from 80px since user-info is now positioned better */
+    margin-top: 20px;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
@@ -103,6 +102,7 @@ body {
     opacity: 0.9;
 }
 
+/* Track Selector */
 .track-selector {
     background: white;
     border-radius: 15px;
@@ -155,6 +155,7 @@ body {
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
 
+/* Dashboard */
 .dashboard {
     display: none;
 }
@@ -241,7 +242,7 @@ body {
     --course-dark: #17a085;
 }
 
-/* Upcoming Assessments Collapsible Styles */
+/* Upcoming Assessments */
 .upcoming-assessments {
     background: white;
     border-radius: 15px;
@@ -287,22 +288,21 @@ body {
     flex-wrap: wrap;
 }
 
-.upcoming-count {
-    background: #e3f2fd;
-    color: #1976d2;
+.upcoming-count, .completed-count {
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 600;
 }
 
+.upcoming-count {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
 .completed-count {
     background: #e8f5e8;
     color: #2e7d32;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
 }
 
 .toggle-dismissed-btn {
@@ -336,15 +336,14 @@ body {
     margin-left: 10px;
 }
 
-/* Fixed: Arrow now points down when collapsed (opposite of before) */
 .upcoming-assessments.collapsed .expand-indicator {
     transform: rotate(180deg);
 }
 
 .upcoming-content {
     padding: 0 25px 25px 25px;
-    max-height: 2500px; /* Increased from 1000px */
-    overflow: hidden; /* Reverted back to hidden for proper collapse animation */
+    max-height: 2500px;
+    overflow: hidden;
     transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease;
     opacity: 1;
 }
@@ -384,6 +383,7 @@ body {
     border-bottom: 2px solid #f0f0f0;
 }
 
+/* Upcoming section color variants */
 .upcoming-section.overdue .upcoming-section-title {
     color: #dc3545;
     border-bottom-color: #dc3545;
@@ -453,6 +453,7 @@ body {
     filter: grayscale(30%);
 }
 
+/* Upcoming item urgency colors */
 .overdue .upcoming-item:not(.dismissed) {
     border-left-color: #dc3545;
     background: #f8d7da;
@@ -480,7 +481,7 @@ body {
     background: #ffeaa7;
 }
 
-/* Course-specific colors for upcoming items (only when not dismissed) */
+/* Course-specific colors for upcoming items */
 .upcoming-item[data-course="ECE4500"]:not(.dismissed) {
     border-left-color: #e74c3c !important;
     background: #fadbd8;
@@ -604,11 +605,11 @@ body {
     font-weight: 600;
 }
 
+/* Course Cards */
 .courses-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 30px;
-    /* Added back isolation and containment for better card separation */
     isolation: isolate;
     contain: layout style;
 }
@@ -620,13 +621,10 @@ body {
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
     position: relative;
-    /* Enhanced isolation and containment */
     z-index: 1;
     border-left: 6px solid var(--course-color, #e0e6ed);
-    /* Better containment to prevent layout interference */
     contain: layout style;
     isolation: isolate;
-    /* Prevent shrinking when content expands */
     min-height: 0;
     align-self: start;
 }
@@ -634,14 +632,11 @@ body {
 .course-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 35px rgba(0,0,0,0.15);
-    /* Controlled z-index elevation */
     z-index: 10;
 }
 
-/* Ensure expanded cards stay properly isolated */
 .course-card.expanded {
     z-index: 5;
-    /* Prevent layout shift by maintaining consistent positioning */
     position: relative;
 }
 
@@ -649,7 +644,6 @@ body {
     z-index: 15;
 }
 
-/* NEW INLINE GRADE LAYOUT */
 .course-header {
     display: flex;
     justify-content: space-between;
@@ -669,7 +663,7 @@ body {
 
 .course-info {
     flex: 1;
-    min-width: 0; /* Allow text to wrap if needed */
+    min-width: 0;
 }
 
 .course-info h3 {
@@ -689,8 +683,8 @@ body {
 .course-header-right {
     display: flex;
     align-items: center;
-    gap: 12px; /* Space between grade elements and arrow */
-    flex-shrink: 0; /* Prevent shrinking */
+    gap: 12px;
+    flex-shrink: 0;
 }
 
 .course-grade-display {
@@ -721,7 +715,7 @@ body {
     font-size: 1.2rem;
     color: var(--course-color, #666);
     transition: transform 0.3s ease;
-    margin-left: 8px; /* Small gap from the grade info */
+    margin-left: 8px;
 }
 
 .course-card.expanded .expand-indicator {
@@ -743,28 +737,7 @@ body {
     border-top: 2px solid var(--course-light, #f0f0f0);
 }
 
-/* Prevent click events from bubbling on input fields */
-.input-group input {
-    padding: 12px;
-    border: 2px solid #e0e6ed;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
-    pointer-events: all;
-}
-
-.input-group input:focus {
-    outline: none;
-    border-color: var(--course-color, #667eea);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.course-card input:focus {
-    border-color: var(--course-color, #667eea);
-    box-shadow: 0 0 0 3px var(--course-light, rgba(102, 126, 234, 0.1));
-}
-
-/* Stop propagation on assessment sections */
+/* Assessment sections */
 .assessment-group {
     margin-bottom: 20px;
     pointer-events: none;
@@ -772,10 +745,6 @@ body {
 
 .assessment-group * {
     pointer-events: all;
-}
-
-.assessment-group {
-    margin-bottom: 20px;
 }
 
 .assessment-header {
@@ -821,15 +790,21 @@ body {
     border-radius: 8px;
     font-size: 1rem;
     transition: border-color 0.3s ease;
+    pointer-events: all;
 }
 
 .input-group input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: var(--course-color, #667eea);
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-/* Due date input styling */
+.course-card input:focus {
+    border-color: var(--course-color, #667eea);
+    box-shadow: 0 0 0 3px var(--course-light, rgba(102, 126, 234, 0.1));
+}
+
+/* Due date styling */
 .due-date-input {
     font-size: 0.8rem;
     padding: 6px 8px !important;
@@ -842,7 +817,6 @@ body {
     box-shadow: 0 0 0 2px var(--course-light, rgba(102, 126, 234, 0.1)) !important;
 }
 
-/* Due date styles */
 .due-date {
     display: block;
     font-size: 0.75rem;
@@ -889,12 +863,7 @@ body {
     transition: width 0.5s ease;
 }
 
-.grade-a { background: #d4edda; color: #155724; }
-.grade-b { background: #cce5ff; color: #004085; }
-.grade-c { background: #fff3cd; color: #856404; }
-.grade-d { background: #f8d7da; color: #721c24; }
-.grade-f { background: #f5c6cb; color: #721c24; }
-
+/* Login Modal */
 .login-modal {
     position: fixed;
     top: 0;
@@ -979,7 +948,7 @@ body {
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-/* Footer Styles */
+/* Footer */
 .site-footer {
     background: linear-gradient(135deg, #4c6ef5 0%, #6741d9 100%);
     color: white;
@@ -1019,6 +988,7 @@ body {
     display: none;
 }
 
+/* Mobile Styles */
 @media (max-width: 768px) {
     .header h1 {
         font-size: 2rem;
@@ -1027,12 +997,10 @@ body {
     .courses-grid {
         grid-template-columns: 1fr;
         gap: 20px;
-        /* Enhanced mobile containment */
         contain: layout;
     }
     
     .course-card {
-        /* Better mobile spacing and isolation */
         margin: 0;
         width: 100%;
         max-width: 100%;
@@ -1049,12 +1017,12 @@ body {
         top: 0;
         right: 0;
         justify-content: center;
-        max-width: 95%; /* Allow more space on mobile */
-        padding: 10px 16px; /* Slightly adjusted padding for mobile */
+        max-width: 95%;
+        padding: 10px 16px;
     }
     
     .header {
-        padding-top: 30px; /* Adjusted for mobile with repositioned user-info */
+        padding-top: 30px;
     }
     
     .upcoming-items {
@@ -1092,7 +1060,7 @@ body {
     .site-footer {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        padding: 15px 0; /* Reduced padding for a tighter look */
+        padding: 15px 0;
         margin-top: 0;
         text-align: center;
     }
@@ -1106,13 +1074,12 @@ body {
         padding: 3px 10px;
     }
     
-    /* Mobile responsive adjustments for inline layout */
     .course-header-right {
-        gap: 8px; /* Reduce gap on mobile */
+        gap: 8px;
     }
     
     .course-grade-display {
-        font-size: 1.2rem; /* Slightly smaller on mobile */
+        font-size: 1.2rem;
     }
     
     .grade-letter {

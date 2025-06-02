@@ -81,26 +81,26 @@
             </div>
         </div>
 
-        <!-- Electrical Dashboard -->
-        <div id="electrical-dashboard" class="dashboard">
+        <!-- Consolidated Dashboard -->
+        <div id="dashboard" class="dashboard">
             <div class="stats-overview">
                 <div class="stat-card">
-                    <h3 class="gpa" id="electrical-gpa">--</h3>
+                    <h3 class="gpa" id="gpa-display">--</h3>
                     <p>Overall GPA</p>
                 </div>
                 <div class="stat-card">
-                    <h3 id="electrical-avg">--%</h3>
+                    <h3 id="avg-display">--%</h3>
                     <p>Average Grade</p>
                 </div>
                 <div class="stat-card">
-                    <h3 id="electrical-courses">5</h3>
+                    <h3 id="courses-count">5</h3>
                     <p>Total Courses</p>
                 </div>
             </div>
 
             <!-- Upcoming Assessments Section -->
-            <div class="upcoming-assessments" id="electrical-upcoming-container">
-                <div class="upcoming-header" onclick="toggleUpcomingAssessments('electrical')">
+            <div class="upcoming-assessments" id="upcoming-container">
+                <div class="upcoming-header" onclick="toggleUpcomingAssessments()">
                     <div class="upcoming-header-content">
                         <h2>⏰ Upcoming Assessments</h2>
                         <div class="upcoming-summary">
@@ -110,53 +110,13 @@
                     <span class="expand-indicator">▲</span>
                 </div>
                 <div class="upcoming-content">
-                    <div id="electrical-upcoming-assessments">
+                    <div id="upcoming-assessments">
                         <!-- Upcoming assessments will be populated by JavaScript -->
                     </div>
                 </div>
             </div>
 
-            <div class="courses-grid" id="electrical-courses-grid">
-                <!-- Courses will be populated by JavaScript -->
-            </div>
-        </div>
-
-        <!-- Computer Dashboard -->
-        <div id="computer-dashboard" class="dashboard">
-            <div class="stats-overview">
-                <div class="stat-card">
-                    <h3 class="gpa" id="computer-gpa">--</h3>
-                    <p>Overall GPA</p>
-                </div>
-                <div class="stat-card">
-                    <h3 id="computer-avg">--%</h3>
-                    <p>Average Grade</p>
-                </div>
-                <div class="stat-card">
-                    <h3 id="computer-courses">5</h3>
-                    <p>Total Courses</p>
-                </div>
-            </div>
-
-            <!-- Upcoming Assessments Section -->
-            <div class="upcoming-assessments" id="computer-upcoming-container">
-                <div class="upcoming-header" onclick="toggleUpcomingAssessments('computer')">
-                    <div class="upcoming-header-content">
-                        <h2>⏰ Upcoming Assessments</h2>
-                        <div class="upcoming-summary">
-                            <span class="upcoming-count">Loading...</span>
-                        </div>
-                    </div>
-                    <span class="expand-indicator">▲</span>
-                </div>
-                <div class="upcoming-content">
-                    <div id="computer-upcoming-assessments">
-                        <!-- Upcoming assessments will be populated by JavaScript -->
-                    </div>
-                </div>
-            </div>
-
-            <div class="courses-grid" id="computer-courses-grid">
+            <div class="courses-grid" id="courses-grid">
                 <!-- Courses will be populated by JavaScript -->
             </div>
         </div>

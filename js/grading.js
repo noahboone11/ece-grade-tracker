@@ -8,7 +8,6 @@ function calculateCourseGrade(courseCode, track) {
     Object.entries(courseData.assessments).forEach(([category, data]) => {
         const categoryGrades = courseGrades[category] || {};
         
-        // Handle both old string format and new object format for items
         const scores = data.items.map(item => {
             const itemName = typeof item === 'object' ? item.name : item;
             return categoryGrades[itemName];
@@ -47,8 +46,10 @@ function updateOverallStats(track) {
     const average = courseGrades.length > 0 ? 
         courseGrades.reduce((sum, grade) => sum + grade, 0) / courseGrades.length : 0;
     
-    document.getElementById(`${track}-avg`).textContent = `${average.toFixed(1)}%`;
-    document.getElementById(`${track}-gpa`).textContent = averageGPA.toFixed(2);
+    // Update consolidated dashboard elements
+    document.getElementById('avg-display').textContent = `${average.toFixed(1)}%`;
+    document.getElementById('gpa-display').textContent = averageGPA.toFixed(2);
+    document.getElementById('courses-count').textContent = Object.keys(courses[track]).length;
 }
 
 function getLetterGrade(percentage) {
@@ -74,25 +75,25 @@ function updateGrade(courseCode, category, item, value, track) {
     
     grades[track][courseCode][category][item] = value ? parseFloat(value) : null;
     
-    // Save user data
     saveUserData();
     
     // Re-render the specific course card while preserving expansion state
     const cardId = `course-${courseCode.replace(/\s/g, '-')}-${track}`;
     const oldCard = document.getElementById(cardId);
-    const wasExpanded = oldCard.classList.contains('expanded');
+    const wasExpanded = oldCard?.classList.contains('expanded');
     
-    const coursesGrid = document.getElementById(`${track}-courses-grid`);
+    const coursesGrid = document.getElementById('courses-grid');
     const courseIndex = Object.keys(courses[track]).indexOf(courseCode);
     const courseCard = coursesGrid.children[courseIndex];
     
-    const newCard = createCourseCard(courseCode, courses[track][courseCode], track);
-    if (wasExpanded) {
-        newCard.classList.add('expanded');
+    if (courseCard) {
+        const newCard = createCourseCard(courseCode, courses[track][courseCode], track);
+        if (wasExpanded) {
+            newCard.classList.add('expanded');
+        }
+        coursesGrid.replaceChild(newCard, courseCard);
     }
-    coursesGrid.replaceChild(newCard, courseCard);
     
-    // Update overall stats
     updateOverallStats(track);
     
     // Update upcoming assessments when a grade is entered

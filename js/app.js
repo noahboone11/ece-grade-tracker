@@ -4,21 +4,14 @@ let grades = {};
 
 function selectTrack(track) {
     selectedTrack = track;
-    
-    // Save track selection
     saveUserData();
     
     // Update button states
-    document.querySelectorAll('.track-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    document.querySelector(`.track-btn.${track}`).classList.add('active');
+    document.querySelectorAll('.track-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.track-btn.${track}`)?.classList.add('active');
     
-    // Show appropriate dashboard
-    document.querySelectorAll('.dashboard').forEach(dashboard => {
-        dashboard.classList.remove('active');
-    });
-    document.getElementById(`${track}-dashboard`).classList.add('active');
+    // Show dashboard
+    document.getElementById('dashboard').classList.add('active');
     
     // Initialize grades for this track
     if (!grades[track]) {
@@ -28,14 +21,21 @@ function selectTrack(track) {
         });
     }
     
-    // Render courses
+    // Update display elements to use current track
+    updateDisplayElements(track);
+    
+    // Render content
     renderCourses(track);
     updateOverallStats(track);
     
-    // Render upcoming assessments
     if (typeof updateDashboardWithUpcoming === 'function') {
         updateDashboardWithUpcoming(track);
     }
+}
+
+function updateDisplayElements(track) {
+    // Update the stats display elements to show data for current track
+    document.getElementById('courses-count').textContent = Object.keys(courses[track]).length;
 }
 
 // Auto-save data every 30 seconds
@@ -45,79 +45,35 @@ setInterval(() => {
     }
 }, 30000);
 
+// Add keyboard event listeners for forms
+function addKeyboardListeners() {
+    const addEnterListener = (id, callback) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') callback();
+            });
+        }
+    };
+    
+    addEnterListener('password', login);
+    addEnterListener('reg-password', register);
+    addEnterListener('full-name', register);
+}
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
-    // Load users and check for existing session
     loadUsersFromStorage();
     
     if (checkExistingSession()) {
-        // User has an active session
         showMainApp();
         loadUserData();
     } else {
-        // Show login modal
         document.getElementById('login-modal').style.display = 'flex';
-        
         // Pre-fill demo credentials for easy testing
         document.getElementById('username').value = 'demo_student';
         document.getElementById('password').value = 'password123';
     }
     
-    // Add enter key support for login
-    document.getElementById('password').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            login();
-        }
-    });
-    
-    document.getElementById('reg-password').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            register();
-        }
-    });
-    
-    document.getElementById('full-name').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            register();
-        }
-    });
+    addKeyboardListeners();
 });
-
-// Override the showMainApp function from auth.js to include upcoming assessments
-function showMainApp() {
-    document.getElementById('login-modal').style.display = 'none';
-    document.getElementById('main-content').style.display = 'none';
-    document.getElementById('user-info').style.display = 'flex';
-    
-    // Update user display
-    document.getElementById('welcome-text').textContent = `Welcome, ${currentUser.fullName}`;
-    document.getElementById('user-avatar').textContent = currentUser.fullName.charAt(0).toUpperCase();
-    
-    // Auto-select user's track and show dashboard
-    if (currentUser.track) {
-        selectedTrack = currentUser.track;
-        
-        // Show appropriate dashboard directly
-        document.querySelectorAll('.dashboard').forEach(dashboard => {
-            dashboard.classList.remove('active');
-        });
-        document.getElementById(`${currentUser.track}-dashboard`).classList.add('active');
-        
-        // Initialize grades for this track
-        if (!grades[currentUser.track]) {
-            grades[currentUser.track] = {};
-            Object.keys(courses[currentUser.track]).forEach(courseCode => {
-                grades[currentUser.track][courseCode] = {};
-            });
-        }
-        
-        // Render courses
-        renderCourses(currentUser.track);
-        updateOverallStats(currentUser.track);
-        
-        // Initialize upcoming assessments
-        if (typeof updateDashboardWithUpcoming === 'function') {
-            updateDashboardWithUpcoming(currentUser.track);
-        }
-    }
-}
