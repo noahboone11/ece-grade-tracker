@@ -56,6 +56,13 @@ function getDaysUntilDue(dateString) {
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }
 
+// Calculate individual weight for a specific assessment
+function calculateIndividualWeight(categoryData) {
+    const totalItems = categoryData.items.length;
+    const effectiveItems = categoryData.dropLowest ? totalItems - categoryData.dropLowest : totalItems;
+    return categoryData.weight / effectiveItems;
+}
+
 function getUpcomingAssessments(track, daysAhead = 14, includeDismissed = false) {
     const today = new Date();
     const todayLocal = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -66,6 +73,8 @@ function getUpcomingAssessments(track, daysAhead = 14, includeDismissed = false)
     
     Object.entries(courses[track]).forEach(([courseCode, courseData]) => {
         Object.entries(courseData.assessments).forEach(([category, data]) => {
+            const individualWeight = calculateIndividualWeight(data);
+            
             data.items.forEach(item => {
                 const itemName = typeof item === 'object' ? item.name : item;
                 const effectiveDueDate = getEffectiveDueDate(courseCode, category, itemName, track);
@@ -88,7 +97,8 @@ function getUpcomingAssessments(track, daysAhead = 14, includeDismissed = false)
                                 itemName,
                                 dueDate: dueDateObj,
                                 dueDateString: effectiveDueDate,
-                                weight: data.weight,
+                                weight: data.weight, // Keep total category weight for reference
+                                individualWeight: individualWeight, // Add individual weight
                                 isCompleted,
                                 isDismissed,
                                 urgency: getDaysUntilDue(effectiveDueDate)
@@ -210,6 +220,11 @@ function createUpcomingItem(item) {
     const completedIcon = item.isCompleted ? '✅' : '';
     const courseCodeClean = item.courseCode.replace(/\s/g, '');
     
+    // Format individual weight with appropriate decimal places
+    const formattedWeight = item.individualWeight % 1 === 0 
+        ? `${item.individualWeight}%` 
+        : `${item.individualWeight.toFixed(1)}%`;
+    
     const dismissButton = item.isDismissed ? 
         `<button class="undismiss-btn" onclick="undismissAssessment('${item.courseCode}', '${item.category}', '${item.itemName}', '${selectedTrack}'); event.stopPropagation();" title="Show this assessment again">↩️</button>` :
         `<button class="dismiss-btn" onclick="dismissAssessment('${item.courseCode}', '${item.category}', '${item.itemName}', '${selectedTrack}'); event.stopPropagation();" title="Dismiss this assessment">✕</button>`;
@@ -228,7 +243,7 @@ function createUpcomingItem(item) {
             <div class="upcoming-item-title">${item.itemName}</div>
             <div class="upcoming-item-details">
                 <span class="upcoming-item-category">${item.category}</span>
-                <span class="upcoming-item-weight">${item.weight}%</span>
+                <span class="upcoming-item-weight">${formattedWeight}</span>
             </div>
         </div>
     `;
