@@ -195,7 +195,29 @@ function showLogin() {
 function saveUserData() {
     if (!currentUser || !currentUserSession) return;
     
-    // Update user data
+    // 🛡️ CRITICAL FIX: Prevent data loss by checking if we're about to overwrite existing grades
+    const existingData = localStorage.getItem('ece_users_database');
+    if (existingData) {
+        try {
+            const parsed = JSON.parse(existingData);
+            const existingGrades = parsed[currentUserSession]?.grades;
+            
+            // If grades object is empty but localStorage has grades, preserve the existing ones
+            if (existingGrades && Object.keys(existingGrades).length > 0 && Object.keys(grades).length === 0) {
+                console.log('🛡️ Preventing grade data loss - preserving existing grades');
+                grades = existingGrades;
+                currentUser.grades = existingGrades;
+            }
+        } catch (e) {
+            console.warn('Error checking existing grades:', e);
+        }
+    }
+    
+    // Update currentUser first to keep everything in sync
+    currentUser.grades = grades;
+    currentUser.selectedTrack = selectedTrack;
+    
+    // Update user data in database
     Object.assign(usersDatabase[currentUserSession], {
         grades,
         selectedTrack,
@@ -210,8 +232,17 @@ function saveUserData() {
 function loadUserData() {
     if (!currentUser) return;
     
+    // Load grades from currentUser (which came from localStorage)
     grades = currentUser.grades || {};
     selectedTrack = currentUser.selectedTrack;
+    
+    // Ensure grades structure exists for the current track
+    if (selectedTrack && !grades[selectedTrack]) {
+        grades[selectedTrack] = {};
+        Object.keys(courses[selectedTrack] || {}).forEach(courseCode => {
+            grades[selectedTrack][courseCode] = {};
+        });
+    }
     
     validateUserData(currentUser);
     
