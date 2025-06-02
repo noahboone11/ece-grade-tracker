@@ -49,25 +49,19 @@ function updateOverallStats(track) {
 }
 
 function getLetterGrade(percentage) {
-    if (percentage >= 90) return 'A';
-    if (percentage >= 80) return 'B';
-    if (percentage >= 70) return 'C';
-    if (percentage >= 60) return 'D';
+    if (percentage >= 80) return 'A';
+    if (percentage >= 65) return 'B';
+    if (percentage >= 55) return 'C';
+    if (percentage >= 50) return 'D';
     return 'F';
 }
 
 function convertToGPA(percentage) {
-    if (percentage >= 90) return 4.0;
-    if (percentage >= 85) return 3.7;
-    if (percentage >= 80) return 3.3;
-    if (percentage >= 77) return 3.0;
-    if (percentage >= 73) return 2.7;
-    if (percentage >= 70) return 2.3;
-    if (percentage >= 67) return 2.0;
-    if (percentage >= 63) return 1.7;
-    if (percentage >= 60) return 1.3;
-    if (percentage >= 57) return 1.0;
-    return 0.0;
+    if (percentage >= 80) return 4.0;  // A: 80-100%
+    if (percentage >= 65) return 3.0;  // B: 65-79%
+    if (percentage >= 55) return 2.0;  // C: 55-64%
+    if (percentage >= 50) return 1.0;  // D: 50-54%
+    return 0.0;                        // F: below 50%
 }
 
 function updateGrade(courseCode, category, item, value, track) {
