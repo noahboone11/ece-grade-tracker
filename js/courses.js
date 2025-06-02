@@ -415,9 +415,12 @@ function toggleCourseExpansion(event, courseCode, track) {
 
 // Due date utility functions
 function formatDueDate(dateString) {
-    const date = new Date(dateString);
+    // Use the same local date creation as upcoming-assessments.js
+    const date = new Date(dateString + 'T00:00:00'); // This creates a local date
     const now = new Date();
-    const diffTime = date - now;
+    const nowLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    
+    const diffTime = date - nowLocal;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     
     if (diffDays < 0) return `${Math.abs(diffDays)} days ago`;
@@ -427,10 +430,13 @@ function formatDueDate(dateString) {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
+// Also fix the getDueDateClass function to be consistent:
 function getDueDateClass(dateString) {
-    const date = new Date(dateString);
+    const date = new Date(dateString + 'T00:00:00'); // Use local date
     const now = new Date();
-    const diffTime = date - now;
+    const nowLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    
+    const diffTime = date - nowLocal;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     
     if (diffDays < 0) return 'overdue';

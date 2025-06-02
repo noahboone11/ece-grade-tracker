@@ -313,7 +313,15 @@ body {
     margin-bottom: 30px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     overflow: hidden;
+    transition: all 0.3s ease; /* Add transition for smooth hover effect */
 }
+
+/* Add the hover effect to match course cards */
+.upcoming-assessments:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+}
+
 
 .upcoming-header {
     display: flex;
