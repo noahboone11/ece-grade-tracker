@@ -493,17 +493,15 @@ function createCourseCard(courseCode, courseData, track) {
     
     card.innerHTML = `
         <div class="course-header" onclick="toggleCourseExpansion(event, '${courseCode}', '${track}')">
-            <div class="course-summary">
-                <div class="course-info">
-                    <h3>${courseCode}</h3>
-                    <p>${courseData.title}
-                </div>
-                <div class="course-stats">
-                    <div class="course-grade-display">${currentGrade.toFixed(1)}%</div>
-                    <div class="grade-letter grade-${letterGrade.toLowerCase()}">${letterGrade}</div>
-                </div>
+            <div class="course-info">
+                <h3>${courseCode}</h3>
+                <p>${courseData.title}</p>
             </div>
-            <span class="expand-indicator">▼</span>
+            <div class="course-header-right">
+                <span class="course-grade-display">${currentGrade.toFixed(1)}%</span>
+                <span class="grade-letter grade-${letterGrade.toLowerCase()}">${letterGrade}</span>
+                <span class="expand-indicator">▼</span>
+            </div>
         </div>
         
         <div class="progress-bar">
