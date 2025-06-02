@@ -336,7 +336,7 @@ body {
     margin-left: 10px;
 }
 
-/* Fixed: Arrow now points up/down consistently with course cards */
+/* Fixed: Arrow now points down when collapsed (opposite of before) */
 .upcoming-assessments.collapsed .expand-indicator {
     transform: rotate(180deg);
 }
@@ -970,6 +970,42 @@ body {
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
+/* Footer Styles */
+.site-footer {
+    background: linear-gradient(135deg, #4c6ef5 0%, #6741d9 100%);
+    color: white;
+    padding: 30px 0;
+    margin-top: 50px;
+    text-align: center;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-content p {
+    margin: 8px 0;
+    font-size: 1rem;
+}
+
+.creator-name {
+    font-weight: 700;
+    color: #ffd43b;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.footer-subtitle {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    font-weight: 500;
+}
+
 .hidden {
     display: none;
 }
@@ -1042,5 +1078,22 @@ body {
         flex-direction: column;
         align-items: flex-end;
         gap: 4px;
+    }
+    
+    .site-footer {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 0; /* Reduced padding for a tighter look */
+        margin-top: 0;
+        text-align: center;
+    }
+    
+    .footer-content p {
+        font-size: 0.9rem;
+    }
+    
+    .creator-name {
+        font-size: 0.9rem;
+        padding: 3px 10px;
     }
 }

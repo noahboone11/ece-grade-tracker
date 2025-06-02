@@ -297,11 +297,10 @@ function toggleUpcomingAssessments(track) {
     if (container) {
         container.classList.toggle('collapsed');
         
-        // Update expand indicator - Fixed to match course card behavior
+        // Remove inline transform style to let CSS handle the rotation
         const indicator = container.querySelector('.expand-indicator');
         if (indicator) {
-            // Now matches course card rotation: 180deg when collapsed, 0deg when expanded
-            indicator.style.transform = container.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0deg)';
+            indicator.style.transform = '';
         }
     }
 }
