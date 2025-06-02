@@ -39,13 +39,16 @@ function updateOverallStats(track) {
         calculateCourseGrade(courseCode, track)
     ).filter(grade => grade > 0);
     
+    // Calculate the GPA for each course and then average them
+    const courseGPAs = courseGrades.map(grade => convertToGPA(grade));
+    const averageGPA = courseGPAs.length > 0 ? 
+        courseGPAs.reduce((sum, gpa) => sum + gpa, 0) / courseGPAs.length : 0;
+    
     const average = courseGrades.length > 0 ? 
         courseGrades.reduce((sum, grade) => sum + grade, 0) / courseGrades.length : 0;
     
-    const gpa = convertToGPA(average);
-    
     document.getElementById(`${track}-avg`).textContent = `${average.toFixed(1)}%`;
-    document.getElementById(`${track}-gpa`).textContent = gpa.toFixed(2);
+    document.getElementById(`${track}-gpa`).textContent = averageGPA.toFixed(2);
 }
 
 function getLetterGrade(percentage) {
