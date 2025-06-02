@@ -18,7 +18,6 @@ const courses = {
     electrical: {
         'ECE 4500': {
             title: 'Microprocessors',
-            credits: 3,
             assessments: {
                 'Assignments': {
                     weight: 10,
@@ -68,7 +67,6 @@ const courses = {
         },
         'ECE 4300': {
             title: 'Electronic Circuits I',
-            credits: 3,
             assessments: {
                 'Quizzes': {
                     weight: 10,
@@ -108,7 +106,6 @@ const courses = {
         },
         'ECE 4600': {
             title: 'Introduction to Systems and Signals',
-            credits: 3,
             assessments: {
                 'Assignments': {
                     weight: 12,
@@ -144,7 +141,6 @@ const courses = {
         },
         'ENGI 4430': {
             title: 'Advanced Calculus for Engineering',
-            credits: 3,
             assessments: {
                 'Quizzes': {
                     weight: 25,
@@ -173,7 +169,6 @@ const courses = {
         },
         'ECE 4800': {
             title: 'Electromechanical Devices',
-            credits: 3,
             assessments: {
                 'Assignments': {
                     weight: 10,
@@ -223,7 +218,6 @@ const courses = {
     computer: {
         'ECE 4500': {
             title: 'Microprocessors',
-            credits: 3,
             assessments: {
                 'Assignments': {
                     weight: 10,
@@ -273,7 +267,6 @@ const courses = {
         },
         'ECE 4110': {
             title: 'Discrete Mathematics for Computer Engineering',
-            credits: 3,
             assessments: {
                 'Quizzes': {
                     weight: 25,
@@ -302,7 +295,6 @@ const courses = {
         },
         'ECE 4300': {
             title: 'Electronic Circuits I',
-            credits: 3,
             assessments: {
                 'Quizzes': {
                     weight: 10,
@@ -342,7 +334,6 @@ const courses = {
         },
         'ECE 4400': {
             title: 'Data Structures',
-            credits: 3,
             assessments: {
                 'Assignments': {
                     weight: 20,
@@ -381,7 +372,6 @@ const courses = {
         },
         'ECE 4600': {
             title: 'Introduction to Systems and Signals',
-            credits: 3,
             assessments: {
                 'Assignments': {
                     weight: 12,
@@ -506,7 +496,7 @@ function createCourseCard(courseCode, courseData, track) {
             <div class="course-summary">
                 <div class="course-info">
                     <h3>${courseCode}</h3>
-                    <p>${courseData.title} • ${courseData.credits} credits</p>
+                    <p>${courseData.title}
                 </div>
                 <div class="course-stats">
                     <div class="course-grade-display">${currentGrade.toFixed(1)}%</div>
