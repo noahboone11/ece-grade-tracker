@@ -54,7 +54,13 @@ function updateOverallStats(track) {
     const avgLetterGrade = getLetterGrade(average);
     avgElement.className = `avg-grade-${avgLetterGrade.toLowerCase()}`;
     
-    document.getElementById('gpa-display').textContent = averageGPA.toFixed(2);
+    // Update GPA display with quality color
+    const gpaElement = document.getElementById('gpa-display');
+    gpaElement.textContent = averageGPA.toFixed(2);
+    
+    // Apply GPA quality color
+    const gpaQualityClass = getGPAQualityClass(averageGPA);
+    gpaElement.className = gpaQualityClass;
 }
 
 function getLetterGrade(percentage) {
@@ -67,6 +73,14 @@ function getLetterGrade(percentage) {
 
 function getGradeQualityClass(letterGrade) {
     return `grade-${letterGrade.toLowerCase()}`;
+}
+
+function getGPAQualityClass(gpa) {
+    if (gpa >= 3.5) return 'gpa-a';      // 3.5-4.0: Excellent
+    if (gpa >= 2.5) return 'gpa-b';      // 2.5-3.49: Good
+    if (gpa >= 1.5) return 'gpa-c';      // 1.5-2.49: Average
+    if (gpa >= 0.5) return 'gpa-d';      // 0.5-1.49: Below average
+    return 'gpa-f';                      // 0.0-0.49: Poor
 }
 
 function convertToGPA(percentage) {

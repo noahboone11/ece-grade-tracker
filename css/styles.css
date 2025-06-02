@@ -195,8 +195,25 @@ body {
     font-weight: 500;
 }
 
-.gpa {
+/* GPA quality colors */
+.gpa-a {
     color: #27ae60;
+}
+
+.gpa-b {
+    color: #17a2b8;
+}
+
+.gpa-c {
+    color: #ffc107;
+}
+
+.gpa-d {
+    color: #fd7e14;
+}
+
+.gpa-f {
+    color: #dc3545;
 }
 
 /* Grade quality colors */
