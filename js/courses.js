@@ -323,6 +323,7 @@ function createCourseCard(courseCode, courseData, track) {
     
     const currentGrade = calculateCourseGrade(courseCode, track);
     const letterGrade = getLetterGrade(currentGrade);
+    const gradeQualityClass = getGradeQualityClass(letterGrade);
     
     card.innerHTML = `
         <div class="course-header" onclick="toggleCourseExpansion(event, '${courseCode}', '${track}')">
@@ -332,7 +333,7 @@ function createCourseCard(courseCode, courseData, track) {
             </div>
             <div class="course-header-right">
                 <span class="course-grade-display">${currentGrade.toFixed(1)}%</span>
-                <span class="grade-letter grade-${letterGrade.toLowerCase()}">${letterGrade}</span>
+                <span class="grade-letter ${gradeQualityClass}">${letterGrade}</span>
                 <span class="expand-indicator">▼</span>
             </div>
         </div>

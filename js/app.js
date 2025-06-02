@@ -21,9 +21,6 @@ function selectTrack(track) {
         });
     }
     
-    // Update display elements to use current track
-    updateDisplayElements(track);
-    
     // Render content
     renderCourses(track);
     updateOverallStats(track);
@@ -31,11 +28,6 @@ function selectTrack(track) {
     if (typeof updateDashboardWithUpcoming === 'function') {
         updateDashboardWithUpcoming(track);
     }
-}
-
-function updateDisplayElements(track) {
-    // Update the stats display elements to show data for current track
-    document.getElementById('courses-count').textContent = Object.keys(courses[track]).length;
 }
 
 // Auto-save data every 30 seconds

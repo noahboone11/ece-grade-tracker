@@ -47,9 +47,14 @@ function updateOverallStats(track) {
         courseGrades.reduce((sum, grade) => sum + grade, 0) / courseGrades.length : 0;
     
     // Update consolidated dashboard elements
-    document.getElementById('avg-display').textContent = `${average.toFixed(1)}%`;
+    const avgElement = document.getElementById('avg-display');
+    avgElement.textContent = `${average.toFixed(1)}%`;
+    
+    // Apply grade quality color to average grade
+    const avgLetterGrade = getLetterGrade(average);
+    avgElement.className = `avg-grade-${avgLetterGrade.toLowerCase()}`;
+    
     document.getElementById('gpa-display').textContent = averageGPA.toFixed(2);
-    document.getElementById('courses-count').textContent = Object.keys(courses[track]).length;
 }
 
 function getLetterGrade(percentage) {
@@ -58,6 +63,10 @@ function getLetterGrade(percentage) {
     if (percentage >= 55) return 'C';
     if (percentage >= 50) return 'D';
     return 'F';
+}
+
+function getGradeQualityClass(letterGrade) {
+    return `grade-${letterGrade.toLowerCase()}`;
 }
 
 function convertToGPA(percentage) {

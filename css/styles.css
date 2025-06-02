@@ -199,6 +199,52 @@ body {
     color: #27ae60;
 }
 
+/* Grade quality colors */
+.grade-a {
+    color: #155724;
+    background: #d4edda;
+}
+
+.grade-b {
+    color: #0c5460;
+    background: #d1ecf1;
+}
+
+.grade-c {
+    color: #856404;
+    background: #fff3cd;
+}
+
+.grade-d {
+    color: #721c24;
+    background: #f8d7da;
+}
+
+.grade-f {
+    color: #721c24;
+    background: #f8d7da;
+}
+
+.avg-grade-a {
+    color: #27ae60;
+}
+
+.avg-grade-b {
+    color: #17a2b8;
+}
+
+.avg-grade-c {
+    color: #ffc107;
+}
+
+.avg-grade-d {
+    color: #fd7e14;
+}
+
+.avg-grade-f {
+    color: #dc3545;
+}
+
 /* Course Color Schemes */
 .course-ece4500 {
     --course-color: #e74c3c;
@@ -707,8 +753,6 @@ body {
     line-height: 1;
     min-width: 28px;
     text-align: center;
-    color: var(--course-dark, #155724);
-    background: var(--course-light, #d4edda);
 }
 
 .expand-indicator {
