@@ -1,112 +1,116 @@
-# 📊 ECE Term 4 Grade Tracker
+📊 ECE Term 4 Grade Tracker
+A simple, privacy-first tool to help MUN ECE Term 4 students stay on top of their grades. No cloud, no accounts, no data collection — everything stays on your device.
 
-A simple tool to track your MUN ECE Term 4 grades with automatic GPA calculation. Made by a classmate for classmates.
+Live App:
+https://noahboone11.github.io/ece-grade-tracker
 
-## 🚀 Quick Start
+Demo Login:
+Username: demo_student
+Password: password123
 
-**Just use this link:** https://noahboone11.github.io/ece-grade-tracker
+🔐 How Your Data Works
+Your grades are stored only in your browser.
 
-**Demo account to try it out:**
-- Username: `demo_student`
-- Password: `password123`
+There's no syncing, no backup, and no recovery if data is cleared.
 
-## ⚠️ Important: Browser-Only Storage
+That means:
 
-**Your account only exists in the specific browser you create it in.**
+✅ Nobody else sees your data
 
-- Chrome on your laptop = separate account from Safari on your phone
-- Incognito/private browsing = your account won't be there
-- Clear browser data = your grades are gone forever
-- Different computer = need to create a new account
+✅ It works offline after first load
 
-**This means you should stick to one browser and avoid clearing your browser data if you want to keep your grades.**
+❌ You can’t access the same account on another device
 
-## What It Does
+❌ You’ll lose everything if you clear browser data
 
-- Track grades for all ECE Term 4 courses (both Electrical and Computer tracks)
-- Calculates your GPA automatically using the real grade weights from syllabi
-- Shows upcoming assignments and due dates
-- Each course has its own color so it's easier to see what's what
-- You can change due dates to match your actual syllabus
-- Everything saves in your browser only
+📌 Tip: Use one browser on one device, and avoid incognito or clearing storage.
 
-## How to Use It
+🚀 Features
+GPA calculation using actual course weights from syllabi
 
-### First Time Setup
-1. Create an account (just pick a username and password - **only works in this browser**)
-2. Choose your track (Electrical or Computer Engineering)
-3. Start entering grades as you get them back
+Supports both Electrical and Computer tracks
 
-### Entering Grades
-- Click on any course name to expand it
-- Type in grades (0-100) for assignments, quizzes, labs, etc.
-- Your GPA updates automatically
+Dashboard showing upcoming assignments with due dates
 
-### Changing Due Dates
-- Each assignment has a little date box under it
-- Click on it and change it to whatever your prof actually assigned
-- It saves automatically (in this browser only)
+Color-coded courses and progress tracking
 
-### Upcoming Assignments
-- The dashboard shows what's due soon
-- Different colors for each course
-- Red = overdue, orange = due today/soon, etc.
+Editable due dates to match your section
 
-## Course Colors
-- **ECE 4500** (Microprocessors): Red
-- **ECE 4300** (Electronic Circuits): Blue  
-- **ECE 4600** (Systems & Signals): Orange
-- **ENGI 4430** (Advanced Calculus): Purple
-- **ECE 4800** (Electromechanical): Green
-- **ECE 4110** (Discrete Math): Orange
-- **ECE 4400** (Data Structures): Teal
+🎓 Courses Covered
+Electrical Track:
 
-## Course Info
+ECE 4500 – Microprocessors
 
-**Electrical Track:**
-- ECE 4500: Microprocessors
-- ECE 4300: Electronic Circuits I
-- ECE 4600: Introduction to Systems and Signals
-- ENGI 4430: Advanced Calculus for Engineering
-- ECE 4800: Electromechanical Devices
+ECE 4300 – Electronic Circuits I
 
-**Computer Track:**
-- ECE 4500: Microprocessors
-- ECE 4110: Discrete Mathematics for Computer Engineering
-- ECE 4300: Electronic Circuits I
-- ECE 4400: Data Structures
-- ECE 4600: Introduction to Systems and Signals
+ECE 4600 – Systems and Signals
 
-## Common Issues
+ENGI 4430 – Advanced Calculus
 
-### "I lost my grades!"
-- Are you in the same browser you created the account in?
-- Did you clear your browser data recently?
-- Unfortunately, if browser data is cleared, grades can't be recovered
+ECE 4800 – Electromechanical Devices
 
-### "My account doesn't exist on my phone"
-- Accounts don't sync between devices
-- You'd need to create a separate account on each device you want to use
+Computer Track:
 
-### "Wrong due dates?"
-- Click on any date field to customize it for your section
-- Each person can have different dates
+ECE 4500 – Microprocessors
 
-### "My friend can't see my account"
-- Each person needs their own account in their own browser
-- Accounts are completely separate
+ECE 4110 – Discrete Math
 
-## Tips
-- **Use the same browser consistently** 
-- **Don't clear your browser data** if you want to keep your grades
-- Enter grades right when you get them back
-- Set due dates to match what your profs actually assign
-- Use the upcoming assignments section to see what's due soon
-- Consider taking screenshots of your grades periodically as backup
+ECE 4300 – Electronic Circuits I
 
-## Lab Due Dates
-All labs are set to be due **one week after** the lab session (not the day of the lab). You can adjust these if your section is different.
+ECE 4400 – Data Structures
 
----
+ECE 4600 – Systems and Signals
 
-Just a tool made to help ECE classmates keep track of grades. Your data stays on your device only - no servers, no cloud, just your browser. Hope it's useful!
+✅ How to Use
+On First Visit:
+
+Go to the site
+
+Create a username + password (just stored locally)
+
+Pick your track
+
+Start entering grades as they come in
+
+Day-to-Day:
+
+Click a course to enter/update grades
+
+Adjust assignment dates as needed
+
+Check the upcoming dashboard to stay organized
+
+GPA updates automatically
+
+⚠️ Common Questions
+“Where did my grades go?”
+
+Are you in the right browser?
+
+Did you clear browser data?
+
+Are you in incognito?
+
+Unfortunately, once local data is gone, it can’t be recovered.
+
+“Why doesn’t my phone have my account?”
+Accounts don’t sync — just make a separate one if needed.
+
+“My due dates are off.”
+Click any due date to edit it for your own schedule.
+
+🛠️ Under the Hood
+Built with vanilla HTML, CSS, and JavaScript
+
+Uses localStorage for browser-only persistence
+
+No servers, databases, tracking, or analytics
+
+Works offline after the first visit
+
+💬 Final Notes
+This was made to help out fellow students — no fancy accounts, no sign-ups, no hidden stuff. Just a straightforward tool to stay organized.
+
+If you find it useful, feel free to share it. If you break something or notice a bug, let me know!
+
+— Noah Boone
