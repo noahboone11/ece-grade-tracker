@@ -59,7 +59,8 @@ const sharedCourses = {
                     { name: 'Quiz 1', dueDate: '2025-05-26' },
                     { name: 'Quiz 2', dueDate: '2025-06-06' },
                     { name: 'Quiz 3', dueDate: '2025-07-07' }
-                ]
+                ],
+                dropLowest: 1
             },
             'Laboratory': {
                 weight: 15,
