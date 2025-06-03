@@ -91,13 +91,23 @@ function convertToGPA(percentage) {
     return 0.0;                        // F: below 50%
 }
 
-function updateGrade(courseCode, category, item, value, track) {
+function updateGradeData(courseCode, category, item, value, track) {
     if (!grades[track][courseCode][category]) {
         grades[track][courseCode][category] = {};
     }
     
-    grades[track][courseCode][category][item] = value ? parseFloat(value) : null;
+    // Update the grade data immediately but don't update completion status yet
+    grades[track][courseCode][category][item] = value !== '' ? parseFloat(value) : null;
     
+    // Don't update upcoming assessments here - wait until user is done typing
+}
+
+// Full update with visual re-rendering (for onblur/onchange)
+function updateGrade(courseCode, category, item, value, track) {
+    // First do the immediate data update
+    updateGradeData(courseCode, category, item, value, track);
+    
+    // Save data
     saveUserData();
     
     // Re-render the specific course card while preserving expansion state
@@ -119,7 +129,7 @@ function updateGrade(courseCode, category, item, value, track) {
     
     updateOverallStats(track);
     
-    // Update upcoming assessments when a grade is entered
+    // NOW update upcoming assessments with the final value
     if (typeof onGradeUpdate === 'function') {
         onGradeUpdate(track);
     }

@@ -391,7 +391,9 @@ function createAssessmentSection(courseCode, category, data, track) {
                                 step="0.1"
                                 placeholder="0-100"
                                 value="${currentValue}"
-                                onchange="updateGrade('${courseCode}', '${category}', '${itemName}', this.value, '${track}')"
+                                oninput="updateGradeData('${courseCode}', '${category}', '${itemName}', this.value, '${track}')"
+                                onblur="updateGrade('${courseCode}', '${category}', '${itemName}', this.value, '${track}')"
+                                onkeydown="if(event.key==='Enter'){this.blur(); updateGrade('${courseCode}', '${category}', '${itemName}', this.value, '${track}');}"
                                 onclick="event.stopPropagation()"
                             />
                         </div>
@@ -401,6 +403,7 @@ function createAssessmentSection(courseCode, category, data, track) {
         </div>
     `;
 }
+
 
 function toggleCourseExpansion(event, courseCode, track) {
     event.stopPropagation();
