@@ -37,8 +37,9 @@ const sharedCourses = {
                     { name: 'Quiz 1', dueDate: '2025-05-12' },
                     { name: 'Quiz 2', dueDate: '2025-05-26' },
                     { name: 'Quiz 3', dueDate: '2025-06-16' },
-                    { name: 'Quiz 4', dueDate: '2025-06-30' }
-                ]
+                    { name: 'Quiz 4', dueDate: '2025-06-30' },
+                ],
+                dropLowest: 1
             },
             'Midterm': {
                 weight: 16,
