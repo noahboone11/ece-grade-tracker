@@ -14,9 +14,9 @@ const sharedCourses = {
                     { name: 'Assignment 1', dueDate: '2025-06-02' },
                     { name: 'Assignment 2', dueDate: '2025-06-13' },
                     { name: 'Assignment 3', dueDate: '2025-06-27' },
-                    { name: 'Assignment 4', dueDate: '2025-07-11' },
-                    { name: 'Assignment 5', dueDate: '2025-07-25' }
-                ]
+                    { name: 'Assignment 4', dueDate: '2025-07-11' }
+                ],
+                dropLowest: 1
             },
             'Labs': {
                 weight: 16,
@@ -26,9 +26,7 @@ const sharedCourses = {
                     { name: 'Lab 2', dueDate: '2025-06-13' },
                     { name: 'Lab 3', dueDate: '2025-06-20' },
                     { name: 'Lab 4', dueDate: '2025-06-27' },
-                    { name: 'Lab 5', dueDate: '2025-07-04' },
-                    { name: 'Lab 6', dueDate: '2025-07-11' },
-                    { name: 'Lab 7', dueDate: '2025-07-18' }
+                    { name: 'Lab 5', dueDate: '2025-07-04' }
                 ]
             },
             'Quizzes': {
