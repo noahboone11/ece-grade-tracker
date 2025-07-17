@@ -13,8 +13,8 @@ const sharedCourses = {
                 items: [
                     { name: 'Assignment 1', dueDate: '2025-06-02' },
                     { name: 'Assignment 2', dueDate: '2025-06-13' },
-                    { name: 'Assignment 3', dueDate: '2025-06-27' },
-                    { name: 'Assignment 4', dueDate: '2025-07-11' }
+                    { name: 'Assignment 3', dueDate: '2025-07-17' },
+                    { name: 'Assignment 4', dueDate: '2025-07-24' }
                 ],
                 dropLowest: 1
             },
@@ -25,8 +25,8 @@ const sharedCourses = {
                     { name: 'Lab 1', dueDate: '2025-05-30' },
                     { name: 'Lab 2', dueDate: '2025-06-13' },
                     { name: 'Lab 3', dueDate: '2025-06-20' },
-                    { name: 'Lab 4', dueDate: '2025-06-27' },
-                    { name: 'Lab 5', dueDate: '2025-07-04' }
+                    { name: 'Lab 4', dueDate: '2025-07-18' },
+                    { name: 'Lab 5', dueDate: '2025-07-25' }
                 ]
             },
             'Quizzes': {
@@ -35,7 +35,7 @@ const sharedCourses = {
                     { name: 'Quiz 1', dueDate: '2025-05-12' },
                     { name: 'Quiz 2', dueDate: '2025-05-26' },
                     { name: 'Quiz 3', dueDate: '2025-06-16' },
-                    { name: 'Quiz 4', dueDate: '2025-06-30' },
+                    { name: 'Quiz 4', dueDate: '2025-07-21' },
                 ],
                 dropLowest: 1
             },
@@ -45,7 +45,7 @@ const sharedCourses = {
             },
             'Final': {
                 weight: 50,
-                items: [{ name: 'Final Exam', dueDate: '2025-08-12' }]
+                items: [{ name: 'Final Exam', dueDate: '2025-08-02' }]
             }
         }
     },
@@ -72,7 +72,8 @@ const sharedCourses = {
                     { name: 'Lab 6', dueDate: '2025-07-16' },
                     { name: 'Lab 7', dueDate: '2025-07-23' },
                     { name: 'Lab 8', dueDate: '2025-07-30' }
-                ]
+                ],
+                dropLowest: 1
             },
             'Term Tests': {
                 weight: 25,
@@ -83,7 +84,7 @@ const sharedCourses = {
             },
             'Final': {
                 weight: 50,
-                items: [{ name: 'Final Exam', dueDate: '2025-08-14' }]
+                items: [{ name: 'Final Exam', dueDate: '2025-08-03' }]
             }
         }
     },
@@ -105,7 +106,7 @@ const sharedCourses = {
                 weight: 15,
                 items: [
                     { name: 'Quiz 1', dueDate: '2025-05-27' },
-                    { name: 'Quiz 2', dueDate: '2025-07-15' }
+                    { name: 'Quiz 2', dueDate: '2025-07-22' }
                 ]
             },
             'Midterm': {
@@ -114,7 +115,7 @@ const sharedCourses = {
             },
             'Final': {
                 weight: 50,
-                items: [{ name: 'Final Exam', dueDate: '2025-08-11' }]
+                items: [{ name: 'Final Exam', dueDate: '2025-08-01' }]
             }
         }
     }
@@ -212,7 +213,7 @@ const trackSpecificCourses = {
                 },
                 'Final': {
                     weight: 50,
-                    items: [{ name: 'Final Exam', dueDate: '2025-08-16' }]
+                    items: [{ name: 'Final Exam', dueDate: '2025-07-31' }]
                 }
             }
         },
@@ -226,7 +227,7 @@ const trackSpecificCourses = {
                         { name: 'Assignment 2', dueDate: '2025-06-08' },
                         { name: 'Assignment 3', dueDate: '2025-06-22' },
                         { name: 'Assignment 4', dueDate: '2025-07-06' },
-                        { name: 'Assignment 5', dueDate: '2025-07-27' }
+                        { name: 'Assignment 5', dueDate: '2025-07-21' }
                     ]
                 },
                 'Midterm': {
