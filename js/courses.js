@@ -70,10 +70,8 @@ const sharedCourses = {
                     { name: 'Lab 4', dueDate: '2025-06-18' },
                     { name: 'Lab 5', dueDate: '2025-07-02' },
                     { name: 'Lab 6', dueDate: '2025-07-16' },
-                    { name: 'Lab 7', dueDate: '2025-07-23' },
-                    { name: 'Lab 8', dueDate: '2025-07-30' }
-                ],
-                dropLowest: 1
+                    { name: 'Lab 7', dueDate: '2025-07-23' }
+                ]
             },
             'Term Tests': {
                 weight: 25,
