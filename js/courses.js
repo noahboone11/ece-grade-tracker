@@ -245,7 +245,7 @@ const trackSpecificCourses = {
                 },
                 'Final': {
                     weight: 35,
-                    items: [{ name: 'Final Exam', dueDate: '2025-08-17' }]
+                    items: [{ name: 'Final Exam', dueDate: '2025-08-04' }]
                 }
             }
         }
