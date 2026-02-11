@@ -14,7 +14,7 @@ const courses = {
                 'Assignments': {
                     weight: 15,
                     items: [
-                        { name: 'Assignment 1', dueDate: '2026-02-02' },
+                        { name: 'Assignment 1', dueDate: '2026-02-03' },
                         { name: 'Assignment 2', dueDate: '2026-03-02' },
                         { name: 'Assignment 3', dueDate: '2026-03-30' }
                     ]
@@ -22,13 +22,13 @@ const courses = {
                 'Midterms': {
                     weight: 35,
                     items: [
-                        { name: 'Midterm 1', dueDate: '2026-02-18' },
-                        { name: 'Midterm 2', dueDate: '2026-03-18' }
+                        { name: 'Midterm 1', dueDate: '2026-02-20' },
+                        { name: 'Midterm 2', dueDate: 'TBD' }
                     ]
                 },
                 'Final': {
                     weight: 50,
-                    items: [{ name: 'Final Exam', dueDate: '2026-04-25' }]
+                    items: [{ name: 'Final Exam', dueDate: 'TBD' }]
                 }
             }
         },
@@ -41,10 +41,10 @@ const courses = {
                 'Assignments': {
                     weight: 8,
                     items: [
-                        { name: 'Assignment 1', dueDate: '2026-01-26' },
-                        { name: 'Assignment 2', dueDate: '2026-02-09' },
-                        { name: 'Assignment 3', dueDate: '2026-02-23' },
-                        { name: 'Assignment 4', dueDate: '2026-03-16' }
+                        { name: 'Assignment 1', dueDate: '2026-02-02' },
+                        { name: 'Assignment 2', dueDate: 'TBD' },
+                        { name: 'Assignment 3', dueDate: 'TBD' },
+                        { name: 'Assignment 4', dueDate: 'TBD' }
                     ]
                 },
                 'Midterm Test': {
@@ -54,15 +54,15 @@ const courses = {
                 'Labs': {
                     weight: 16,
                     items: [
-                        { name: 'Lab 1', dueDate: '2026-01-27' },
-                        { name: 'Lab 2', dueDate: '2026-02-10' },
-                        { name: 'Lab 3', dueDate: '2026-03-03' },
-                        { name: 'Lab 4', dueDate: '2026-03-17' }
+                        { name: 'Lab 1', dueDate: 'TBD' },
+                        { name: 'Lab 2', dueDate: 'TBD' },
+                        { name: 'Lab 3', dueDate: 'TBD' },
+                        { name: 'Lab 4', dueDate: 'TBD' }
                     ]
                 },
                 'Final': {
                     weight: 50,
-                    items: [{ name: 'Final Exam', dueDate: '2026-04-25' }]
+                    items: [{ name: 'Final Exam', dueDate: 'TBD' }]
                 }
             }
         },
@@ -79,13 +79,13 @@ const courses = {
                         { name: 'Lab 2 Report', dueDate: '2026-02-03' },
                         { name: 'Lab 3 Report', dueDate: '2026-02-10' },
                         { name: 'Lab 4 Report', dueDate: '2026-02-17' },
-                        { name: 'Lab 5 Report', dueDate: '2026-02-24' },
-                        { name: 'Lab 6 Report', dueDate: '2026-03-03' }
+                        { name: 'Lab 5 Report', dueDate: 'TBD' },
+                        { name: 'Lab 6 Report', dueDate: 'TBD' }
                     ]
                 },
                 'Project': {
                     weight: 10,
-                    items: [{ name: 'Course Project', dueDate: '2026-03-24' }]
+                    items: [{ name: 'Course Project', dueDate: 'TBD' }]
                 },
                 'Mid-term Tests': {
                     weight: 20,
@@ -96,7 +96,7 @@ const courses = {
                 },
                 'Final': {
                     weight: 50,
-                    items: [{ name: 'Final Exam', dueDate: '2026-04-25' }]
+                    items: [{ name: 'Final Exam', dueDate: 'TBD' }]
                 }
             }
         },
@@ -110,7 +110,7 @@ const courses = {
                     weight: 10,
                     items: [
                         { name: 'Assignment 1', dueDate: '2026-01-19' },
-                        { name: 'Assignment 2', dueDate: '2026-02-02' }
+                        { name: 'Assignment 2', dueDate: '2026-02-04' }
                     ]
                 },
                 'Project': {
@@ -120,14 +120,14 @@ const courses = {
                         { name: 'Proposal Review Meeting', dueDate: '2026-01-29' },
                         { name: 'Requirements Presentation', dueDate: '2026-02-12' },
                         { name: 'Design Report', dueDate: '2026-03-05' },
-                        { name: 'Interim Demo', dueDate: '2026-03-18' },
+                        { name: 'Interim Demo', dueDate: '2026-03-20' },
                         { name: 'Final Code Submission', dueDate: '2026-03-31' },
                         { name: 'Final Presentation', dueDate: '2026-04-02' }
                     ]
                 },
                 'Mid-term Exam': {
                     weight: 25,
-                    items: [{ name: 'Midterm Exam', dueDate: '2026-02-20' }]
+                    items: [{ name: 'Midterm Exam', dueDate: '2026-03-02' }]
                 }
             }
         },
@@ -140,8 +140,8 @@ const courses = {
                 'Assignments': {
                     weight: 35,
                     items: [
-                        { name: 'Assignment 1', dueDate: '2026-01-27' },
-                        { name: 'Assignment 2', dueDate: '2026-02-10' },
+                        { name: 'Assignment 1', dueDate: '2026-01-29' },
+                        { name: 'Assignment 2', dueDate: '2026-02-12' },
                         { name: 'Assignment 3', dueDate: '2026-02-20' },
                         { name: 'Assignment 4', dueDate: '2026-03-17' },
                         { name: 'Assignment 5', dueDate: '2026-04-02' }
@@ -153,7 +153,7 @@ const courses = {
                 },
                 'Final': {
                     weight: 40,
-                    items: [{ name: 'Final Exam', dueDate: '2026-04-25' }]
+                    items: [{ name: 'Final Exam', dueDate: 'TBD' }]
                 }
             }
         }
@@ -171,24 +171,32 @@ const courses = {
 // ==================== Utility ====================
 
 function getEffectiveDueDate(courseCode, category, itemName, track) {
-    if (currentUser?.customDueDates?.[track]?.[courseCode]?.[category]?.[itemName]) {
-        return currentUser.customDueDates[track][courseCode][category][itemName];
+    const custom = currentUser?.customDueDates?.[track]?.[courseCode]?.[category];
+    if (custom && Object.prototype.hasOwnProperty.call(custom, itemName)) {
+        const val = custom[itemName];
+        // null or empty string means user explicitly set it to TBD
+        return (val === null || val === '') ? null : val;
     }
 
     const courseData = courses[track][courseCode];
     const item = courseData.assessments[category].items.find(i =>
         (typeof i === 'object' ? i.name : i) === itemName
     );
-    return typeof item === 'object' ? item.dueDate : null;
+    const dueDate = typeof item === 'object' ? item.dueDate : null;
+    // Treat 'TBD' string in course data as null
+    return (dueDate === 'TBD' || dueDate === '' || !dueDate) ? null : dueDate;
 }
 
-function updateDueDate(courseCode, category, itemName, newDate, track) {
+function initCustomDueDatePath(courseCode, category, itemName, track) {
     if (!currentUser.customDueDates) currentUser.customDueDates = {};
     if (!currentUser.customDueDates[track]) currentUser.customDueDates[track] = {};
     if (!currentUser.customDueDates[track][courseCode]) currentUser.customDueDates[track][courseCode] = {};
     if (!currentUser.customDueDates[track][courseCode][category]) currentUser.customDueDates[track][courseCode][category] = {};
+}
 
-    currentUser.customDueDates[track][courseCode][category][itemName] = newDate;
+function updateDueDate(courseCode, category, itemName, newDate, track) {
+    initCustomDueDatePath(courseCode, category, itemName, track);
+    currentUser.customDueDates[track][courseCode][category][itemName] = newDate || null;
 
     saveUserData();
 
@@ -196,7 +204,31 @@ function updateDueDate(courseCode, category, itemName, newDate, track) {
         renderUpcomingAssessments(track);
     }
 
-    updateDueDateDisplay(courseCode, category, itemName, newDate, track);
+    rerenderCourseCard(courseCode, track);
+}
+
+function clearDueDate(courseCode, category, itemName, track) {
+    initCustomDueDatePath(courseCode, category, itemName, track);
+    currentUser.customDueDates[track][courseCode][category][itemName] = null;
+
+    saveUserData();
+
+    if (typeof renderUpcomingAssessments === 'function') {
+        renderUpcomingAssessments(track);
+    }
+
+    rerenderCourseCard(courseCode, track);
+}
+
+function rerenderCourseCard(courseCode, track) {
+    const cardId = `course-${courseCode.replace(/\s/g, '-')}-${track}`;
+    const oldCard = document.getElementById(cardId);
+    if (!oldCard) return;
+
+    const wasExpanded = oldCard.classList.contains('expanded');
+    const newCard = createCourseCard(courseCode, courses[track][courseCode], track);
+    if (wasExpanded) newCard.classList.add('expanded');
+    oldCard.replaceWith(newCard);
 }
 
 function updateDueDateDisplay(courseCode, category, itemName, newDate, track) {
@@ -286,14 +318,25 @@ function createAssessmentSection(courseCode, category, data, track) {
                     const effectiveDueDate = getEffectiveDueDate(courseCode, category, itemName, track);
                     const currentValue = courseGrades[itemName] || '';
 
-                    const dueDateDisplay = effectiveDueDate ?
-                        `<small class="due-date ${getDueDateClass(effectiveDueDate)}">Due: ${formatDueDate(effectiveDueDate)}</small>
-                         <input type="date"
-                                value="${effectiveDueDate}"
-                                class="due-date-input"
-                                onchange="updateDueDate('${courseCode}', '${category}', '${itemName}', this.value, '${track}'); event.stopPropagation();"
-                                onclick="event.stopPropagation()"
-                         />` : '';
+                    const dueDateDisplay = effectiveDueDate
+                        ? `<div class="date-row">
+                               <small class="due-date ${getDueDateClass(effectiveDueDate)}">Due: ${formatDueDate(effectiveDueDate)}</small>
+                               <button class="clear-date-btn" title="Set to TBD"
+                                   onclick="clearDueDate('${courseCode}', '${category}', '${itemName}', '${track}'); event.stopPropagation();">TBD</button>
+                           </div>
+                           <input type="date"
+                                  value="${effectiveDueDate}"
+                                  class="due-date-input"
+                                  onchange="updateDueDate('${courseCode}', '${category}', '${itemName}', this.value, '${track}'); event.stopPropagation();"
+                                  onclick="event.stopPropagation()" />`
+                        : `<div class="date-row">
+                               <small class="due-date tbd">TBD</small>
+                           </div>
+                           <input type="date"
+                                  value=""
+                                  class="due-date-input"
+                                  onchange="updateDueDate('${courseCode}', '${category}', '${itemName}', this.value, '${track}'); event.stopPropagation();"
+                                  onclick="event.stopPropagation()" />`;
 
                     return `
                         <div class="input-group">
@@ -335,12 +378,13 @@ function toggleCourseExpansion(event, courseCode, track) {
 // ==================== Due Date Utilities ====================
 
 function formatDueDate(dateString) {
+    if (!dateString) return 'TBD';
     const date = new Date(dateString + 'T00:00:00');
+    if (isNaN(date.getTime())) return 'TBD';
+
     const now = new Date();
     const nowLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-    const diffTime = date - nowLocal;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffDays = Math.ceil((date - nowLocal) / (1000 * 60 * 60 * 24));
 
     if (diffDays < 0) return `${Math.abs(diffDays)} days ago`;
     if (diffDays === 0) return 'Today';
@@ -350,12 +394,13 @@ function formatDueDate(dateString) {
 }
 
 function getDueDateClass(dateString) {
+    if (!dateString) return 'tbd';
     const date = new Date(dateString + 'T00:00:00');
+    if (isNaN(date.getTime())) return 'tbd';
+
     const now = new Date();
     const nowLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-    const diffTime = date - nowLocal;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffDays = Math.ceil((date - nowLocal) / (1000 * 60 * 60 * 24));
 
     if (diffDays < 0) return 'overdue';
     if (diffDays <= 1) return 'due-soon';

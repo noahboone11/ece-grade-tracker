@@ -1,65 +1,54 @@
-// Main application controller - ECE Term 5 Computer Engineering
-let selectedTrack = 'computer'; // Fixed to computer for now
+// ==================== App Controller ====================
+let selectedTrack = 'computer';
 let grades = {};
 
 function selectTrack(track) {
     selectedTrack = track;
-    saveUserData();
-    
-    // Show dashboard
-    document.getElementById('track-selector').style.display = 'none';
-    document.getElementById('dashboard').classList.add('active');
-    
-    // Initialize grades for this track
+
     if (!grades[track]) {
         grades[track] = {};
         Object.keys(courses[track]).forEach(courseCode => {
             grades[track][courseCode] = {};
         });
     }
-    
-    // Render content
+
+    document.getElementById('dashboard').classList.add('active');
     renderCourses(track);
     updateOverallStats(track);
-    
+
     if (typeof updateDashboardWithUpcoming === 'function') {
         updateDashboardWithUpcoming(track);
     }
 }
 
-// Auto-save data every 30 seconds
-setInterval(() => {
-    if (currentUser) {
-        saveUserData();
-    }
-}, 30000);
+function initializeApp() {
+    grades = JSON.parse(JSON.stringify(currentUser.grades || {}));
 
-// Add keyboard event listeners for forms
-function addKeyboardListeners() {
-    const addEnterListener = (id, callback) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') callback();
-            });
-        }
-    };
-    
-    addEnterListener('password', login);
-    addEnterListener('reg-password', register);
-    addEnterListener('full-name', register);
+    if (!grades['computer']) {
+        grades['computer'] = {};
+        Object.keys(courses['computer']).forEach(courseCode => {
+            grades['computer'][courseCode] = {};
+        });
+    }
+
+    selectTrack('computer');
 }
 
-// Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
-    loadUsersFromStorage();
-    
-    if (checkExistingSession()) {
+// ==================== Init ====================
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (loadFromStorage()) {
         showMainApp();
-        loadUserData();
+        initializeApp();
     } else {
         document.getElementById('login-modal').style.display = 'flex';
     }
-    
-    addKeyboardListeners();
+
+    // Enter key on name field
+    const nameInput = document.getElementById('display-name');
+    if (nameInput) {
+        nameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') setupUser();
+        });
+    }
 });

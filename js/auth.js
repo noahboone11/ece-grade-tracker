@@ -1,252 +1,158 @@
-// Authentication system with localStorage support
+// ==================== Storage & User =====================
+// Single-user, browser-local. No passwords, no server.
+// Each person who opens the app has their own isolated localStorage.
+
 let currentUser = null;
-let currentUserSession = null;
-let usersDatabase = {};
 
-// Default user structure
-const createDefaultUser = (username, password, fullName, track) => ({
-    username,
-    password,
-    fullName,
-    track,
-    grades: {},
-    selectedTrack: track,
-    customDueDates: {},
-    dismissedAssessments: {}
-});
+function createNewUser(name) {
+    return {
+        name,
+        grades: {},
+        customDueDates: {},
+        dismissedAssessments: {}
+    };
+}
 
-// Ensure user has all required properties
-function validateUserData(user) {
-    if (!user.customDueDates) user.customDueDates = {};
+function validateUser(user) {
+    if (!user.customDueDates)     user.customDueDates     = {};
     if (!user.dismissedAssessments) user.dismissedAssessments = {};
-    if (!user.grades) user.grades = {};
+    if (!user.grades)             user.grades             = {};
     return user;
 }
 
-function loadUsersFromStorage() {
+// ==================== Persistence ====================
+
+function loadFromStorage() {
     try {
-        const storedUsers = localStorage.getItem('ece_users_database');
-        if (storedUsers) {
-            usersDatabase = JSON.parse(storedUsers);
-        } else {
-            usersDatabase = {
-                'demo_student': createDefaultUser('demo_student', 'password123', 'Demo Student', 'electrical')
-            };
-            saveUsersToStorage();
+        const stored = localStorage.getItem('ece_grade_data');
+        if (stored) {
+            currentUser = validateUser(JSON.parse(stored));
+            return true;
         }
     } catch (e) {
-        console.warn('localStorage error, using demo account');
-        usersDatabase = {
-            'demo_student': createDefaultUser('demo_student', 'password123', 'Demo Student', 'electrical')
-        };
-    }
-    
-    // Validate all existing users
-    Object.keys(usersDatabase).forEach(username => {
-        usersDatabase[username] = validateUserData(usersDatabase[username]);
-    });
-}
-
-function saveUsersToStorage() {
-    try {
-        localStorage.setItem('ece_users_database', JSON.stringify(usersDatabase));
-    } catch (e) {
-        console.warn('Unable to save to localStorage');
-    }
-}
-
-function checkExistingSession() {
-    try {
-        const savedSession = localStorage.getItem('ece_current_session');
-        if (savedSession) {
-            const sessionData = JSON.parse(savedSession);
-            if (usersDatabase[sessionData.username]) {
-                currentUser = validateUserData(usersDatabase[sessionData.username]);
-                currentUserSession = sessionData.username;
-                return true;
-            }
-        }
-    } catch (e) {
-        console.warn('Unable to restore session');
+        console.warn('Failed to load saved data');
     }
     return false;
 }
 
-function saveCurrentSession() {
+function saveUserData() {
+    if (!currentUser) return;
+    currentUser.grades = grades; // sync from app.js global
     try {
-        if (currentUserSession) {
-            localStorage.setItem('ece_current_session', JSON.stringify({
-                username: currentUserSession,
-                timestamp: new Date().toISOString()
-            }));
-        }
+        localStorage.setItem('ece_grade_data', JSON.stringify(currentUser));
     } catch (e) {
-        console.warn('Unable to save session');
+        console.warn('Failed to save data');
     }
 }
 
-function login() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    
-    if (!username || !password) {
-        alert('Please enter both username and password');
-        return;
-    }
-    
-    if (usersDatabase[username] && usersDatabase[username].password === password) {
-        currentUser = validateUserData(usersDatabase[username]);
-        currentUserSession = username;
-        
-        saveCurrentSession();
-        showMainApp();
-        loadUserData();
-    } else {
-        alert('Invalid username or password\n\nTry demo account:\nUsername: demo_student\nPassword: password123');
-    }
-}
+// Auto-save every 30 seconds
+setInterval(() => { if (currentUser) saveUserData(); }, 30000);
 
-function register() {
-    const username = document.getElementById('reg-username').value;
-    const password = document.getElementById('reg-password').value;
-    const fullName = document.getElementById('full-name').value;
-    const track = document.getElementById('track-selection').value;
-    
-    if (!username || !password || !fullName || !track) {
-        alert('Please fill in all fields including your ECE track');
-        return;
-    }
-    
-    if (usersDatabase[username]) {
-        alert('Username already exists');
-        return;
-    }
-    
-    // Create new user
-    usersDatabase[username] = createDefaultUser(username, password, fullName, track);
-    saveUsersToStorage();
-    
-    // Auto-login
-    currentUser = usersDatabase[username];
-    currentUserSession = username;
-    saveCurrentSession();
-    showMainApp();
-    loadUserData();
-}
+// ==================== First-Visit Setup ====================
 
-function logout() {
+function setupUser() {
+    const input = document.getElementById('display-name');
+    const name = input?.value.trim();
+    if (!name) { input?.focus(); return; }
+
+    currentUser = createNewUser(name);
     saveUserData();
-    
-    // Clear session
-    try {
-        localStorage.removeItem('ece_current_session');
-    } catch (e) {
-        console.warn('Unable to clear session');
-    }
-    
-    // Reset state
-    currentUser = null;
-    currentUserSession = null;
-    selectedTrack = null;
-    grades = {};
-    
-    // Reset UI
-    document.getElementById('main-content').style.display = 'none';
-    document.getElementById('user-info').style.display = 'none';
-    document.getElementById('dashboard').classList.remove('active');
-    document.getElementById('login-modal').style.display = 'flex';
-    
-    // Clear forms
-    ['username', 'password', 'reg-username', 'reg-password', 'full-name'].forEach(id => {
-        const element = document.getElementById(id);
-        if (element) element.value = '';
-    });
-    document.getElementById('track-selection').value = '';
-    
-    // Reset track buttons
-    document.querySelectorAll('.track-btn').forEach(btn => btn.classList.remove('active'));
+    showMainApp();
+    initializeApp();
 }
+
+// ==================== UI ====================
 
 function showMainApp() {
     document.getElementById('login-modal').style.display = 'none';
-    document.getElementById('main-content').style.display = 'none';
     document.getElementById('user-info').style.display = 'flex';
-    
-    // Update user display
-    document.getElementById('welcome-text').textContent = `Welcome, ${currentUser.fullName}`;
-    document.getElementById('user-avatar').textContent = currentUser.fullName.charAt(0).toUpperCase();
-    
-    // Auto-select user's track if they have one
-    if (currentUser.track) {
-        selectTrack(currentUser.track);
-    }
+    document.getElementById('user-avatar').textContent =
+        currentUser.name.charAt(0).toUpperCase();
+    document.getElementById('welcome-text').textContent = currentUser.name;
 }
 
-function showRegister() {
-    document.getElementById('login-section').style.display = 'none';
-    document.getElementById('register-section').style.display = 'block';
+// ==================== Reset ====================
+
+function logout() {
+    if (!confirm('This will clear all your grade data from this browser. Are you sure?')) return;
+
+    localStorage.removeItem('ece_grade_data');
+    currentUser = null;
+    grades = {};
+
+    document.getElementById('user-info').style.display = 'none';
+    document.getElementById('dashboard').classList.remove('active');
+    document.getElementById('login-modal').style.display = 'flex';
+    document.getElementById('display-name').value = '';
+    document.getElementById('display-name').focus();
 }
 
-function showLogin() {
-    document.getElementById('register-section').style.display = 'none';
-    document.getElementById('login-section').style.display = 'block';
-}
+// ==================== Export / Import ====================
 
-function saveUserData() {
-    if (!currentUser || !currentUserSession) return;
-    
-    // 🛡️ CRITICAL FIX: Prevent data loss by checking if we're about to overwrite existing grades
-    const existingData = localStorage.getItem('ece_users_database');
-    if (existingData) {
-        try {
-            const parsed = JSON.parse(existingData);
-            const existingGrades = parsed[currentUserSession]?.grades;
-            
-            // If grades object is empty but localStorage has grades, preserve the existing ones
-            if (existingGrades && Object.keys(existingGrades).length > 0 && Object.keys(grades).length === 0) {
-                console.log('🛡️ Preventing grade data loss - preserving existing grades');
-                grades = existingGrades;
-                currentUser.grades = existingGrades;
-            }
-        } catch (e) {
-            console.warn('Error checking existing grades:', e);
-        }
-    }
-    
-    // Update currentUser first to keep everything in sync
-    currentUser.grades = grades;
-    currentUser.selectedTrack = selectedTrack;
-    
-    // Update user data in database
-    Object.assign(usersDatabase[currentUserSession], {
-        grades,
-        selectedTrack,
-        track: currentUser.track,
-        customDueDates: currentUser.customDueDates || {},
-        dismissedAssessments: currentUser.dismissedAssessments || {}
-    });
-    
-    saveUsersToStorage();
-}
-
-function loadUserData() {
+function exportData() {
     if (!currentUser) return;
-    
-    // Load grades from currentUser (which came from localStorage)
-    grades = currentUser.grades || {};
-    selectedTrack = currentUser.selectedTrack;
-    
-    // Ensure grades structure exists for the current track
-    if (selectedTrack && !grades[selectedTrack]) {
-        grades[selectedTrack] = {};
-        Object.keys(courses[selectedTrack] || {}).forEach(courseCode => {
-            grades[selectedTrack][courseCode] = {};
-        });
-    }
-    
-    validateUserData(currentUser);
-    
-    if (selectedTrack) {
-        selectTrack(selectedTrack);
-    }
+    saveUserData(); // flush latest state
+
+    const json = JSON.stringify(currentUser, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    const date = new Date().toISOString().slice(0, 10);
+    a.href     = url;
+    a.download = `ece-grades-${currentUser.name.replace(/\s+/g, '-')}-${date}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function importData() {
+    const input = document.createElement('input');
+    input.type   = 'file';
+    input.accept = '.json';
+
+    input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            try {
+                const data = JSON.parse(ev.target.result);
+                if (!data.name) throw new Error('Missing name field');
+
+                currentUser = validateUser(data);
+                saveUserData();
+
+                grades = JSON.parse(JSON.stringify(currentUser.grades || {}));
+                showMainApp();
+                initializeApp();
+
+                showToast('Data imported successfully');
+            } catch (err) {
+                showToast('Invalid file — please use a valid export', true);
+            }
+        };
+        reader.readAsText(file);
+    };
+
+    input.click();
+}
+
+// ==================== Toast notification ====================
+
+function showToast(message, isError = false) {
+    const existing = document.getElementById('toast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.id = 'toast';
+    toast.className = `toast ${isError ? 'toast--error' : 'toast--success'}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    // Trigger animation
+    requestAnimationFrame(() => toast.classList.add('toast--visible'));
+    setTimeout(() => {
+        toast.classList.remove('toast--visible');
+        setTimeout(() => toast.remove(), 300);
+    }, 2800);
 }

@@ -103,6 +103,27 @@ body {
     flex-shrink: 0;
 }
 
+.data-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: var(--text-2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-family: inherit;
+}
+
+.data-btn:hover {
+    background: rgba(124, 58, 237, 0.12);
+    border-color: rgba(124, 58, 237, 0.3);
+    color: #A78BFA;
+}
+
 .logout-btn {
     background: transparent;
     border: 1px solid rgba(239, 68, 68, 0.25);
@@ -703,6 +724,35 @@ body {
 .due-date.due-soon     { background: rgba(251,191,36, 0.12); color: #FBBF24; }
 .due-date.due-this-week{ background: rgba(129,140,248,0.12); color: #818CF8; }
 .due-date.due-later    { background: rgba(52, 211,153,0.10); color: #34D399; }
+.due-date.tbd          { background: rgba(255,255,255,0.05); color: var(--text-3); }
+
+.date-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.clear-date-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: var(--text-3);
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+}
+
+.clear-date-btn:hover {
+    background: rgba(251, 191, 36, 0.12);
+    border-color: rgba(251, 191, 36, 0.3);
+    color: #FBBF24;
+}
 
 /* Due date picker (hidden under the label) */
 .due-date-input {
@@ -932,4 +982,63 @@ body {
 @media (max-width: 480px) {
     .header-brand h1 { font-size: 1.1rem; }
     .courses-grid { gap: 12px; }
+    .data-btn { display: none; } /* hide on very small screens, use export from menu */
+}
+
+/* ==================== Login extras ==================== */
+.login-import-hint {
+    margin-top: 16px;
+    font-size: 0.78rem;
+    color: var(--text-3);
+    text-align: center;
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    color: #A78BFA;
+    font-size: inherit;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.link-btn:hover { color: #C4B5FD; }
+
+/* ==================== Toast ==================== */
+.toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(12px);
+    padding: 12px 22px;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: 'Inter', inherit;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    border: 1px solid var(--border-2);
+}
+
+.toast--visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast--success {
+    background: var(--surface-3);
+    color: #34D399;
+    border-color: rgba(52, 211, 153, 0.25);
+}
+
+.toast--error {
+    background: var(--surface-3);
+    color: #F87171;
+    border-color: rgba(248, 113, 113, 0.25);
 }

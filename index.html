@@ -21,46 +21,26 @@
             <div class="user-info" id="user-info" style="display: none;">
                 <div class="user-avatar" id="user-avatar"></div>
                 <div class="welcome-text" id="welcome-text"></div>
-                <button class="logout-btn" onclick="logout()">Sign out</button>
+                <button class="data-btn" onclick="exportData()" title="Export your grades as JSON">Export</button>
+                <button class="data-btn" onclick="importData()" title="Import grades from a JSON file">Import</button>
+                <button class="logout-btn" onclick="logout()">Reset</button>
             </div>
         </header>
 
-        <!-- Login Modal -->
-        <div id="login-modal" class="login-modal">
+        <!-- First-Visit Modal -->
+        <div id="login-modal" class="login-modal" style="display: none;">
             <div class="login-form">
                 <div class="login-logo">📊</div>
-                <h2>Welcome back</h2>
-                <p class="login-subtitle">Sign in to your grade tracker</p>
-
-                <div id="login-section">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" placeholder="Enter your username" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" placeholder="Enter your password" required>
-                    </div>
-                    <button class="login-btn" onclick="login()">Sign In</button>
-                    <button class="register-btn" onclick="showRegister()">Create Account</button>
+                <h2>Welcome</h2>
+                <p class="login-subtitle">Your grades stay in your browser — nothing is sent anywhere.</p>
+                <div class="form-group">
+                    <label for="display-name">Your Name</label>
+                    <input type="text" id="display-name" placeholder="e.g. Alex Smith" required autocomplete="name">
                 </div>
-
-                <div id="register-section" style="display: none;">
-                    <div class="form-group">
-                        <label for="reg-username">Username</label>
-                        <input type="text" id="reg-username" placeholder="Choose a username" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-password">Password</label>
-                        <input type="password" id="reg-password" placeholder="Choose a password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="full-name">Full Name</label>
-                        <input type="text" id="full-name" placeholder="Enter your full name" required>
-                    </div>
-                    <button class="login-btn" onclick="register()">Create Account</button>
-                    <button class="register-btn" onclick="showLogin()">Back to Sign In</button>
-                </div>
+                <button class="login-btn" onclick="setupUser()">Get Started</button>
+                <p class="login-import-hint">
+                    Returning with a backup? <button class="link-btn" onclick="importData()">Import your data</button>
+                </p>
             </div>
         </div>
 
@@ -108,7 +88,7 @@
     <!-- Footer -->
     <footer class="site-footer">
         <div class="footer-content">
-            <p>Made with ❤️ by <span class="creator-name">Noah Boone</span></p>
+            <p>Made by <span class="creator-name">Noah Boone</span></p>
             <p class="footer-subtitle">MUN ECE Term 5 &middot; Computer Engineering</p>
         </div>
     </footer>

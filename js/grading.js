@@ -119,22 +119,7 @@ function updateGrade(courseCode, category, item, value, track) {
     // Save data
     saveUserData();
     
-    // Re-render the specific course card while preserving expansion state
-    const cardId = `course-${courseCode.replace(/\s/g, '-')}-${track}`;
-    const oldCard = document.getElementById(cardId);
-    const wasExpanded = oldCard?.classList.contains('expanded');
-    
-    const coursesGrid = document.getElementById('courses-grid');
-    const courseIndex = Object.keys(courses[track]).indexOf(courseCode);
-    const courseCard = coursesGrid.children[courseIndex];
-    
-    if (courseCard) {
-        const newCard = createCourseCard(courseCode, courses[track][courseCode], track);
-        if (wasExpanded) {
-            newCard.classList.add('expanded');
-        }
-        coursesGrid.replaceChild(newCard, courseCard);
-    }
+    rerenderCourseCard(courseCode, track);
     
     updateOverallStats(track);
     
