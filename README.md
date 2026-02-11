@@ -1,110 +1,74 @@
-# 📊 ECE Term 4 Grade Tracker
+# 📊 ECE Term 5 Grade Tracker
 
-A simple, privacy-first tool to help MUN ECE Term 4 students stay on top of their grades.  
-No cloud, no accounts, no data collection — everything stays on your device.
+A simple grade tracker for MUN ECE Term 5 students. Everything stays in your browser — no cloud, no accounts, no data collection.
 
 **🔗 Live App:**  
 https://noahboone11.github.io/ece-grade-tracker
 
-**🧪 Demo Account:**  
-`Username:` demo_student  
-`Password:` password123
-
 ---
 
-## 🔐 How Your Data Works
+## 🔐 Your Data
 
-- Your grades are stored **only** in your browser.
-- There's **no syncing**, **no backup**, and **no recovery** if data is cleared.
+Your grades are stored in your browser's localStorage.
 
-What this means:
-- ✅ Nobody else can access your grades
-- ✅ It works offline after the first load
-- ❌ You can't sync across devices or browsers
-- ❌ You’ll lose everything if you clear browser storage
+- ✅ Private to you
+- ✅ Works offline
+- ❌ Doesn't sync between devices
+- ❌ Lost if you clear browser data
 
-> 📌 **Best Practice:** Use one browser on one device. Avoid incognito/private mode and don't clear browser data if you want to keep your grades.
+> Use one browser consistently. Avoid incognito mode.
 
 ---
 
 ## ✨ Features
 
-- ✅ Automatic GPA calculation using real syllabus weights  
-- ✅ Supports both **Electrical** and **Computer** tracks  
-- ✅ Upcoming assignments dashboard  
-- ✅ Editable due dates to match your actual section  
-- ✅ Color-coded courses for better organization  
-- ✅ Visual tracker for completed vs pending assessments  
+- Calculates GPA using actual syllabus weights  
+- Shows upcoming deadlines
+- Editable due dates to match your section  
+- Color-coded courses  
+- Dismiss completed assessments
 
 ---
 
-## 🎓 Supported Courses
+## 🎓 Courses
 
-### Electrical Engineering Track
-- ECE 4500: Microprocessors  
-- ECE 4300: Electronic Circuits I  
-- ECE 4600: Introduction to Systems and Signals  
-- ENGI 4430: Advanced Calculus for Engineering  
-- ECE 4800: Electromechanical Devices  
+Computer Engineering — Winter 2026
 
-### Computer Engineering Track
-- ECE 4500: Microprocessors  
-- ECE 4110: Discrete Mathematics for Computer Engineering  
-- ECE 4300: Electronic Circuits I  
-- ECE 4400: Data Structures  
-- ECE 4600: Introduction to Systems and Signals  
+- ECE 5100: Probability and Random Processes  
+- ENGI 5200: Control Systems I  
+- ECE 5500: Digital Systems  
+- ECE 5010: Software Design  
+- ECE 5400: Algorithms: Correctness & Complexity  
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Usage
 
-### First-Time Setup
-1. Open the https://noahboone11.github.io/ece-grade-tracker
-2. Create a local account (username + password)
-3. Select your track (Electrical or Computer)
-4. Start entering grades
+Open the link, enter your name, start tracking grades. Click courses to expand.
 
-### Daily Use
-- Click a course to enter or update grades
-- Adjust due dates for your specific section
-- Check the "Upcoming Assessments" section
-- GPA updates automatically as you go
+Due dates are editable — use the date picker or "TBD" button to adjust.
+
+Use Export/Import buttons to backup or transfer data between devices.
 
 ---
 
-## ⚠️ Common Questions
+## ⚠️ FAQ
 
-**"I lost my grades!"**
-- Same browser and device?
-- Using incognito/private mode?
-- Recently cleared browser storage?
+**"I lost my grades"**  
+If you cleared browser data, switched browsers, or used incognito mode, your data is gone. Export regularly to backup.
 
-If your browser data is gone, there’s unfortunately no way to recover it.
+**"Due dates don't match my section"**  
+All dates are editable. Default dates came from syllabi but sections vary.
 
-**"My account isn't on my phone."**  
-Accounts are stored locally and do not sync across devices.
-
-**"Due dates don't match my prof's schedule."**  
-Every due date is editable — just click on it to change.
+**"Can I use this on multiple devices?"**  
+Export from one device and import to another. No automatic syncing.
 
 ---
 
 ## 🛠️ Technical Details
 
-This is a static frontend app — no backend, no tracking, no internet needed after the first load.
-
-- Built with **vanilla HTML, CSS, and JavaScript**
-- Uses **localStorage** for persistence
-- No servers, APIs, or external dependencies
-- 100% client-side and works offline
+Static frontend app built with vanilla JavaScript. No frameworks, no tracking, no server.
 
 ---
 
-## 💬 Final Notes
-
-This tool was made for MUN ECE Term 4 students to make it easier to track grades and stay organized — nothing fancy, just helpful.
-
-If you find it useful, feel free to share it with your classmates.  
-If something breaks, or you have a suggestion, let me know!
-
-— **Noah Boone**
+Made by Noah Boone for ECE Term 5 (Winter 2026)
