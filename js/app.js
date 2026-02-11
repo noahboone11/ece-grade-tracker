@@ -1,16 +1,13 @@
-// Main application controller
-let selectedTrack = null;
+// Main application controller - ECE Term 5 Computer Engineering
+let selectedTrack = 'computer'; // Fixed to computer for now
 let grades = {};
 
 function selectTrack(track) {
     selectedTrack = track;
     saveUserData();
     
-    // Update button states
-    document.querySelectorAll('.track-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelector(`.track-btn.${track}`)?.classList.add('active');
-    
     // Show dashboard
+    document.getElementById('track-selector').style.display = 'none';
     document.getElementById('dashboard').classList.add('active');
     
     // Initialize grades for this track
@@ -62,9 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
         loadUserData();
     } else {
         document.getElementById('login-modal').style.display = 'flex';
-        // Pre-fill demo credentials for easy testing
-        document.getElementById('username').value = 'demo_student';
-        document.getElementById('password').value = 'password123';
     }
     
     addKeyboardListeners();

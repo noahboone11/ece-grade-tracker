@@ -3,27 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECE Term 4 Grade Tracker</title>
+    <title>ECE Term 5 Grade Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="user-info" id="user-info" style="display: none;">
-                <div class="welcome-text" id="welcome-text"></div>
-                <div class="user-avatar" id="user-avatar"></div>
-                <button class="logout-btn" onclick="logout()">
-                    <span style="margin-right: 5px;">👋</span>Logout
-                </button>
+
+        <!-- Top Bar -->
+        <header class="header">
+            <div class="header-brand">
+                <h1>ECE Grade Tracker</h1>
+                <p>Computer Engineering &middot; Winter 2026</p>
             </div>
-            <h1>📊 ECE Term 4 Grade Tracker</h1>
-            <p>Track your academic progress with style</p>
-        </div>
+            <div class="user-info" id="user-info" style="display: none;">
+                <div class="user-avatar" id="user-avatar"></div>
+                <div class="welcome-text" id="welcome-text"></div>
+                <button class="logout-btn" onclick="logout()">Sign out</button>
+            </div>
+        </header>
 
         <!-- Login Modal -->
         <div id="login-modal" class="login-modal">
             <div class="login-form">
-                <h2>🎓 Welcome Back!</h2>
+                <div class="login-logo">📊</div>
+                <h2>Welcome back</h2>
+                <p class="login-subtitle">Sign in to your grade tracker</p>
+
                 <div id="login-section">
                     <div class="form-group">
                         <label for="username">Username</label>
@@ -33,15 +41,10 @@
                         <label for="password">Password</label>
                         <input type="password" id="password" placeholder="Enter your password" required>
                     </div>
-                    <button class="login-btn" onclick="login()">Login</button>
+                    <button class="login-btn" onclick="login()">Sign In</button>
                     <button class="register-btn" onclick="showRegister()">Create Account</button>
-                    <div style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 8px; font-size: 0.9rem; color: #666;">
-                        <strong>Demo Account:</strong><br>
-                        Username: demo_student<br>
-                        Password: password123
-                    </div>
                 </div>
-                
+
                 <div id="register-section" style="display: none;">
                     <div class="form-group">
                         <label for="reg-username">Username</label>
@@ -55,50 +58,38 @@
                         <label for="full-name">Full Name</label>
                         <input type="text" id="full-name" placeholder="Enter your full name" required>
                     </div>
-                    <div class="form-group">
-                        <label for="track-selection">ECE Track</label>
-                        <select id="track-selection" required style="width: 100%; padding: 15px; border: 2px solid #e0e6ed; border-radius: 10px; font-size: 1rem;">
-                            <option value="">Select your track</option>
-                            <option value="electrical">⚡ Electrical Engineering</option>
-                            <option value="computer">💻 Computer Engineering</option>
-                        </select>
-                    </div>
                     <button class="login-btn" onclick="register()">Create Account</button>
-                    <button class="register-btn" onclick="showLogin()">Back to Login</button>
+                    <button class="register-btn" onclick="showLogin()">Back to Sign In</button>
                 </div>
             </div>
         </div>
 
-        <div class="track-selector" id="main-content" style="display: none;">
-            <h2>Select Your ECE Track</h2>
-            <div class="track-buttons">
-                <button class="track-btn electrical" onclick="selectTrack('electrical')">
-                    ⚡ Electrical Engineering
-                </button>
-                <button class="track-btn computer" onclick="selectTrack('computer')">
-                    💻 Computer Engineering
-                </button>
-            </div>
-        </div>
+        <!-- Hidden track selector -->
+        <div class="track-selector" id="track-selector" style="display: none;"></div>
 
-        <!-- Consolidated Dashboard -->
+        <!-- Dashboard -->
         <div id="dashboard" class="dashboard">
+
             <div class="stats-overview">
-                <div class="stat-card">
-                    <h3 class="gpa" id="gpa-display">--</h3>
-                    <p>Overall GPA</p>
+                <div class="stat-card stat-card--hero">
+                    <p class="stat-label">Overall GPA</p>
+                    <h3 id="gpa-display">--</h3>
                 </div>
                 <div class="stat-card">
+                    <p class="stat-label">Average Grade</p>
                     <h3 id="avg-display">--%</h3>
-                    <p>Average Grade</p>
+                </div>
+                <div class="stat-card">
+                    <p class="stat-label">Passing</p>
+                    <h3 id="passing-display">-/-</h3>
                 </div>
             </div>
 
-            <!-- Upcoming Assessments Section -->
+            <!-- Upcoming Assessments -->
             <div class="upcoming-assessments" id="upcoming-container">
                 <div class="upcoming-header" onclick="toggleUpcomingAssessments()">
                     <div class="upcoming-header-content">
-                        <h2>⏰ Upcoming Assessments</h2>
+                        <h2>Upcoming Assessments</h2>
                         <div class="upcoming-summary">
                             <span class="upcoming-count">Loading...</span>
                         </div>
@@ -106,27 +97,22 @@
                     <span class="expand-indicator">▲</span>
                 </div>
                 <div class="upcoming-content">
-                    <div id="upcoming-assessments">
-                        <!-- Upcoming assessments will be populated by JavaScript -->
-                    </div>
+                    <div id="upcoming-assessments"></div>
                 </div>
             </div>
 
-            <div class="courses-grid" id="courses-grid">
-                <!-- Courses will be populated by JavaScript -->
-            </div>
+            <div class="courses-grid" id="courses-grid"></div>
         </div>
     </div>
 
     <!-- Footer -->
     <footer class="site-footer">
         <div class="footer-content">
-           <p>Made with ❤️ by <span class="creator-name">Noah Boone</span></p>
-           <p class="footer-subtitle">For MUN ECE Term 4 Students</p>
-       </div>
+            <p>Made with ❤️ by <span class="creator-name">Noah Boone</span></p>
+            <p class="footer-subtitle">MUN ECE Term 5 &middot; Computer Engineering</p>
+        </div>
     </footer>
 
-    <!-- JavaScript files -->
     <script src="js/courses.js"></script>
     <script src="js/grading.js"></script>
     <script src="js/upcoming-assessments.js"></script>

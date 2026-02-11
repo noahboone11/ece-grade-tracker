@@ -34,33 +34,42 @@ function calculateCourseGrade(courseCode, track) {
 }
 
 function updateOverallStats(track) {
-    const courseGrades = Object.keys(courses[track]).map(courseCode => 
+    const allCourseCodes = Object.keys(courses[track]);
+    const courseGrades = allCourseCodes.map(courseCode =>
         calculateCourseGrade(courseCode, track)
     ).filter(grade => grade > 0);
-    
+
     // Calculate the GPA for each course and then average them
     const courseGPAs = courseGrades.map(grade => convertToGPA(grade));
-    const averageGPA = courseGPAs.length > 0 ? 
+    const averageGPA = courseGPAs.length > 0 ?
         courseGPAs.reduce((sum, gpa) => sum + gpa, 0) / courseGPAs.length : 0;
-    
-    const average = courseGrades.length > 0 ? 
+
+    const average = courseGrades.length > 0 ?
         courseGrades.reduce((sum, grade) => sum + grade, 0) / courseGrades.length : 0;
-    
-    // Update consolidated dashboard elements
+
+    // Update average grade display
     const avgElement = document.getElementById('avg-display');
     avgElement.textContent = `${average.toFixed(1)}%`;
-    
-    // Apply grade quality color to average grade
     const avgLetterGrade = getLetterGrade(average);
     avgElement.className = `avg-grade-${avgLetterGrade.toLowerCase()}`;
-    
-    // Update GPA display with quality color
+
+    // Update GPA display
     const gpaElement = document.getElementById('gpa-display');
     gpaElement.textContent = averageGPA.toFixed(2);
-    
-    // Apply GPA quality color
-    const gpaQualityClass = getGPAQualityClass(averageGPA);
-    gpaElement.className = gpaQualityClass;
+    gpaElement.className = getGPAQualityClass(averageGPA);
+
+    // Update passing courses count
+    const passingElement = document.getElementById('passing-display');
+    if (passingElement) {
+        const passingCount = allCourseCodes.filter(courseCode =>
+            calculateCourseGrade(courseCode, track) >= 50
+        ).length;
+        const total = allCourseCodes.length;
+        passingElement.textContent = `${passingCount}/${total}`;
+        passingElement.className = passingCount === total ? 'gpa-a'
+            : passingCount >= Math.ceil(total / 2) ? 'gpa-b'
+            : 'gpa-f';
+    }
 }
 
 function getLetterGrade(percentage) {

@@ -1,0 +1,61 @@
+TERM: Winter 2026
+PROGRAM: Computer Engineering (Term 5)
+
+COURSE: ECE 5400
+TITLE: Algorithms: Correctness & Complexity
+ASSESSMENTS:
+- Assignment 1 | 2026-01-27
+- Assignment 2 | 2026-02-10
+- Assignment 3 | 2026-02-20
+- Midterm | 2026-03-10
+- Assignment 4 | 2026-03-17
+- Assignment 5 | 2026-04-02
+- Final Exam | TBD
+
+COURSE: ENGI 5200
+TITLE: Control Systems I
+ASSESSMENTS:
+- Assignments | TBD
+- Lab 1 | TBD
+- Lab 2 | TBD
+- Lab 3 | TBD
+- Lab 4 | TBD
+- Midterm Test | 2026-02-16
+- Final Exam | TBD
+
+COURSE: ECE 5500
+TITLE: Digital Systems
+ASSESSMENTS:
+- Lab 1 Report (due) | 2026-01-27T09:00
+- Lab 2 Report (due) | 2026-02-03T09:00
+- Lab 3 Report (due) | 2026-02-10T09:00
+- Midterm Test 1 | 2026-02-10
+- Lab 4 Report (due) | 2026-02-17T09:00
+- Lab 5 Report (due) | 2026-02-24T09:00
+- Lab 6 Report (due) | 2026-03-03T09:00
+- Midterm Test 2 | 2026-03-19
+- Final Exam | TBD
+
+COURSE: ECE 5100
+TITLE: Probability and Random Processes
+ASSESSMENTS:
+- Assignment 1 | 2026-02-02
+- Midterm 1 | 2026-02-18
+- Assignment 2 | 2026-03-02
+- Midterm 2 | 2026-03-18
+- Assignment 3 | 2026-03-30
+- Final Exam | TBD
+
+COURSE: ECE 5010
+TITLE: Software Design
+ASSESSMENTS:
+- Assignment 1 | 2026-01-19
+- Proposal | 2026-01-26
+- Proposal Review Meeting | 2026-01-29
+- Assignment 2 | 2026-02-02
+- Requirements Presentation | 2026-02-12
+- Midterm Exam | 2026-02-20
+- Design Report | 2026-03-05
+- Interim Demo | 2026-03-16 to 2026-03-20
+- Final Code Submission | 2026-03-31
+- Final Presentation | 2026-04-02

@@ -93,12 +93,14 @@ function getUpcomingAssessments(track, daysAhead = 14, includeDismissed = false)
                             upcoming.push({
                                 courseCode,
                                 courseTitle: courseData.title,
+                                courseColor: courseData.color || null,
+                                courseColorLight: courseData.colorLight || null,
                                 category,
                                 itemName,
                                 dueDate: dueDateObj,
                                 dueDateString: effectiveDueDate,
-                                weight: data.weight, // Keep total category weight for reference
-                                individualWeight: individualWeight, // Add individual weight
+                                weight: data.weight,
+                                individualWeight: individualWeight,
                                 isCompleted,
                                 isDismissed,
                                 urgency: getDaysUntilDue(effectiveDueDate)
@@ -214,24 +216,27 @@ function createUpcomingSection(title, items, className) {
 }
 
 function createUpcomingItem(item) {
-    const urgencyText = getUrgencyText(item.urgency);
+    const urgencyText = getUrgencyText(item.urgency, item.dueDateString);
     const completedClass = item.isCompleted ? 'completed' : '';
     const dismissedClass = item.isDismissed ? 'dismissed' : '';
     const completedIcon = item.isCompleted ? '✅' : '';
-    const courseCodeClean = item.courseCode.replace(/\s/g, '');
-    
-    // Format individual weight with appropriate decimal places
-    const formattedWeight = item.individualWeight % 1 === 0 
-        ? `${item.individualWeight}%` 
+
+    const formattedWeight = item.individualWeight % 1 === 0
+        ? `${item.individualWeight}%`
         : `${item.individualWeight.toFixed(1)}%`;
-    
-    const dismissButton = item.isDismissed ? 
+
+    // Apply course color to border-left; urgency section CSS handles background
+    const borderStyle = item.courseColor && !item.isDismissed
+        ? `style="border-left-color: ${item.courseColor}"`
+        : '';
+
+    const dismissButton = item.isDismissed ?
         `<button class="undismiss-btn" onclick="undismissAssessment('${item.courseCode}', '${item.category}', '${item.itemName}', '${selectedTrack}'); event.stopPropagation();" title="Show this assessment again">↩️</button>` :
         `<button class="dismiss-btn" onclick="dismissAssessment('${item.courseCode}', '${item.category}', '${item.itemName}', '${selectedTrack}'); event.stopPropagation();" title="Dismiss this assessment">✕</button>`;
-    
+
     return `
-        <div class="upcoming-item ${completedClass} ${dismissedClass}" 
-             data-course="${courseCodeClean}"
+        <div class="upcoming-item ${completedClass} ${dismissedClass}"
+             ${borderStyle}
              onclick="jumpToAssessment('${item.courseCode}', '${item.category}', '${item.itemName}', '${selectedTrack}')">
             <div class="upcoming-item-header">
                 <div class="upcoming-item-course">${item.courseCode}</div>
@@ -249,11 +254,16 @@ function createUpcomingItem(item) {
     `;
 }
 
-function getUrgencyText(days) {
-    if (days < 0) return `${Math.abs(days)} day${Math.abs(days) === 1 ? '' : 's'} ago`;
-    if (days === 0) return 'Today';
-    if (days === 1) return 'Tomorrow';
-    return `${days} days`;
+function getUrgencyText(days, dueDateString) {
+    const dateLabel = dueDateString
+        ? new Date(dueDateString + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+        : '';
+    const sep = dateLabel ? ' · ' : '';
+
+    if (days < 0) return `${Math.abs(days)} day${Math.abs(days) === 1 ? '' : 's'} ago${sep}${dateLabel}`;
+    if (days === 0) return `Today${sep}${dateLabel}`;
+    if (days === 1) return `Tomorrow${sep}${dateLabel}`;
+    return `${days} days${sep}${dateLabel}`;
 }
 
 function toggleUpcomingAssessments() {
