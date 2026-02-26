@@ -85,7 +85,13 @@ const courses = {
                 },
                 'Project': {
                     weight: 10,
-                    items: [{ name: 'Course Project', dueDate: 'TBD' }]
+                    items: [
+                        { name: 'Proposal & Preliminary Design', dueDate: '2026-03-06' },
+                        { name: 'Testbench Submission', dueDate: '2026-03-20' },
+                        { name: 'Demonstration', dueDate: 'TBD' },
+                        { name: 'Presentation', dueDate: 'TBD' },
+                        { name: 'Final Report', dueDate: '2026-04-08' }
+                    ]
                 },
                 'Mid-term Tests': {
                     weight: 20,
