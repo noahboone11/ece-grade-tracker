@@ -41,8 +41,9 @@ function calculateCourseGrade(courseCode, track) {
                     categoryAverage = scores.reduce((sum, score) => sum + score, 0) / scores.length;
                 }
 
-                totalWeightedScore += categoryAverage * data.weight;
-                totalWeight += data.weight;
+                const proportionalWeight = data.weight * scores.length / data.items.length;
+                totalWeightedScore += categoryAverage * proportionalWeight;
+                totalWeight += proportionalWeight;
             }
         }
     });
