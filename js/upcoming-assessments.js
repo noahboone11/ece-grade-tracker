@@ -78,17 +78,21 @@ function getUpcomingAssessments(track, daysAhead = 14, includeDismissed = false)
             data.items.forEach(item => {
                 const itemName = typeof item === 'object' ? item.name : item;
                 const effectiveDueDate = getEffectiveDueDate(courseCode, category, itemName, track);
-                
+
                 if (effectiveDueDate) {
                     const dueDateObj = createLocalDate(effectiveDueDate);
-                    
+
                     if (dueDateObj >= todayLocal && dueDateObj <= futureDate) {
                         const isCompleted = grades[track]?.[courseCode]?.[category]?.[itemName] !== null &&
                                           grades[track]?.[courseCode]?.[category]?.[itemName] !== undefined &&
                                           grades[track]?.[courseCode]?.[category]?.[itemName] !== '';
-                        
+
                         const isDismissed = isAssessmentDismissed(courseCode, category, itemName, track);
-                        
+
+                        const effectiveItemWeight = (typeof item === 'object' && item.weight != null)
+                            ? item.weight
+                            : individualWeight;
+
                         if (!isDismissed || includeDismissed) {
                             upcoming.push({
                                 courseCode,
@@ -100,7 +104,7 @@ function getUpcomingAssessments(track, daysAhead = 14, includeDismissed = false)
                                 dueDate: dueDateObj,
                                 dueDateString: effectiveDueDate,
                                 weight: data.weight,
-                                individualWeight: individualWeight,
+                                individualWeight: effectiveItemWeight,
                                 isCompleted,
                                 isDismissed,
                                 urgency: getDaysUntilDue(effectiveDueDate)
