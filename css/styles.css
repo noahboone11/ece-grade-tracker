@@ -662,6 +662,17 @@ body {
     border-radius: 20px;
 }
 
+.item-weight {
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: var(--course-color, var(--text-2));
+    background: color-mix(in srgb, var(--course-color, #7C3AED) 10%, transparent);
+    padding: 1px 6px;
+    border-radius: 10px;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
 .assessment-inputs {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));

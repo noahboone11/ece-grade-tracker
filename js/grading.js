@@ -7,26 +7,43 @@ function calculateCourseGrade(courseCode, track) {
     
     Object.entries(courseData.assessments).forEach(([category, data]) => {
         const categoryGrades = courseGrades[category] || {};
-        
-        const scores = data.items.map(item => {
-            const itemName = typeof item === 'object' ? item.name : item;
-            return categoryGrades[itemName];
-        }).filter(score => score !== null && score !== undefined && score !== '');
-        
-        if (scores.length > 0) {
-            let categoryAverage;
-            
-            if (data.dropLowest && scores.length > data.dropLowest) {
-                // Drop lowest grades
-                scores.sort((a, b) => b - a); // Sort descending
-                const keepScores = scores.slice(0, scores.length - data.dropLowest);
-                categoryAverage = keepScores.reduce((sum, score) => sum + score, 0) / keepScores.length;
-            } else {
-                categoryAverage = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+
+        const hasItemWeights = data.items.some(item => typeof item === 'object' && item.weight != null);
+
+        if (hasItemWeights) {
+            // Per-item weighted calculation: each item contributes independently
+            data.items.forEach(item => {
+                const itemName = typeof item === 'object' ? item.name : item;
+                const itemWeight = (typeof item === 'object' && item.weight != null)
+                    ? item.weight
+                    : data.weight / data.items.length;
+                const score = categoryGrades[itemName];
+                if (score !== null && score !== undefined && score !== '') {
+                    totalWeightedScore += parseFloat(score) * itemWeight;
+                    totalWeight += itemWeight;
+                }
+            });
+        } else {
+            // Uniform distribution: average all entered items, apply category weight
+            const scores = data.items.map(item => {
+                const itemName = typeof item === 'object' ? item.name : item;
+                return categoryGrades[itemName];
+            }).filter(score => score !== null && score !== undefined && score !== '');
+
+            if (scores.length > 0) {
+                let categoryAverage;
+
+                if (data.dropLowest && scores.length > data.dropLowest) {
+                    scores.sort((a, b) => b - a);
+                    const keepScores = scores.slice(0, scores.length - data.dropLowest);
+                    categoryAverage = keepScores.reduce((sum, score) => sum + score, 0) / keepScores.length;
+                } else {
+                    categoryAverage = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+                }
+
+                totalWeightedScore += categoryAverage * data.weight;
+                totalWeight += data.weight;
             }
-            
-            totalWeightedScore += categoryAverage * data.weight;
-            totalWeight += data.weight;
         }
     });
     

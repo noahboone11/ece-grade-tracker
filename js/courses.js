@@ -75,22 +75,22 @@ const courses = {
                 'Labs': {
                     weight: 20,
                     items: [
-                        { name: 'Lab 1 Report', dueDate: '2026-01-27' },
-                        { name: 'Lab 2 Report', dueDate: '2026-02-03' },
-                        { name: 'Lab 3 Report', dueDate: '2026-02-10' },
-                        { name: 'Lab 4 Report', dueDate: '2026-02-17' },
-                        { name: 'Lab 5 Report', dueDate: 'TBD' },
-                        { name: 'Lab 6 Report', dueDate: 'TBD' }
+                        { name: 'Lab 1 Report', dueDate: '2026-01-27', weight: 2 },
+                        { name: 'Lab 2 Report', dueDate: '2026-02-03', weight: 3 },
+                        { name: 'Lab 3 Report', dueDate: '2026-02-10', weight: 3 },
+                        { name: 'Lab 4 Report', dueDate: '2026-02-17', weight: 3 },
+                        { name: 'Lab 5 Report', dueDate: 'TBD', weight: 3 },
+                        { name: 'Lab 6 Report', dueDate: 'TBD', weight: 6 }
                     ]
                 },
                 'Project': {
                     weight: 10,
                     items: [
-                        { name: 'Proposal & Preliminary Design', dueDate: '2026-03-06' },
-                        { name: 'Testbench Submission', dueDate: '2026-03-20' },
-                        { name: 'Demonstration', dueDate: 'TBD' },
-                        { name: 'Presentation', dueDate: 'TBD' },
-                        { name: 'Final Report', dueDate: '2026-04-08' }
+                        { name: 'Proposal & Preliminary Design', dueDate: '2026-03-06', weight: 2 },
+                        { name: 'Testbench Submission', dueDate: '2026-03-20', weight: 2 },
+                        { name: 'Demonstration', dueDate: 'TBD', weight: 2 },
+                        { name: 'Presentation', dueDate: 'TBD', weight: 1 },
+                        { name: 'Final Report', dueDate: '2026-04-08', weight: 3 }
                     ]
                 },
                 'Mid-term Tests': {
@@ -122,13 +122,12 @@ const courses = {
                 'Project': {
                     weight: 65,
                     items: [
-                        { name: 'Proposal', dueDate: '2026-01-26' },
-                        { name: 'Proposal Review Meeting', dueDate: '2026-01-29' },
-                        { name: 'Requirements Presentation', dueDate: '2026-02-12' },
-                        { name: 'Design Report', dueDate: '2026-03-05' },
-                        { name: 'Interim Demo', dueDate: '2026-03-20' },
-                        { name: 'Final Code Submission', dueDate: '2026-03-31' },
-                        { name: 'Final Presentation', dueDate: '2026-04-02' }
+                        { name: 'Proposal', dueDate: '2026-01-26', weight: 5 },
+                        { name: 'Requirements Presentation', dueDate: '2026-02-12', weight: 10 },
+                        { name: 'Design Report', dueDate: '2026-03-05', weight: 20 },
+                        { name: 'Interim Demo', dueDate: '2026-03-20', weight: 10 },
+                        { name: 'Final Code Submission', dueDate: '2026-03-31', weight: 5 },
+                        { name: 'Final Presentation', dueDate: '2026-04-02', weight: 15 }
                     ]
                 },
                 'Mid-term Exam': {
@@ -321,6 +320,7 @@ function createAssessmentSection(courseCode, category, data, track) {
             <div class="assessment-inputs">
                 ${data.items.map(item => {
                     const itemName = typeof item === 'object' ? item.name : item;
+                    const itemWeight = (typeof item === 'object' && item.weight != null) ? item.weight : null;
                     const effectiveDueDate = getEffectiveDueDate(courseCode, category, itemName, track);
                     const currentValue = courseGrades[itemName] || '';
 
@@ -346,7 +346,7 @@ function createAssessmentSection(courseCode, category, data, track) {
 
                     return `
                         <div class="input-group">
-                            <label for="${courseCode}-${category}-${itemName}">${itemName}</label>
+                            <label for="${courseCode}-${category}-${itemName}">${itemName}${itemWeight != null ? `<span class="item-weight">${itemWeight}%</span>` : ''}</label>
                             ${dueDateDisplay}
                             <input
                                 type="number"
