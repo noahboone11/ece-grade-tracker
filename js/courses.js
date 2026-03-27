@@ -44,7 +44,7 @@ const courses = {
                         { name: 'Assignment 1', dueDate: '2026-02-02' },
                         { name: 'Assignment 2', dueDate: 'TBD' },
                         { name: 'Assignment 3', dueDate: 'TBD' },
-                        { name: 'Assignment 4', dueDate: 'TBD' }
+                        { name: 'Bonus Assignment', dueDate: 'TBD' }
                     ]
                 },
                 'Midterm Test': {
